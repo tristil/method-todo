@@ -23,6 +23,7 @@ group :test do
   gem 'autotest-standalone'
   gem 'autotest-rails'
   gem 'autotest-notification'
+  gem 'capybara-webkit'
 end
 
 # Gems used only for assets and not required
