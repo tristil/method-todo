@@ -6,7 +6,24 @@ gem 'rails', '3.2.3'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
+gem 'therubyracer'
+gem 'devise'
 
+group :development do
+  gem 'rspec'
+  gem 'rspec-rails'
+end
+
+group :test do
+  gem 'rspec'
+  gem 'rspec-rails'
+  gem 'cucumber'
+  gem 'cucumber-rails'
+  gem 'database_cleaner'
+  gem 'autotest-standalone'
+  gem 'autotest-rails'
+  gem 'autotest-notification'
+end
 
 # Gems used only for assets and not required
 # in production environments by default.
