@@ -5,33 +5,24 @@
     <%= stylesheet_link_tag    "application", :media => "all" %>
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
+    <meta name='viewport' content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+    <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
   </head>
   <body>
+    <div data-role='page'>
 
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+      <div data-role='header'>Method GTD</div>
 
-    <% if user_signed_in? %>
-      <a href='/account'>Account</a>
-    <% else %>
+      <div data-role='content'>
 
-      <% if user_signed_in? %>
-        <li>
-        <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>        
-        </li>
-      <% else %>
-        <li>
-        <%= link_to('Login', new_user_session_path)  %>  
-        </li>
-        <li>
-        <%= link_to('Signup', new_user_registration_path, :id => 'signup-link')  %>  
-        </li>
+        <p class="notice"><%= notice %></p>
+        <p class="alert"><%= alert %></p>
 
-      <% end %>
+        <%= yield %>
+      </div>
 
-    <% end %>
-
-    <%= yield %>
-
+    </div>
   </body>
 </html>

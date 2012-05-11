@@ -14,19 +14,35 @@ When /I select the option to create an account/ do
   click_link("signup-link")
 end
 
+When /I select the option to log in/ do
+  click_link("login-link")
+end
+
 Then /I should be taken to the signup page/ do
   page.status_code.should == 200
   page.should have_content("Password confirmation")
 end
 
-And /when I enter an email and password and submit form/ do
+Then /I should be taken to the login page/ do
+  page.status_code.should == 200
+  page.should_not have_content("Password confirmation")
+end
+
+And /when I enter an email, password(.*?) and submit form/ do |confirmation|
   fill_in('user[email]', :with => 'newuser@example.com')
   fill_in('user[password]', :with => 'Password1')
-  fill_in('user[password_confirmation]', :with => 'Password1')
-  click_button("Sign up")
+  if confirmation == " and password confirmation"
+    fill_in('user[password_confirmation]', :with => 'Password1')
+    click_button("Sign up")
+  else
+    click_button("Sign in")
+  end
 end
 
 Then /I should be logged in/ do
-  page.should have_content("Welcome!")
+  page.should have_content("Account")
 end
 
+And /I have a previously created account/ do
+  User.create :email => 'newuser@example.com', :password => 'Password1'
+end
