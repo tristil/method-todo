@@ -28,15 +28,16 @@ Then /I should be taken to the login page/ do
   page.should_not have_content("Password confirmation")
 end
 
-And /when I enter an email, password(.*?) and submit form/ do |confirmation|
-  fill_in('user[email]', :with => 'newuser@example.com')
-  fill_in('user[password]', :with => 'Password1')
-  if confirmation == " and password confirmation"
-    fill_in('user[password_confirmation]', :with => 'Password1')
-    click_button("Sign up")
-  else
-    click_button("Sign in")
-  end
+And /when I fill in the form with (.*?) fields/ do |fields|
+  fields = fields.split(', ').collect {|field| field.gsub(" ", "_") }
+  fill_in('user[username]', :with => 'Example') if fields.include? 'username'
+  fill_in('user[email]', :with => 'newuser@example.com') if fields.include? 'email'
+  fill_in('user[password]', :with => 'Password1') if fields.include? 'password'
+  fill_in('user[password_confirmation]', :with => 'Password1') if fields.include? 'password_confirmation'
+end
+
+And /submit the (.*?) form/ do |form_name|
+    click_button(form_name)
 end
 
 Then /I should be logged in/ do
@@ -44,5 +45,5 @@ Then /I should be logged in/ do
 end
 
 And /I have a previously created account/ do
-  User.create! :email => 'newuser@example.com', :password => 'Password1'
+  User.create! :username => 'Example', :email => 'newuser@example.com', :password => 'Password1'
 end
