@@ -37,6 +37,7 @@ GEM
       ZenTest (~> 4.5)
     autotest-standalone (4.5.9)
     bcrypt-ruby (3.0.1)
+    bootstrap-sass (2.0.2)
     builder (3.0.0)
     capybara (1.1.2)
       mime-types (>= 1.16)
@@ -176,6 +177,7 @@ DEPENDENCIES
   autotest-notification
   autotest-rails
   autotest-standalone
+  bootstrap-sass (~> 2.0.2)
   capybara-webkit
   coffee-rails (~> 3.2.1)
   cucumber
