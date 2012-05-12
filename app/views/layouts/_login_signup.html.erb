@@ -1,9 +1,9 @@
-<div data-role='controlgroup' data-type="horizontal">
+<div>
 <% if user_signed_in? %>
-  <a data-role='button' data-inline='true' href='/account'>Account</a>
-  <%= link_to('Logout', destroy_user_session_path, {:method => :delete, "data-role" => "button", "data-inline" => true}) %>
+  <a href='/account'>Account</a>
+  <%= link_to('Logout', destroy_user_session_path, {:method => :delete}) %>
 <% else %>
-  <%= link_to('Login', new_user_session_path, {:id => 'login-link', "data-role" => "button", "data-inline" => true})  %>  
-  <%= link_to('Signup', new_user_registration_path, {:id => 'signup-link', "data-role" => "button", "data-inline" => true})  %>  
+  <%= link_to('Login', new_user_session_path, {:id => 'login-link'})  %>  
+  <%= link_to('Signup', new_user_registration_path, {:id => 'signup-link'})  %>  
 <% end %>
 </div>
