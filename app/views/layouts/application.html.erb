@@ -8,18 +8,30 @@
     <meta name='viewport' content="width=device-width, initial-scale=1.0">
   </head>
   <body>
-    <div>
+    <%= render 'layouts/login_signup' %>
 
-      <div>Method GTD</div>
+    <div class='container-fluid'>
+      <% unless flash.empty? %>
+        <div class='row-fluid'>
+          <div class='span4'>
+            &nbsp;
+          </div>
+          <div class='span4'>
+            <p class="notice"><%= notice %></p>
+            <p class="alert"><%= alert %></p>
+          </div>
+        </div>
+      <% end %>
 
-      <div>
-
-        <p class="notice"><%= notice %></p>
-        <p class="alert"><%= alert %></p>
-
-        <%= yield %>
+      <div class='row-fluid'>
+        <div class='span4'>
+          &nbsp;
+        </div>
+        <div class='span8'>
+          <%= yield %>
+        </div>
       </div>
 
-    </div>
+    </div> <!-- .container-fluid -->
   </body>
 </html>
