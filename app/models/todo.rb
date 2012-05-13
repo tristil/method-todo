@@ -9,4 +9,9 @@ class Todo < ActiveRecord::Base
     write_attribute(:completed, true)
     write_attribute(:completed_time, Time.now)
   end
+
+  def uncomplete
+    write_attribute(:completed, false)
+    write_attribute(:completed_time, 0)
+  end
 end

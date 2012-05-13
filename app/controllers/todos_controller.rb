@@ -6,10 +6,16 @@ class TodosController < ApplicationController
     json_response = {'completed' => false}
 
     todo = Todo.find_by_id id
+
     if todo and todo.user_id == current_user.id
-      todo.complete
+      if params.include? :complete and ["0", "false"].include? params[:complete]
+        json_response['completed'] = false
+        todo.uncomplete
+      else
+        json_response['completed'] = true
+        todo.complete
+      end
       todo.save
-      json_response['completed'] = true
     end
 
     respond_to do |format|

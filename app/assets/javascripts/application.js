@@ -28,14 +28,20 @@ $(document).ready(
             $.ajax(
               {
                 type    : 'PUT',
-                url     : '/todos/'+id+'/complete',
-                data    : {complete : true}
+                url     : '/todos/'+id+'/complete'
               }
             );
           }
           else
           {
             $('#todo-'+id).removeClass('struck-through');
+            $.ajax(
+              {
+                type    : 'PUT',
+                url     : '/todos/'+id+'/complete',
+                data    : {complete : 0}
+              }
+            );
           }
         }
       );

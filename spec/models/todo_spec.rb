@@ -21,4 +21,13 @@ describe Todo do
     todo.reload
     todo.completed.should be_true
   end
+
+  it ".uncomplete should mark record as not completed and clear completed time" do
+    todo = Todo.create!(:description => "A New Todo")
+    todo.uncomplete
+    todo.save
+    todo.reload
+    todo.completed.should be_false
+  end
+
 end
