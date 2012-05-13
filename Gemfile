@@ -20,14 +20,11 @@ group :test do
   gem 'autotest-standalone'
   gem 'autotest-rails'
   gem 'autotest-notification'
-end
-
-group :integration do
   gem 'cucumber'
   gem 'cucumber-rails'
   gem 'capybara-webkit'
+  gem 'headless'
 end
-
 
 # Gems used only for assets and not required
 # in production environments by default.

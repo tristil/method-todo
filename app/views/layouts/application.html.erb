@@ -8,30 +8,31 @@
     <meta name='viewport' content="width=device-width, initial-scale=1.0">
   </head>
   <body>
+
     <%= render 'layouts/login_signup' %>
 
-    <div class='container-fluid'>
+    <div style='padding-bottom: 17px; margin: 18px 0;'>
+      &nbsp;
+    </div>
+
+    <div class='container'>
       <% unless flash.empty? %>
-        <div class='row-fluid'>
-          <div class='span4'>
-            &nbsp;
-          </div>
-          <div class='span4'>
-            <p class="notice"><%= notice %></p>
-            <p class="alert"><%= alert %></p>
+        <div class='row'>
+          <div class='span4 offset4'>
+            <% if notice %>
+              <p class="alert alert-info"><%= notice %></p>
+            <% end %>
+            <% if alert %>
+              <p class="alert alert-error"><%= alert %></p>
+            <% end %>
           </div>
         </div>
       <% end %>
 
-      <div class='row-fluid'>
-        <div class='span4'>
-          &nbsp;
-        </div>
-        <div class='span8'>
+      <div class='row'>
           <%= yield %>
-        </div>
       </div>
 
-    </div> <!-- .container-fluid -->
+    </div> <!-- .container -->
   </body>
 </html>

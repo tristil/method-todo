@@ -9,4 +9,9 @@ class User < ActiveRecord::Base
 
   validates :username, :presence => true, :uniqueness => true
 
+  has_many :todos
+
+  def active_todos
+    Todo.where :user_id => self.id, :completed => false
+  end
 end
