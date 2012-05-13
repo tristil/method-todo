@@ -13,37 +13,4 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
-
-$(document).ready(
-    function()
-    {
-      $('.complete-checkbox').click(
-        function(event)
-        {
-          var checkbox = $(event.target);
-          var id = parseInt(checkbox.attr('id').replace("todo-complete-", ""));
-          if(checkbox.is(':checked'))
-          {
-            $('#todo-'+id).addClass('struck-through');
-            $.ajax(
-              {
-                type    : 'PUT',
-                url     : '/todos/'+id+'/complete'
-              }
-            );
-          }
-          else
-          {
-            $('#todo-'+id).removeClass('struck-through');
-            $.ajax(
-              {
-                type    : 'PUT',
-                url     : '/todos/'+id+'/complete',
-                data    : {complete : 0}
-              }
-            );
-          }
-        }
-      );
-    }
-);
+//= require bootstrap-modal

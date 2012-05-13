@@ -31,4 +31,15 @@ describe TodosController do
     user.todos[0].completed.should be_false
   end
 
+  it "DELETE to /todos/1 should remove Todo" do
+    user = create_and_login_user
+    todo = Todo.create! :description => 'A New Todo'
+    todo.save
+    user.todos << todo
+    user.save
+    delete :destroy, :id => todo.id
+    user.reload
+    user.todos.should be_empty
+  end
+
 end

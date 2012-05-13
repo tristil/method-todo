@@ -30,4 +30,11 @@ describe Todo do
     todo.completed.should be_false
   end
 
+  it ".destroy should use Acts as Paranoid to virtually delete the todo" do
+    todo = Todo.create!(:description => "A New Todo")
+    todo.destroy
+    Todo.all.should == []
+    Todo.only_deleted.should == [todo]
+  end
+
 end

@@ -42,5 +42,11 @@ describe User do
     user.active_todos.should == [todo]
   end
 
+  it ".destroy should use Acts as Paranoid to virtually delete the user" do
+    user = User.create!(:username => "Example", :email => "example@example.com", :password => "Password1")
+    user.destroy
+    User.all.should == []
+    User.only_deleted.should == [user]
+  end
 
 end

@@ -2,9 +2,7 @@ class TodosController < ApplicationController
 
   def complete
     id = params[:id]
-
     json_response = {'completed' => false}
-
     todo = Todo.find_by_id id
 
     if todo and todo.user_id == current_user.id
@@ -33,6 +31,23 @@ class TodosController < ApplicationController
     if @todo.save
       json_response["created"] = true
       json_response["new_id"] = @todo.id
+    end
+
+    respond_to do |format|
+      format.html { redirect_to '/' }
+      format.json { render :json => json_response }
+    end
+  end
+
+  def destroy
+    id = params[:id]
+    json_response = {'deleted' => false}
+
+    todo = Todo.find_by_id id
+
+    if todo and todo.user_id == current_user.id
+      todo.destroy
+      json_response['deleted'] = true
     end
 
     respond_to do |format|

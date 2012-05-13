@@ -1,4 +1,6 @@
 class Todo < ActiveRecord::Base
+  acts_as_paranoid
+
   attr_accessible :description, :completed, :completed_time
 
   validates :description, :presence => true
