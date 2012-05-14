@@ -8,6 +8,7 @@ gem 'rails', '3.2.3'
 gem 'sqlite3'
 gem 'devise'
 gem 'rails3_acts_as_paranoid'
+gem 'highline'
 
 group :development do
   gem 'rspec'
