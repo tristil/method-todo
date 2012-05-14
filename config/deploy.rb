@@ -21,6 +21,13 @@ set :deploy_via, :remote_cache
 require 'rvm/capistrano'
 require 'bundler/capistrano'
 
+task :backup do
+  filename = "methodgtd.sql"
+  run "mysqldump -u root methodgtd > /tmp/#{filename}"
+end
+
+before "deploy:migrate", "backup"
+
 after "deploy:update", "deploy:cleanup"
 after "deploy:update", "deploy:migrate"
 
