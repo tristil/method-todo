@@ -19,8 +19,9 @@ set :deploy_to, "~/production-sites/method-gtd"
 set :deploy_via, :remote_cache
 
 require 'rvm/capistrano'
-require 'capistrano-unicorn'
 require 'bundler/capistrano'
 
 after "deploy:update", "deploy:cleanup"
 after "deploy:update", "deploy:migrate"
+
+require 'capistrano-unicorn'
