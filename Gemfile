@@ -12,6 +12,7 @@ gem 'rails3_acts_as_paranoid'
 group :development do
   gem 'rspec'
   gem 'rspec-rails'
+  gem 'capistrano-unicorn'
 end
 
 group :test do
