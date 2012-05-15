@@ -1,3 +1,8 @@
+function focusTodoInput()
+{
+  $('#todo_description').focus();
+}
+
 function todoChecked(checkbox)
 {
   var id = parseInt(checkbox.attr('id').replace("todo-complete-", ""));
@@ -55,6 +60,7 @@ function openDeleteModel(delete_link)
               $('#delete-todo-modal').modal('hide');
               $('#todo-row-'+id).fadeOut('slow');
               $('#todo-row-'+id).addClass('hidden');
+              focusTodoInput();
             }
           }
       );
@@ -79,6 +85,7 @@ function addNewTodo()
             success : function(data)
             {
               $('#todos-list').html(data);
+              focusTodoInput();
             }
           }
         );
@@ -89,6 +96,7 @@ function addNewTodo()
 
 
 $(document).ready(
+    focusTodoInput();
     function()
     {
       $(document).on('click', '.complete-checkbox',
