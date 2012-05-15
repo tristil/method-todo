@@ -96,9 +96,10 @@ function addNewTodo()
 
 
 $(document).ready(
-    focusTodoInput();
     function()
     {
+      focusTodoInput();
+
       $(document).on('click', '.complete-checkbox',
         function(event)
         {
