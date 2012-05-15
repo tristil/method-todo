@@ -1,4 +1,15 @@
 class TodosController < ApplicationController
+  def index
+    todos = current_user.active_todos
+
+    respond_to do |format|
+      format.html {
+        if request.xhr?
+          render :partial => 'todos/todolist', :locals => {:todos => todos}
+        end
+      }
+    end
+  end
 
   def complete
     id = params[:id]

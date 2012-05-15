@@ -63,11 +63,35 @@ function openDeleteModel(delete_link)
   );
 }
 
+function addNewTodo()
+{
+  $.ajax(
+    {
+      url  : '/todos.json',
+      type : 'POST',
+      data : $('#new_todo').serialize(),
+      success : function(data)
+      {
+        $.ajax(
+          {
+            url   : '/todos',
+            type  : 'GET',
+            success : function(data)
+            {
+              $('#todos-list').html(data);
+            }
+          }
+        );
+      }
+    }
+  );
+}
+
 
 $(document).ready(
     function()
     {
-      $('.complete-checkbox').click(
+      $(document).on('click', '.complete-checkbox',
         function(event)
         {
           var checkbox = $(event.target);
@@ -75,11 +99,19 @@ $(document).ready(
         }
       );
 
-      $('.delete-todo-link').click(
+      $(document).on('click', '.delete-todo-link',
         function(event)
         {
           var delete_link = $(event.target);
           openDeleteModel(delete_link)
+          return false;
+        }
+      );
+
+      $('#new_todo').submit(
+        function(event)
+        {
+          addNewTodo();
           return false;
         }
       );

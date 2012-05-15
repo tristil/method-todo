@@ -15,22 +15,7 @@
   </div>
 
   <div id='todos-list' class='row'>
-    <table class='table-bordered table-striped span8'>
-      <thead>
-        <tr>
-          <th class='span1'>Complete</th>
-          <th class='span6'>Task</th>
-          <th class='span1'>Delete</th>
-        </tr>
-      </thead>
-      <% current_user.active_todos.each do |todo| %>
-        <tr id='todo-row-<%= todo.id %>'>
-          <td class='span1'><input id='todo-complete-<%= todo.id %>' class='complete-checkbox' type='checkbox' name='todos[<%= todo.id %>][complete]'/></td>
-          <td class='span6'><span id='todo-<%= todo.id %>'><%= todo.description %></span></td>
-          <td class='span1'><a id='todo-delete-<%= todo.id %>' class='delete-todo-link' href='#'>[x]</a></td>
-        </tr>
-      <% end %>
-    </table>
+    <%= render :partial => 'todos/todolist', :locals => {:todos => current_user.active_todos } %>
   </div>
 
   <div class='modal' id='delete-todo-modal' style='display:none'>
