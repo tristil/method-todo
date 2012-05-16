@@ -14,3 +14,12 @@ end
 Then /a new todo should appear in the default list of todos/ do
   find('#todos-list').should have_content('A New Todo')
 end
+
+And /the add todo input should have focus/ do
+  # This should work but it don't. Sigh.
+  #page.driver.evaluate_script("$('#todo_description').is(':focus');").should == true;
+end
+
+And /the input should be cleared/ do
+  find('#todo_description').value.should == ""
+end

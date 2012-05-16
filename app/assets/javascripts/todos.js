@@ -85,6 +85,7 @@ function addNewTodo()
             success : function(data)
             {
               $('#todos-list').html(data);
+              $('#todo_description').val('');
               focusTodoInput();
             }
           }
