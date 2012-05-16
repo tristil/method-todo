@@ -13,6 +13,22 @@ describe TodosController do
     response.body.should =~ /html/;
   end
 
+  it "GET to /todos/completed should return datatable of completed todos" do
+    user = create_and_login_user
+    todo = Todo.create! :description => 'A New Todo'
+    todo2 = Todo.create! :description => 'Another Todo'
+    todo2.complete
+    user.todos << todo
+    user.todos << todo2
+    user.save
+
+    xhr :get, :completed
+    response.body.should_not =~ /html/;
+    response.body.should =~ /Another Todo/;
+    response.body.should_not =~ /A New Todo/;
+  end
+
+
   it "POST to /todos.json should create new Todo" do
     user = create_and_login_user
     user.todos.should be_empty

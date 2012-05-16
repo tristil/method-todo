@@ -42,6 +42,21 @@ describe User do
     user.active_todos.should == [todo]
   end
 
+  it ".completed_todos should return completed todos" do
+    user = User.create!(:username => "Example", :email => "example@example.com", :password => "Password1")
+    todo = Todo.create!(:description => "A New Todo")
+    user.todos << todo
+    todo2 = Todo.create!(:description => "A New Todo 2")
+    todo2.complete
+    todo2.save
+    user.todos << todo2
+    user.save
+    user = User.find_by_id user.id
+    user.todos.should == [todo, todo2]
+    user.completed_todos.should == [todo2]
+  end
+
+
   it ".destroy should use Acts as Paranoid to virtually delete the user" do
     user = User.create!(:username => "Example", :email => "example@example.com", :password => "Password1")
     user.destroy

@@ -16,4 +16,9 @@ class User < ActiveRecord::Base
   def active_todos
     Todo.where :user_id => self.id, :completed => false
   end
+
+  def completed_todos
+    Todo.where :user_id => self.id, :completed => true
+  end
+
 end

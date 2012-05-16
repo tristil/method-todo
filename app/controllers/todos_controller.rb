@@ -11,6 +11,18 @@ class TodosController < ApplicationController
     end
   end
 
+  def completed
+    todos = current_user.completed_todos
+
+    respond_to do |format|
+      format.html {
+        if request.xhr?
+          render :partial => 'todos/todolist', :locals => {:todos => todos}
+        end
+      }
+    end
+  end
+
   def complete
     id = params[:id]
     json_response = {'completed' => false}

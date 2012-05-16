@@ -147,5 +147,31 @@ $(document).ready(
           return false;
         }
       );
+
+      $('#completed-todo-button').click(
+        function(event)
+        {
+          if($('#completed-todos').css('display') == 'inline')
+          {
+            $('#completed-todos').hide();
+            $('#completed-todo-label').html('View Completed');
+          }
+          else
+          {
+            $.ajax(
+              {
+                url : '/todos/completed',
+                success : function(data)
+                {
+                  $('#completed-todos-list').html(data);
+                  $('#completed-todos').show();
+                  $('#completed-todo-label').html('Close Completed');
+                }
+              }
+            );
+          }
+          return false;
+        }
+      );
     }
 );

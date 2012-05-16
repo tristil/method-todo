@@ -6,28 +6,48 @@
   </div>
 
   <%= form_for @todo, {:controller => 'todo', :action => 'create'} do |f| %>
-  <div class='row'>
-    <div class='span8'>
-      <%= f.text_field :description, :style => 'width: 100%' %>
+    <div class='row'>
+      <div class='span8'>
+        <%= f.text_field :description, :style => 'width: 100%' %>
+      </div>
     </div>
-  </div>
 
-  <div class='row'>
-    <div class='span2 half-mobile'>
-      <a id='add-todo-button' class='btn' href='#'><i class='icon-plus'></i> Add Todo</a>
+    <div class='row'>
+      <div class='span2 half-mobile'>
+        <a id='add-todo-button' class='btn' href='#'><i class='icon-plus'></i> Add Todo</a>
+      </div>
+      <div class='span2 half-mobile'>
+        <a id='refresh-todolist-button' class="btn" href="#"><i class="icon-refresh"></i> Refresh List</a>
+      </div>
     </div>
-    <div class='span2 half-mobile'>
-      <a id='refresh-todolist-button' class="btn" href="#"><i class="icon-refresh"></i> Refresh List</a>
-    </div>
-  </div>
   <% end %>
 
   <div id='todos-list' class='row'>
     <%= render :partial => 'todos/todolist', :locals => {:todos => current_user.active_todos } %>
   </div>
 
+  <div style='margin-top: 10px'>
+    &nbsp;
+  </div>
+
+  <div class='row'>
+    <div class='span2'>
+      <a id='completed-todo-button' class='btn' href='#'><i class='icon-arrow-down'></i> <span id='completed-todo-label'>View Completed</span></a>
+    </div>
+  </div>
+
+  <span id='completed-todos' style='display:none'>
+    <div class='row'>
+      <div class='span8'>
+        <h3>Completed Todos</h3>
+      </div>
+    </div>
+
+    <div id='completed-todos-list' class='row'></div>
+  </span>
+
   <div class='modal' id='delete-todo-modal' style='display:none'>
-     <div class="modal-header">
+    <div class="modal-header">
       <button class="close" data-dismiss="modal">×</button>
       <h3>Delete Todo?</h3>
     </div>
@@ -39,7 +59,6 @@
       <a id='close-delete-todo-modal' href="#" class="btn">Close</a>
       <a id='delete-todo-button' href="#" class="btn btn-primary">Delete</a>
     </div>
-
   </div>
 
 <% end %>

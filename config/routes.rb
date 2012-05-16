@@ -14,6 +14,12 @@ MethodGtd::Application.routes.draw do
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   resources :todos do
+    collection do
+      get 'completed'
+    end
+  end
+
+  resources :todos do
     member do
       put 'complete'
     end
