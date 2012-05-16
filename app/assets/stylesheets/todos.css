@@ -1,0 +1,13 @@
+.navbar .nav > li
+{
+  float: right !important;
+}
+
+
+@media all and (max-width: 480px)  {
+  .half-mobile {
+    float: left !important;
+    width: 50% !important;
+  }
+}
+

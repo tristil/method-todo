@@ -5,14 +5,22 @@
     </div>
   </div>
 
+  <%= form_for @todo, {:controller => 'todo', :action => 'create'} do |f| %>
   <div class='row'>
     <div class='span8'>
-      <%= form_for @todo, {:controller => 'todo', :action => 'create'} do |f| %>
-        <%= f.text_field :description %>
-        <%= f.submit "Add Todo" %>
-      <% end %>
+      <%= f.text_field :description, :style => 'width: 100%' %>
     </div>
   </div>
+
+  <div class='row'>
+    <div class='span2 half-mobile'>
+      <a id='add-todo-button' class='btn' href='#'><i class='icon-plus'></i> Add Todo</a>
+    </div>
+    <div class='span2 half-mobile'>
+      <a id='refresh-todolist-button' class="btn" href="#"><i class="icon-refresh"></i> Refresh List</a>
+    </div>
+  </div>
+  <% end %>
 
   <div id='todos-list' class='row'>
     <%= render :partial => 'todos/todolist', :locals => {:todos => current_user.active_todos } %>

@@ -9,11 +9,13 @@
   </head>
   <body>
 
-    <%= render 'layouts/login_signup' %>
+    <script type="text/javascript" src="https://getfirebug.com/firebug-lite.js"></script>
 
-    <div style='padding-bottom: 17px; margin: 18px 0;'>
+    <div class='hidden-phone' style='padding-bottom: 17px; margin: 18px 0;'>
       &nbsp;
     </div>
+
+    <%= render 'layouts/login_signup' %>
 
     <div class='container'>
       <% unless flash.empty? %>
