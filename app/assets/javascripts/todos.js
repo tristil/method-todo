@@ -12,6 +12,7 @@ function todoChecked(checkbox)
       {
         type    : 'PUT',
         url     : '/todos/'+id+'/complete',
+        data    : {complete : 1},
         success : function(data)
         {
           $('#todo-'+id).addClass('struck-through');
