@@ -1,2 +1,36 @@
 @import "bootstrap";
+
+/*body {
+  padding-top: 65px;
+  padding-bottom: 65px;
+}*/
+
 @import "bootstrap-responsive";
+
+/*.navbar-fixed-bottom
+{
+  position: fixed;
+}*/
+
+body {
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-bottom: 0px;
+}
+
+#main-content
+{
+  padding-right: 20px; 
+  padding-left: 20px; 
+  padding-left: 20px; 
+}
+
+.navbar-inner
+{
+  border-radius: 0px;
+}
+
+.navbar-bottom
+{
+  margin-bottom: 0px;
+}

@@ -189,5 +189,7 @@ $(document).ready(
           return false;
         }
       );
+
+      $('.alert').delay(1200).fadeOut('slow');
     }
 );

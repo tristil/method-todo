@@ -1,18 +1,35 @@
-.navbar-fixed-bottom .nav > li
+.navbar-bottom .nav > li
 {
   display: inline !important;
-  float: right !important;
+  float: left!important;
 }
 
-.navbar-fixed-top .nav > li
+.navbar-top .nav > li
 {
   display: inline !important;
   float: left !important;
 }
 
-#add-todo-navitem
+.navbar-bottom .nav > li
 {
-  width: 65%;
+  margin-right: 10px;
+  width: 20%;
+  display: inline;
+}
+
+#add-todo-button-navitem
+{
+  width: 25%;
+}
+
+#new_todo
+{
+  width: 62%;
+}
+
+#todo_description
+{
+  width: 100%;
 }
 
 @media all and (max-width: 480px)  {
@@ -29,7 +46,6 @@
 
 #new_todo
 {
-  width: 65%;
   float:left; 
   border-top: none; 
   border-bottom: none; 

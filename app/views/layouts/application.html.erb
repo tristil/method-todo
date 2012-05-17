@@ -9,12 +9,12 @@
   </head>
   <body>
 
-    <div class='navbar navbar-fixed-top'>
+    <div class='navbar navbar-top'>
       <div class='navbar-inner'>
         <div class='container'>
           <% if current_user %>
             <ul class='nav'>
-              <li>
+              <li id='add-todo-button-navitem'>
               <button id='add-todo-button' class='btn'>
                 <span class='icon-plus'></span>
                 Todo
@@ -34,6 +34,7 @@
       </div>
     </div>
 
+    <div id='main-content'>
     <div class='container'>
       <% unless flash.empty? %>
         <div class='row'>
@@ -53,11 +54,14 @@
       </div>
 
     </div> <!-- .container -->
+  </div>
 
-    <div class='navbar navbar-fixed-bottom'>
+    <div class='navbar navbar-bottom'>
       <div class='navbar-inner'>
         <div class='container'>
           <a class='brand' href='/'>Method GTD</a>
+
+          <div id='spinner'>
 
           <ul class='nav pull-right'>
             <% if user_signed_in? %>
