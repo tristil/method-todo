@@ -8,7 +8,7 @@ end
 
 When /I enter a todo description/ do
   fill_in('todo[description]', :with => 'A New Todo')
-  click_link('add-todo-button')
+  click_button('add-todo-button')
 end
 
 Then /a new todo should appear in the default list of todos/ do

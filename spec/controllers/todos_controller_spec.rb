@@ -2,6 +2,12 @@ require 'spec_helper'
 
 describe TodosController do
   render_views
+
+  it "should redirect to / if user is not logged in" do
+    get :index
+    response.should be_redirect
+  end
+
   it "GET to /todos should return only datatable when AJAX, else full page" do
     user = create_and_login_user
     todo = Todo.create! :description => 'A New Todo'

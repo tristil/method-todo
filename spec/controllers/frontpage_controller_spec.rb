@@ -5,10 +5,7 @@ describe FrontpageController do
 
   it "should display site name and 'log in/ sign up' on first arrival" do
     get :index
-    body = response.body
-    body.should =~ /Method GTD/
-    body.should =~ /Login/
-    body.should =~ /Signup/
+    response.should be_redirect
   end
 
   it "should display links to /accounts and Logout when logged in" do

@@ -1,13 +1,47 @@
-.navbar .nav > li
+.navbar-fixed-bottom .nav > li
 {
+  display: inline !important;
   float: right !important;
 }
 
+.navbar-fixed-top .nav > li
+{
+  display: inline !important;
+  float: left !important;
+}
+
+#add-todo-navitem
+{
+  width: 65%;
+}
 
 @media all and (max-width: 480px)  {
-  .half-mobile {
+  .horizontal-mobile {
     float: left !important;
-    width: 50% !important;
+    margin-right: 5px !important;
   }
 }
 
+.struck-through
+{
+  text-decoration: line-through;
+}
+
+#new_todo
+{
+  width: 65%;
+  float:left; 
+  border-top: none; 
+  border-bottom: none; 
+  box-shadow:none;
+  display:inline;
+  padding: 9px 15px;
+  margin: 0px 0px;
+}
+
+#add-todo-button
+{
+  margin: 18px 0;
+  float:left !important;
+  display:inline-block !important;
+}
