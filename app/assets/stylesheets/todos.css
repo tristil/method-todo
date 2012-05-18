@@ -1,13 +1,18 @@
-.navbar-bottom .nav > li
+.navbar-fixed-top .nav > li
 {
   display: inline !important;
   float: left!important;
 }
 
-.navbar-top .nav > li
+.navbar-fixed-bottom .nav > li
 {
   display: inline !important;
   float: left !important;
+}
+
+.navbar-fixed-top, .navbar-fixed-bottom
+{
+  position: fixed;
 }
 
 .navbar-bottom .nav > li
@@ -37,6 +42,12 @@
     float: left !important;
     margin-right: 5px !important;
   }
+
+  #add-todo-button
+  {
+    margin-left: 20px;
+    margin-top: 18px;
+  }
 }
 
 .struck-through
@@ -57,7 +68,7 @@
 
 #add-todo-button
 {
-  margin: 18px 0;
+  width: 75px;
   float:left !important;
   display:inline-block !important;
 }
