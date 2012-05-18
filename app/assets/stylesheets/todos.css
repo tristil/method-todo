@@ -18,7 +18,6 @@
 .navbar-bottom .nav > li
 {
   margin-right: 10px;
-  width: 20%;
   display: inline;
 }
 
@@ -29,12 +28,20 @@
 
 #new_todo
 {
-  width: 62%;
+  width: 45%;
 }
 
 #todo_description
 {
   width: 100%;
+}
+
+#add-todo-button
+{
+  width: 75px;
+  float:left !important;
+  display:inline-block !important;
+  margin-top: 10px;
 }
 
 @media all and (max-width: 480px)  {
@@ -64,11 +71,4 @@
   display:inline;
   padding: 9px 15px;
   margin: 0px 0px;
-}
-
-#add-todo-button
-{
-  width: 75px;
-  float:left !important;
-  display:inline-block !important;
 }

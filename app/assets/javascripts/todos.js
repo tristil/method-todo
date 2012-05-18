@@ -22,34 +22,36 @@ function focusTodoInput()
 function todoChecked(checkbox)
 {
   var id = parseInt(checkbox.attr('id').replace("todo-complete-", ""));
+
+  var ajaxOptions = {
+    type    : 'PUT',
+    url     : '/todos/'+id+'/complete',
+    data    : {complete : 1},
+    complete : function(jqXHR, textStatus)
+    {
+      $('#spinner').data().spinner.stop();
+    }
+  };
+
+  $('#spinner').spin();
+
   if(checkbox.is(':checked'))
   {
-    $.ajax(
-      {
-        type    : 'PUT',
-        url     : '/todos/'+id+'/complete',
-        data    : {complete : 1},
-        success : function(data)
-        {
-          $('#todo-'+id).addClass('struck-through');
-        }
-      }
-    );
+    ajaxOptions.data = { complete : 1};
+    ajaxOptions.success = function(data)
+    {
+      $('#todo-'+id).addClass('struck-through');
+    };
   }
   else
   {
-    $.ajax(
-      {
-        type    : 'PUT',
-        url     : '/todos/'+id+'/complete',
-        data    : {complete : 0},
-        success : function(data)
-        {
-          $('#todo-'+id).removeClass('struck-through');
-        }
-      }
-    );
+    ajaxOptions.data = { complete : 0};
+    ajaxOptions.success = function(data)
+    {
+      $('#todo-'+id).removeClass('struck-through');
+    }
   }
+  $.ajax(ajaxOptions);
 }
 
 function openDeleteModel(delete_link)
@@ -68,6 +70,8 @@ function openDeleteModel(delete_link)
   $('#delete-todo-button').click(
     function(event)
     {
+      $('#spinner').spin();
+
       $.ajax(
           {
             type    : 'DELETE',
@@ -78,6 +82,10 @@ function openDeleteModel(delete_link)
               $('#todo-row-'+id).fadeOut('slow');
               $('#todo-row-'+id).addClass('hidden');
               focusTodoInput();
+            },
+            complete : function(jqXHR, textStatus)
+            {
+              $('#spinner').data().spinner.stop();
             }
           }
       );
@@ -88,6 +96,7 @@ function openDeleteModel(delete_link)
 
 function refreshTodoList()
 {
+  $('#spinner').spin();
   $.ajax(
     {
       url   : '/todos',
@@ -97,6 +106,13 @@ function refreshTodoList()
         $('#todos-list').html(data);
         $('#todo_description').val('');
         focusTodoInput();
+      },
+      complete : function(jqXHR, textStatus)
+      {
+        if($('#spinner').data().spinner)
+        {
+          $('#spinner').data().spinner.stop();
+        }
       }
     }
   );
@@ -104,6 +120,7 @@ function refreshTodoList()
 
 function addNewTodo()
 {
+  $('#spinner').spin();
   $.ajax(
     {
       url  : '/todos.json',
@@ -112,6 +129,10 @@ function addNewTodo()
       success : function(data)
       {
         refreshTodoList();
+      },
+      complete : function(jqXHR, textStatus)
+      {
+        $('#spinner').data().spinner.stop();
       }
     }
   );
@@ -148,7 +169,7 @@ $(document).ready(
         }
       );
 
-      $('#add-todo-button').click(
+      $(document).on('click', '#add-todo-button',
         function(event)
         {
           addNewTodo();
@@ -174,6 +195,8 @@ $(document).ready(
           }
           else
           {
+
+            $('#spinner').spin();
             $.ajax(
               {
                 url : '/todos/completed',
@@ -182,6 +205,10 @@ $(document).ready(
                   $('#completed-todos-list').html(data);
                   $('#completed-todos').show();
                   $('#completed-todo-label').html('Close Completed');
+                },
+                complete : function(jqXHR, textStatus)
+                {
+                  $('#spinner').data().spinner.stop();
                 }
               }
             );
