@@ -17,9 +17,9 @@ describe FrontpageController do
 
   it "should display active todos" do
     user = create_and_login_user
-    todo = Todo.create!(:description => "A New Todo")
+    todo = Todo.create(:description => "A New Todo")
     user.todos << todo
-    todo2 = Todo.create!(:description => "A New Todo 2")
+    todo2 = Todo.create(:description => "A New Todo 2")
     todo2.complete
     todo2.save
     user.todos << todo2

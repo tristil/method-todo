@@ -25,6 +25,15 @@ MethodGtd::Application.routes.draw do
     end
   end
 
+  resources :todo_contexts, :path => :contexts, :as => :contexts do
+    resources :todos
+  end
+
+  resources :projects do
+    resources :todos
+  end
+
+
   # Sample resource route with options:
   #   resources :products do
   #     member do

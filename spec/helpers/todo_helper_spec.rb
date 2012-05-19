@@ -11,4 +11,21 @@ require 'spec_helper'
 #   end
 # end
 describe TodoHelper do
+  it "should parse a bare description string" do
+    helper.parse_todo_description("Write report").should == 'Write report'
+  end
+
+  it "should parse a description string with +project" do
+    helper.parse_todo_description("Write first draft +report").should == "Write first draft <span class='label'>+report</span>"
+  end
+
+  it "should parse a description string with @context" do
+    helper.parse_todo_description("Write report @home").should == "Write report <span class='label'>@home</span>"
+  end
+
+  it "should parse a description string with @context and +project" do
+    helper.parse_todo_description("Write first draft +report @home").should == "Write first draft <span class='label'>+report</span> <span class='label'>@home</span>"
+  end
+
+
 end

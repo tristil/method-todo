@@ -10,7 +10,7 @@ describe TodosController do
 
   it "GET to /todos should return only datatable when AJAX, else full page" do
     user = create_and_login_user
-    todo = Todo.create! :description => 'A New Todo'
+    todo = Todo.create :description => 'A New Todo'
     user.todos << todo
     user.save
     xhr :get, :index
@@ -21,8 +21,8 @@ describe TodosController do
 
   it "GET to /todos/completed should return datatable of completed todos" do
     user = create_and_login_user
-    todo = Todo.create! :description => 'A New Todo'
-    todo2 = Todo.create! :description => 'Another Todo'
+    todo = Todo.create :description => 'A New Todo'
+    todo2 = Todo.create :description => 'Another Todo'
     todo2.complete
     user.todos << todo
     user.todos << todo2
@@ -46,7 +46,7 @@ describe TodosController do
 
   it "POST to /todos/1/complete should mark Todo as complete" do
     user = create_and_login_user
-    todo = Todo.create! :description => 'A New Todo'
+    todo = Todo.create :description => 'A New Todo'
     user.todos << todo
     user.save
     put :complete, {:id => todo.id.to_s}
@@ -56,7 +56,7 @@ describe TodosController do
 
   it "POST to /todos/1/complete with complete=0 should mark Todo as incomplete" do
     user = create_and_login_user
-    todo = Todo.create! :description => 'A New Todo'
+    todo = Todo.create :description => 'A New Todo'
     todo.complete
     todo.save
     user.todos << todo
@@ -68,7 +68,7 @@ describe TodosController do
 
   it "DELETE to /todos/1 should remove Todo" do
     user = create_and_login_user
-    todo = Todo.create! :description => 'A New Todo'
+    todo = Todo.create :description => 'A New Todo'
     todo.save
     user.todos << todo
     user.save
@@ -77,4 +77,45 @@ describe TodosController do
     user.todos.should be_empty
   end
 
+  it "GET to /contexts/1/todos should return a datatable or JSON based on context" do
+    user = create_and_login_user
+    context1= TodoContext.create :name => 'work'
+    context2 = TodoContext.create :name => 'home'
+
+    todo = Todo.create :description => 'A New Todo'
+    todo.todo_contexts << context1
+    user.todos << todo
+
+    todo2 = Todo.create :description => 'Another Todo'
+    todo2.todo_contexts << context2
+    user.todos << todo2
+
+    user.save
+
+    xhr :get, :index, :context_id => 1
+    response.body.should_not =~ /html/;
+    response.body.should =~ /A New Todo/
+    response.body.should_not =~ /Another Todo/
+  end
+
+  it "GET to /projects/1/todos should return a datatable or JSON based on context" do
+    user = create_and_login_user
+    project1 = Project.create :name => 'TP Report'
+    project2 = Project.create :name => 'Other Report'
+
+    todo = Todo.create :description => 'A New Todo'
+    todo.project = project1
+    user.todos << todo
+
+    todo2 = Todo.create :description => 'Another Todo'
+    todo2.project = project2
+    user.todos << todo2
+
+    user.save
+
+    xhr :get, :index, :project_id => 1
+    response.body.should_not =~ /html/;
+    response.body.should =~ /A New Todo/
+    response.body.should_not =~ /Another Todo/
+  end
 end

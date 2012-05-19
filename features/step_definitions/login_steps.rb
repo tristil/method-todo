@@ -45,5 +45,5 @@ Then /I should be logged in/ do
 end
 
 And /I have a previously created account/ do
-  User.create! :username => 'Example', :email => 'newuser@example.com', :password => 'Password1'
+  User.create :username => 'Example', :email => 'newuser@example.com', :password => 'Password1'
 end

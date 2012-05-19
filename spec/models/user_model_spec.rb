@@ -8,7 +8,7 @@ describe User do
   end
 
   it "should ensure username and email are unique" do
-      User.create!(
+      User.create(
         {:username => 'Example', :email => "example@example.com", :password => 'Password1'}
       )
       User.new(
@@ -20,8 +20,8 @@ describe User do
   end
 
   it ".todos should return todos" do
-    user = User.create!(:username => "Example", :email => "example@example.com", :password => "Password1")
-    todo = Todo.create!(:description => "A New Todo")
+    user = User.create(:username => "Example", :email => "example@example.com", :password => "Password1")
+    todo = Todo.create(:description => "A New Todo")
     user.todos << todo
     user.save
     user = User.find_by_id user.id
@@ -29,10 +29,10 @@ describe User do
   end
 
   it ".active_todos should return non-completed todos" do
-    user = User.create!(:username => "Example", :email => "example@example.com", :password => "Password1")
-    todo = Todo.create!(:description => "A New Todo")
+    user = User.create(:username => "Example", :email => "example@example.com", :password => "Password1")
+    todo = Todo.create(:description => "A New Todo")
     user.todos << todo
-    todo2 = Todo.create!(:description => "A New Todo 2")
+    todo2 = Todo.create(:description => "A New Todo 2")
     todo2.complete
     todo2.save
     user.todos << todo2
@@ -43,10 +43,10 @@ describe User do
   end
 
   it ".completed_todos should return completed todos" do
-    user = User.create!(:username => "Example", :email => "example@example.com", :password => "Password1")
-    todo = Todo.create!(:description => "A New Todo")
+    user = User.create(:username => "Example", :email => "example@example.com", :password => "Password1")
+    todo = Todo.create(:description => "A New Todo")
     user.todos << todo
-    todo2 = Todo.create!(:description => "A New Todo 2")
+    todo2 = Todo.create(:description => "A New Todo 2")
     todo2.complete
     todo2.save
     user.todos << todo2
@@ -58,10 +58,39 @@ describe User do
 
 
   it ".destroy should use Acts as Paranoid to virtually delete the user" do
-    user = User.create!(:username => "Example", :email => "example@example.com", :password => "Password1")
+    user = User.create(:username => "Example", :email => "example@example.com", :password => "Password1")
     user.destroy
     User.all.should == []
     User.only_deleted.should == [user]
   end
+
+  it ".todo_contexts should return contexts for this user" do
+    user = User.create(:username => "Example", :email => "example@example.com", :password => "Password1")
+    todo = Todo.create(:description => "A New Todo")
+    todo_context = TodoContext.create(:name => 'home')
+    todo_context.user = user
+    todo_context.save
+    todo.todo_contexts << todo_context
+    todo.save
+    user.todos << todo
+    user.save
+    user.reload
+    user.todo_contexts.should == [todo_context]
+  end
+
+  it ".projects should return projects  for this user" do
+    user = User.create(:username => "Example", :email => "example@example.com", :password => "Password1")
+    todo = Todo.create(:description => "A New Todo")
+    project = Project.create(:name => 'TP Report')
+    project.user = user
+    project.save
+    todo.project = project
+    todo.save
+    user.todos << todo
+    user.save
+    user.reload
+    user.projects.should == [project]
+  end
+
 
 end

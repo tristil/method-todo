@@ -2,7 +2,15 @@ class TodosController < ApplicationController
   before_filter :authenticate_user!
 
   def index
-    todos = current_user.active_todos
+    if params[:context_id]
+      context = TodoContext.find_by_id params[:context_id]
+      todos = context.todos
+    elsif params[:project_id]
+      project = Project.find_by_id params[:project_id]
+      todos = project.todos
+    else
+      todos = current_user.active_todos
+    end
 
     respond_to do |format|
       format.html {
@@ -49,7 +57,8 @@ class TodosController < ApplicationController
 
   def create
     @todo = Todo.new params[:todo]
-    @todo.user_id = current_user.id
+    @todo.user = current_user
+    @todo.parse
 
     json_response = {:created => false}
 

@@ -12,6 +12,8 @@ class User < ActiveRecord::Base
   validates :username, :presence => true, :uniqueness => true
 
   has_many :todos
+  has_many :todo_contexts
+  has_many :projects
 
   def active_todos
     Todo.where :user_id => self.id, :completed => false
