@@ -141,6 +141,36 @@ function refreshTodoList(list_type)
       }
     }
   );
+
+  $.ajax(
+  {
+    url : '/contexts',
+    dataType : 'json',
+    success : function(data)
+    {
+      $(data).each(
+        function(index, item)
+        {
+          console.log(item);
+        }
+      );
+    }
+  });
+
+  $.ajax(
+  {
+    url : '/projects',
+    dataType : 'json',
+    success : function(data)
+    {
+      $(data).each(
+        function(index, item)
+        {
+          console.log(item);
+        }
+      );
+    }
+  });
 }
 
 function addNewTodo()
