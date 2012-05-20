@@ -4,6 +4,7 @@ Given /a todo exists in the default list/ do
   todo.user_id = user.id
   todo.save
   visit('/')
+  find(:css, '#active-todos-list').should have_content('A New Todo')
 end
 
 When /I mark the todo as complete/ do
@@ -21,13 +22,16 @@ end
 When /I uncheck the todo/ do
   uncheck('todos[1][complete]')
 end
-
-And /it should disappear from the list when I refresh/ do
-  visit('/')
-  page.should_not have_content('A New Todo')
+And /it should disappear from the "(.*?)" list/ do |list_name|
+  find(:css, '#active-todos-list').should_not have_content('A New Todo')
 end
 
 And /it should still be on the default list when I refresh/ do
   visit('/')
   page.should have_content('A New Todo')
+end
+
+And /appear on the "(.*?)" list/ do |list_name|
+  click_link('completed-tab')
+  find(:css, '#completed-todos-list').should have_content('A New Todo')
 end

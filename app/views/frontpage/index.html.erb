@@ -4,29 +4,65 @@
   </div>
 </div>
 
-<div id='todos-list' class='row'>
-  <%= render :partial => 'todos/todolist', :locals => {:todos => current_user.active_todos } %>
-</div>
+<div class='tabbable'>
 
-<div style='margin-top: 10px'>
-  &nbsp;
-</div>
+  <ul class='nav nav-pills'>
+    <li class='active'>
+      <a href='#todos-list' data-toggle='tab'>All</a>
+    </li>
 
-<div class='row'>
-  <div class='span2'>
-    <a id='completed-todo-button' class='btn' href='#'><i class='icon-arrow-down'></i> <span id='completed-todo-label'>View Completed</span></a>
-  </div>
-</div>
+    <li class='dropdown' id='context-dropdown-navitem'>
+      <a class='dropdown-toggle' data-toggle='dropdown' href='#'>
+        Context
+        <b class='caret'></b>
+      </a>
+      <ul class='dropdown-menu'>
+        <% @contexts.each do |context| %>
+        <li>
+          <a href='#' id='context-link-<%= context.id%>'>@<%= context.name %></a>
+        </li>
+        <% end %>
+      </ul>
+    </li> <!-- dropdown #context-dropdown-navitem -->
 
-<span id='completed-todos' style='display:none'>
-  <div class='row'>
-    <div class='span8'>
-      <h3>Completed Todos</h3>
-    </div>
-  </div>
+    <li class='dropdown' id='project-dropdown-navitem'>
+      <a class='dropdown-toggle' data-toggle='dropdown' href='#'>
+        Project
+        <b class='caret'></b>
+      </a>
+      <ul class='dropdown-menu'>
+        <% @projects.each do |project| %>
+        <li>
+          <a href='#' id='project-link-<%= project.id%>'>+<%= project.name %></a>
+        </li>
+        <% end %>
+      </ul>
+    </li> <!-- dropdown #context-dropdown-navitem -->
 
-  <div id='completed-todos-list' class='row'></div>
-</span>
+  </ul> <!-- nav-tabs #contexts-projects -->
+
+  <ul class='nav nav-tabs'>
+    <li class='active'>
+      <a href='#active-todos-list' id='active-tab'>Active</a>
+    </li>
+    <li>
+      <a href='#completed-todos-list' id='completed-tab'>Completed</a>
+    </li>
+  </ul> <!-- nav-tabs #active-completed -->
+
+  <div class='tab-content'>
+
+    <div id='active-todos-list' class='tab-pane active'>
+      <%= render :partial => 'todos/todolist', :locals => {:todos => @active_todos } %>
+    </div> <!-- todos-list -->
+
+    <div id='completed-todos-list' class='tab-pane'>
+      <%= render :partial => 'todos/todolist', :locals => {:todos => @completed_todos } %>
+    </div> <!-- completed-todos -->
+
+  </div> <!-- tab-content -->
+
+</div> <!-- tabbable -->
 
 <div class='modal' id='delete-todo-modal' style='display:none'>
   <div class="modal-header">

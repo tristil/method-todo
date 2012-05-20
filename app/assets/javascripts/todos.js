@@ -19,6 +19,19 @@ function focusTodoInput()
   $('#todo_description').focus();
 }
 
+function stopSpinner()
+{
+  if($('#spinner').data().spinner)
+  {
+    $('#spinner').data().spinner.stop();
+  }
+  else
+  {
+    $('#spinner').spin();
+    $('#spinner').data().spinner.stop();
+  }
+}
+
 function todoChecked(checkbox)
 {
   var id = parseInt(checkbox.attr('id').replace("todo-complete-", ""));
@@ -29,7 +42,7 @@ function todoChecked(checkbox)
     data    : {complete : 1},
     complete : function(jqXHR, textStatus)
     {
-      $('#spinner').data().spinner.stop();
+      stopSpinner();
     }
   };
 
@@ -41,6 +54,7 @@ function todoChecked(checkbox)
     ajaxOptions.success = function(data)
     {
       $('#todo-'+id).addClass('struck-through');
+      $('#todo-row-' + id).fadeOut('slow').remove();
     };
   }
   else
@@ -85,7 +99,7 @@ function openDeleteModel(delete_link)
             },
             complete : function(jqXHR, textStatus)
             {
-              $('#spinner').data().spinner.stop();
+              stopSpinner();
             }
           }
       );
@@ -94,25 +108,36 @@ function openDeleteModel(delete_link)
   );
 }
 
-function refreshTodoList()
+function refreshTodoList(list_type)
 {
+  if(typeof list_type == 'undefined')
+  {
+    list_type = 'active';
+  }
+
+  if(list_type == 'active')
+  {
+    list_url = '';
+  }
+  else
+  {
+    list_url = list_type;
+  }
+
   $('#spinner').spin();
   $.ajax(
     {
-      url   : '/todos',
+      url   : '/todos/' + list_url,
       type  : 'GET',
       success : function(data)
       {
-        $('#todos-list').html(data);
+        $('#'+ list_type +'-todos-list').html(data);
         $('#todo_description').val('');
         focusTodoInput();
       },
       complete : function(jqXHR, textStatus)
       {
-        if($('#spinner').data().spinner)
-        {
-          $('#spinner').data().spinner.stop();
-        }
+        stopSpinner();
       }
     }
   );
@@ -132,7 +157,7 @@ function addNewTodo()
       },
       complete : function(jqXHR, textStatus)
       {
-        $('#spinner').data().spinner.stop();
+        stopSpinner();
       }
     }
   );
@@ -161,10 +186,11 @@ $(document).ready(
         }
       );
 
-      $('#new_todo').submit(
+      $('#new_todo').on('submit',
         function(event)
         {
           addNewTodo();
+          event.preventDefault();
           return false;
         }
       );
@@ -177,43 +203,31 @@ $(document).ready(
         }
       );
 
-      $('#refresh-todolist-button').click(
+      $(".nav-tabs a").on('click',
         function(event)
         {
-          refreshTodoList();
-          return false;
-        }
-      );
+          var tab = $(event.target);
 
-      $('#completed-todo-button').click(
-        function(event)
-        {
-          if($('#completed-todos').css('display') == 'inline')
+          var target_div = $(this).attr('href');
+          var list_type = $(this).attr('id').replace('-tab', '');
+          if(list_type == 'active')
           {
-            $('#completed-todos').hide();
-            $('#completed-todo-label').html('View Completed');
+            list_type = "";
           }
-          else
-          {
 
-            $('#spinner').spin();
-            $.ajax(
+          $('#spinner').spin();
+
+          $.ajax(
+            {
+              url : '/todos/' + list_type,
+              success : function(data)
               {
-                url : '/todos/completed',
-                success : function(data)
-                {
-                  $('#completed-todos-list').html(data);
-                  $('#completed-todos').show();
-                  $('#completed-todo-label').html('Close Completed');
-                },
-                complete : function(jqXHR, textStatus)
-                {
-                  $('#spinner').data().spinner.stop();
-                }
+                $(target_div).html(data);
+                $(tab).tab('show');
+                stopSpinner();
               }
-            );
-          }
-          return false;
+            }
+          );
         }
       );
 

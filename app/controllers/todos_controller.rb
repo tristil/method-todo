@@ -12,6 +12,8 @@ class TodosController < ApplicationController
       todos = current_user.active_todos
     end
 
+    todos.reverse!
+
     respond_to do |format|
       format.html {
         if request.xhr?
@@ -23,12 +25,11 @@ class TodosController < ApplicationController
 
   def completed
     todos = current_user.completed_todos
+    todos.reverse!
 
     respond_to do |format|
       format.html {
-        if request.xhr?
-          render :partial => 'todos/todolist', :locals => {:todos => todos}
-        end
+        render :partial => 'todos/todolist', :locals => {:todos => todos}
       }
     end
   end

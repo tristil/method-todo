@@ -13,7 +13,7 @@ When /I enter a todo description of "(.+?)"/ do |description|
 end
 
 Then /a new todo should appear in the default list of todos/ do
-  find('#todos-list').should have_content(@todo_description)
+  find('#active-todos-list').should have_content(@todo_description)
 end
 
 And /the add todo input should have focus/ do
