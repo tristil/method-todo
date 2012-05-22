@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-MethodGtd::Application.load_tasks
+MethodTodo::Application.load_tasks
