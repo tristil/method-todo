@@ -1,3 +1,49 @@
+<script type='text/template' id='context-navitem-template'>
+<li>
+  <a href='#' id='context-link-<%%= context.id%>'>@<%%= context.name %></a>
+</li>
+</script>
+
+<script type='text/template' id='project-navitem-template'>
+<li>
+  <a href='#' id='project-link-<%%= project.id%>'>+<%%= project.name %></a>
+</li>
+</script>
+
+<script type='text/template' id='todo-table-row-template'>
+<tr id='todo-row-<%%= todo.id %>'>
+  <td><input id='todo-complete-<%%= todo.id %>' class='complete-checkbox' type='checkbox' name='todos[<%%= todo.id %>][complete]'/></td>
+  <td><span id='todo-<%%= todo.id %>'><%%= todo.description%></span></td>
+  <td><a id='todo-delete-<%%= todo.id %>' class='delete-todo-link' href='#'>[x]</a></td>
+</tr>
+</script>
+
+<script type='text/javascript'>
+$(document).ready(
+    function(event)
+    {
+      todo_input = new TodoInput({collection : ActiveTodos});
+      todo_input.render();
+
+      ActiveTodos.reset(<%= @active_todos.to_json.html_safe %>);
+      active_todo_table = new TodoTable({collection : ActiveTodos, el : '#active-todos-list'});
+      active_todo_table.render();
+
+      CompletedTodos.reset(<%= @completed_todos.to_json.html_safe %>);
+      completed_todo_table = new TodoTable({collection : CompletedTodos, el : '#completed-todos-list' });
+      completed_todo_table.render();
+
+      Contexts.reset(<%= @contexts.to_json.html_safe %>);
+      context_dropdown = new ContextDropdown({collection : Contexts});
+      context_dropdown.render();
+
+      Projects.reset(<%= @projects.to_json.html_safe %>);
+      project_dropdown = new ProjectDropdown({collection : Projects})
+      project_dropdown.render();
+    }
+);
+</script>
+
 <div class='row hidden-phone'>
   <div class='span2 offset10'>
     <strong>Welcome, <%= current_user.username %></strong>
@@ -17,11 +63,6 @@
         <b class='caret'></b>
       </a>
       <ul class='dropdown-menu'>
-        <% @contexts.each do |context| %>
-        <li>
-          <a href='#' id='context-link-<%= context.id%>'>@<%= context.name %></a>
-        </li>
-        <% end %>
       </ul>
     </li> <!-- dropdown #context-dropdown-navitem -->
 
@@ -31,11 +72,6 @@
         <b class='caret'></b>
       </a>
       <ul class='dropdown-menu'>
-        <% @projects.each do |project| %>
-        <li>
-          <a href='#' id='project-link-<%= project.id%>'>+<%= project.name %></a>
-        </li>
-        <% end %>
       </ul>
     </li> <!-- dropdown #context-dropdown-navitem -->
 

@@ -8,18 +8,17 @@ describe TodosController do
     response.should be_redirect
   end
 
-  it "GET to /todos should return only datatable when AJAX, else full page" do
+  it "GET to /todos should return json of active todos" do
     user = create_and_login_user
     todo = Todo.create :description => 'A New Todo'
     user.todos << todo
     user.save
     xhr :get, :index
     response.body.should_not =~ /html/;
-    get :index
-    response.body.should =~ /html/;
+    response.body.should == "[{\"id\":1,\"description\":\"A New Todo\"}]"
   end
 
-  it "GET to /todos/completed should return datatable of completed todos" do
+  it "GET to /todos/completed should return json of completed todos" do
     user = create_and_login_user
     todo = Todo.create :description => 'A New Todo'
     todo2 = Todo.create :description => 'Another Todo'
@@ -35,13 +34,13 @@ describe TodosController do
   end
 
 
-  it "POST to /todos.json should create new Todo" do
+  it "POST to /todos should create new Todo" do
     user = create_and_login_user
     user.todos.should be_empty
     post :create, :todo => {:description => 'A New Todo' }, :format => :json
     user.reload
     user.todos.should_not be_empty
-    ActiveSupport::JSON.decode(response.body).should == {'created' => true, "new_id" => 1}
+    ActiveSupport::JSON.decode(response.body).should == {"id"=>1, "description"=>"A New Todo", "saved"=>true}
   end
 
   it "POST to /todos/1/complete should mark Todo as complete" do

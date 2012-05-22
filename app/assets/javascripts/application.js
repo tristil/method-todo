@@ -12,6 +12,8 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require underscore-min
+//= require shared
 //= require_tree .
 //= require bootstrap-modal
 //= require bootstrap-tab

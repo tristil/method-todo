@@ -16,6 +16,6 @@ describe ProjectsController do
     user.todos << todo
     user.save
     get :index
-    ActiveSupport::JSON.decode(response.body).should == ['TP Report']
+    ActiveSupport::JSON.decode(response.body).should == [{"id"=>1, "name"=>"TP Report"}]
   end
 end

@@ -16,6 +16,6 @@ describe TodoContextsController do
     user.todos << todo
     user.save
     get :index
-    ActiveSupport::JSON.decode(response.body).should == ['work']
+    ActiveSupport::JSON.decode(response.body).should == [{"id" => 1, "name" => 'work'}]
   end
 end

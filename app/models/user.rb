@@ -12,9 +12,9 @@ class User < ActiveRecord::Base
   validates :username, :presence => true, :uniqueness => true
 
   has_many :todos
-  has_many :active_todos, :class_name => 'Todo', :conditions => {:completed => false}
-  has_many :completed_todos, :class_name => 'Todo', :conditions => {:completed => true}
+  has_many :active_todos, :class_name => 'Todo', :conditions => {:completed => false}, :order => 'created_at desc'
+  has_many :completed_todos, :class_name => 'Todo', :conditions => {:completed => true}, :order => 'created_at desc'
 
-  has_many :todo_contexts
-  has_many :projects
+  has_many :todo_contexts, :order => 'name'
+  has_many :projects, :order => 'name'
 end

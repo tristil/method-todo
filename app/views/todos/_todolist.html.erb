@@ -1,4 +1,4 @@
-<table class='table-bordered table-striped' style='width: 100%'>
+<table class='table-bordered table-striped todo-list-table' style='width: 100%'>
   <thead>
     <tr>
       <th style='width: 3%'>Complete</th>
@@ -6,11 +6,6 @@
       <th style='width: 3%'>Delete</th>
     </tr>
   </thead>
-  <% todos.each do |todo| %>
-    <tr id='todo-row-<%= todo.id %>'>
-      <td><input id='todo-complete-<%= todo.id %>' class='complete-checkbox' type='checkbox' name='todos[<%= todo.id %>][complete]'/></td>
-      <td><span id='todo-<%= todo.id %>'><%= parse_todo_description(todo.description).html_safe %></span></td>
-      <td><a id='todo-delete-<%= todo.id %>' class='delete-todo-link' href='#'>[x]</a></td>
-    </tr>
-  <% end %>
+  <tbody>
+  </tbody>
 </table>

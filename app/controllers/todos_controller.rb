@@ -12,24 +12,23 @@ class TodosController < ApplicationController
       todos = current_user.active_todos
     end
 
-    todos.reverse!
+    todos_json = todos.collect {|todo| {:id => todo.id, :description => todo.parsed_description } }
 
     respond_to do |format|
       format.html {
-        if request.xhr?
-          render :partial => 'todos/todolist', :locals => {:todos => todos}
-        end
+          render :json => todos_json
       }
     end
   end
 
   def completed
     todos = current_user.completed_todos
-    todos.reverse!
+
+    todos_json = todos.collect {|todo| {:id => todo.id, :description => todo.parsed_description, :completed_time => todo.completed_time } }
 
     respond_to do |format|
       format.html {
-        render :partial => 'todos/todolist', :locals => {:todos => todos}
+        render :json => todos_json
       }
     end
   end
@@ -57,15 +56,17 @@ class TodosController < ApplicationController
   end
 
   def create
-    @todo = Todo.new params[:todo]
-    @todo.user = current_user
-    @todo.parse
+    todo = Todo.new params[:todo]
+    todo.user = current_user
+    todo.parse
 
-    json_response = {:created => false}
-
-    if @todo.save
-      json_response["created"] = true
-      json_response["new_id"] = @todo.id
+    json_response = {}
+    if todo.save
+      json_response[:id] = todo.id
+      json_response[:description] = todo.parsed_description
+      json_response[:saved] = true
+    else
+      json_response[:saved] = false
     end
 
     respond_to do |format|

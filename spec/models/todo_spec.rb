@@ -96,4 +96,15 @@ describe Todo, ".parse" do
     todo2.todo_contexts.should == todo.todo_contexts
   end
 
+  it ".parsed_description should output correct line html" do
+    todo = Todo.create :description => 'Write report'
+    todo.parsed_description.should == 'Write report'
+    todo.description = "Write first draft +report"
+    todo.parsed_description.should == "Write first draft <span class='label'>+report</span>"
+    todo.description = "Write report @home"
+    todo.parsed_description.should == "Write report <span class='label'>@home</span>"
+    todo.description = "Write first draft +report @home"
+    todo.parsed_description.should == "Write first draft <span class='label'>+report</span> <span class='label'>@home</span>"
+  end
+
 end

@@ -12,6 +12,7 @@
     <div class='navbar navbar-fixed-top'>
       <div class='navbar-inner'>
         <div class='container'>
+          <span id='add-todo-area'>
           <% if current_user %>
             <ul class='nav'>
               <li id='add-todo-button-navitem'>
@@ -27,6 +28,7 @@
                 <%= f.text_field :description, :div => false, :class => 'horizontal-mobile' %>
               </div>
             <% end %>
+          </span> <!-- add-todo-area -->
 
             <ul class='nav'>
             <li>
