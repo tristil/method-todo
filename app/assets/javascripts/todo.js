@@ -1,7 +1,36 @@
 var Todo = Backbone.Model;
 
 var TodoList = Backbone.Collection.extend({
-  model : Todo
+  model : Todo,
+
+  redraw : function()
+  {
+    this.fetch({url : this.getFilteredUrl()});
+  },
+
+  getFilteredUrl : function()
+  {
+    var parameters = [];
+
+    if(ViewOptions.context_id)
+    {
+      parameters.push("context_id=" + ViewOptions.context_id);
+    }
+
+    if(ViewOptions.project_id)
+    {
+      parameters.push("project_id=" + ViewOptions.project_id);
+    }
+
+    query_string = "";
+    if(parameters.length > 0)
+    {
+      parameters = parameters.join("&");
+      query_string += parameters;
+    }
+
+    return this.url + query_string;
+  }
 }
 );
 
@@ -114,11 +143,12 @@ var TodoTable = Backbone.View.extend({
     );
     return this;
   }
+
 }
 );
 
 ActiveTodos = new TodoList();
-ActiveTodos.url = '/todos';
+ActiveTodos.url= '/todos?';
 
 CompletedTodos = new TodoList();
-CompletedTodos.url = '/todos/completed';
+CompletedTodos.url = '/todos?completed=1';

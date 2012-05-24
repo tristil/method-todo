@@ -2,33 +2,27 @@ class TodosController < ApplicationController
   before_filter :authenticate_user!
 
   def index
+    conditions = {:user_id => current_user.id}
+
     if params[:context_id]
-      context = TodoContext.find_by_id params[:context_id]
-      todos = context.todos
-    elsif params[:project_id]
-      project = Project.find_by_id params[:project_id]
-      todos = project.todos
-    else
-      todos = current_user.active_todos
+      conditions['todo_contexts.id'] = params[:context_id]
     end
+
+    if params[:project_id]
+      conditions[:project_id] = params[:project_id]
+    end
+
+    if params[:completed] and params[:completed] == '1'
+      conditions[:completed] = true
+    end
+
+    todos = Todo.includes(:todo_contexts).where conditions
 
     todos_json = todos.collect {|todo| {:id => todo.id, :description => todo.parsed_description } }
 
     respond_to do |format|
       format.html {
           render :json => todos_json
-      }
-    end
-  end
-
-  def completed
-    todos = current_user.completed_todos
-
-    todos_json = todos.collect {|todo| {:id => todo.id, :description => todo.parsed_description, :completed_time => todo.completed_time } }
-
-    respond_to do |format|
-      format.html {
-        render :json => todos_json
       }
     end
   end

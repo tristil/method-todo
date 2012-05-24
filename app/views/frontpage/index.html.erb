@@ -1,12 +1,12 @@
 <script type='text/template' id='context-navitem-template'>
 <li>
-  <a href='#' id='context-link-<%%= context.id%>'>@<%%= context.name %></a>
+  <a href='#' class='context-dropdown-item' id='context-link-<%%= context.id%>'>@<%%= context.name %></a>
 </li>
 </script>
 
 <script type='text/template' id='project-navitem-template'>
 <li>
-  <a href='#' id='project-link-<%%= project.id%>'>+<%%= project.name %></a>
+  <a href='#' class='project-dropdown-item'  id='project-link-<%%= project.id%>'>+<%%= project.name %></a>
 </li>
 </script>
 
@@ -24,6 +24,8 @@ $(document).ready(
     {
       todo_input = new TodoInput({collection : ActiveTodos});
       todo_input.render();
+
+      dropdowns_bar = new DropdownsBar();
 
       ActiveTodos.reset(<%= @active_todos.to_json.html_safe %>);
       active_todo_table = new TodoTable({collection : ActiveTodos, el : '#active-todos-list'});
@@ -52,9 +54,9 @@ $(document).ready(
 
 <div class='tabbable'>
 
-  <ul class='nav nav-pills'>
-    <li class='active'>
-      <a href='#todos-list' data-toggle='tab'>All</a>
+  <ul class='nav nav-pills' id='dropdowns-bar'>
+    <li id='all-todos-button-navitem'  class='active'>
+      <a id='all-todos-button' href='#todos-list' data-toggle='tab'>All</a>
     </li>
 
     <li class='dropdown' id='context-dropdown-navitem'>

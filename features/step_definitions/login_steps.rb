@@ -3,7 +3,7 @@ Given /I have arrived on the front page/ do
 end
 
 And /I am not logged in/ do
-  # I guess I can't test this from here
+  page.should_not have_content "Welcome, "
 end
 
 Then /the page should provide an option to (.*?) with message "(.*?)"/ do |action, message|

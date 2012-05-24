@@ -31,3 +31,5 @@ function stopSpinner()
     $('#spinner').data().spinner.stop();
   }
 }
+
+ViewOptions = {};

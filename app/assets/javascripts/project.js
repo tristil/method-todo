@@ -7,9 +7,13 @@ var ProjectList = Backbone.Collection.extend({
 );
 
 Projects = new ProjectList();
-
 var ProjectDropdown = Backbone.View.extend({
   el: '#project-dropdown-navitem',
+
+  events : {
+    'click .project-dropdown-item' : 'selectContext',
+    'click #project-link-reset' : 'unselectProject'
+  },
 
   initialize : function()
   {
@@ -21,7 +25,7 @@ var ProjectDropdown = Backbone.View.extend({
 
   render : function()
   {
-    this.dropdown_menu.html('');
+    this.dropdown_menu.html("<li><a href='#' id='project-link-reset'>Any</a></li>");
     var self = this;
     this.collection.each(
       function(project)
@@ -30,7 +34,39 @@ var ProjectDropdown = Backbone.View.extend({
       }
     );
     return this;
+  },
+
+  selectContext : function(event)
+  {
+    $('#project-dropdown-navitem a.dropdown-toggle').html($(event.target).html());
+    $('#all-todos-button-navitem').removeClass('active');
+    $('#project-dropdown-navitem').addClass('active').find('li').removeClass('active');
+    $(event.target).parent().addClass('active');
+    var id = $(event.target).attr('id').replace('project-link-', '');
+    ViewOptions.project_id = id;
+    ActiveTodos.redraw();
+    CompletedTodos.redraw();
+    event.preventDefault();
+  },
+
+  unselectProject : function(event)
+  {
+    $('#project-dropdown-navitem a.dropdown-toggle').html('Project');
+    $('#project-dropdown-navitem').removeClass('active').find('li').removeClass('active');
+    ViewOptions.project_id = null;
+
+    if(ViewOptions.project_id == null && ViewOptions.context_id == null)
+    {
+      $('#all-todos-button-navitem').addClass('active');
+    }
+
+    ActiveTodos.redraw();
+    CompletedTodos.redraw();
+    event.preventDefault();
   }
+
+
+
 }
 );
 

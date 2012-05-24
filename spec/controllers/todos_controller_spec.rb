@@ -18,7 +18,7 @@ describe TodosController do
     response.body.should == "[{\"id\":1,\"description\":\"A New Todo\"}]"
   end
 
-  it "GET to /todos/completed should return json of completed todos" do
+  it "GET to /todos?completed=1 should return json of completed todos" do
     user = create_and_login_user
     todo = Todo.create :description => 'A New Todo'
     todo2 = Todo.create :description => 'Another Todo'
@@ -27,7 +27,7 @@ describe TodosController do
     user.todos << todo2
     user.save
 
-    xhr :get, :completed
+    xhr :get, :index, :completed => 1
     response.body.should_not =~ /html/;
     response.body.should =~ /Another Todo/;
     response.body.should_not =~ /A New Todo/;
