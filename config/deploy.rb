@@ -15,14 +15,14 @@ ssh_options[:forward_agent] = true
 default_run_options[:pty] = true
 
 set :use_sudo, false
-set :deploy_to, "~/production-sites/method-gtd"
+set :deploy_to, "~/production-sites/method-todo"
 set :deploy_via, :remote_cache
 
 require 'rvm/capistrano'
 require 'bundler/capistrano'
 
 task :backup do
-  filename = "methodgtd.sql"
+  filename = "methodtodo.sql"
   run "mysqldump -u root methodgtd > /tmp/#{filename}"
 end
 
