@@ -21,6 +21,7 @@ set :deploy_via, :remote_cache
 require 'rvm/capistrano'
 require 'bundler/capistrano'
 
+# Do backup
 task :backup do
   filename = "methodtodo.sql"
   run "mysqldump -u root methodgtd > /tmp/#{filename}"
