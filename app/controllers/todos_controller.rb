@@ -14,9 +14,11 @@ class TodosController < ApplicationController
 
     if params[:completed] and params[:completed] == '1'
       conditions[:completed] = true
+    else
+      conditions[:completed] = false
     end
 
-    todos = Todo.includes(:todo_contexts).where conditions
+    todos = Todo.includes(:todo_contexts).where(conditions).order('todos.created_at DESC')
 
     todos_json = todos.collect {|todo| {:id => todo.id, :description => todo.parsed_description } }
 

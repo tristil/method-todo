@@ -23,11 +23,17 @@ var TodoList = Backbone.Collection.extend({
     }
 
     query_string = "";
+    if(this.url.charAt(this.url.length - 1) != '?')
+    {
+      query_string="&";
+    }
+
     if(parameters.length > 0)
     {
       parameters = parameters.join("&");
       query_string += parameters;
     }
+    var url = this.url + query_string;
 
     return this.url + query_string;
   }
