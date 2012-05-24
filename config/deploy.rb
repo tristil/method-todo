@@ -1,6 +1,6 @@
-set :application, "method-gtd"
+set :application, "method-todo"
 
-set :repository,  "git://github.com/tristil/method-gtd.git"
+set :repository,  "git://github.com/tristil/method-todo.git"
 set :scm, :git
 
 server = Capistrano::CLI.ui.ask "SSH server: "
