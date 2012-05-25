@@ -46,14 +46,15 @@ var TodoInput = Backbone.View.extend({
     'submit #new_todo'         : 'createTodo',
     'click #add-todo-button'   : 'createTodo'
   },
+
   createTodo : function(event)
   {
+    event.preventDefault();
     var attributes = {
       todo : {
         description : $('#todo_description').val()
       }
     };
-
     $('#spinner').spin();
     this.collection.create(
       attributes,
@@ -64,14 +65,13 @@ var TodoInput = Backbone.View.extend({
           $('#todo_description').val('');
           focusTodoInput();
           stopSpinner();
-          Contexts.fetch();
-          Projects.fetch();
+          Contexts.redraw();
+          Projects.redraw();
         }
       }
     );
-
-    event.preventDefault();
   },
+
   focus : function()
   {
     $('#todo_description').focus();
@@ -80,16 +80,20 @@ var TodoInput = Backbone.View.extend({
 
 var TodoTable = Backbone.View.extend({
   events : {
-    'click .complete-checkbox' : 'toggleCheckbox'
+    'click .complete-checkbox' : 'toggleCheckbox',
+    'click .todo-badge' : 'clickBadge'
   },
-  initialize : function()
+
+  initialize : function(options)
   {
+    this.dropdowns_bar = options.dropdowns_bar;
     this.table_body = this.$el.find('tbody');
     this.template = _.template($('#todo-table-row-template').html());
 
     this.collection.bind('reset', this.render, this);
     this.collection.bind('add', this.addTodo, this);
   },
+
   toggleCheckbox : function(event)
   {
     var checkbox = $(event.target);
@@ -136,10 +140,12 @@ var TodoTable = Backbone.View.extend({
     }
     $.ajax(ajaxOptions);
   },
+
   addTodo : function(todo, collection)
   {
     this.table_body.prepend(this.template({todo : todo.attributes}))
   },
+
   render : function()
   {
     this.table_body.html('');
@@ -151,6 +157,20 @@ var TodoTable = Backbone.View.extend({
       }
     );
     return this;
+  },
+
+  clickBadge : function(event)
+  {
+    event.preventDefault();
+    var badge = $(event.currentTarget);
+    var badge_id = _(badge.attr('class').split(/\s+/)).find(function(className) { return className != 'todo-badge' });
+    var badge_type = badge_id.match(/(.*)-badge/)[1];
+    var id = parseInt(badge_id.replace(badge_type + '-badge-', ''));
+
+    this.dropdowns_bar.selectDropdownItem(id, badge_type, true);
+
+    ActiveTodos.redraw();
+    CompletedTodos.redraw();
   }
 
 }

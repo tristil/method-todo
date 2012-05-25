@@ -101,14 +101,23 @@ describe Todo, ".parse" do
   end
 
   it ".parsed_description should output correct line html" do
+    user = User.create(:username => "Example", :email => "example@example.com", :password => "Password1")
     todo = Todo.create :description => 'Write report'
+    todo.user = user
+    todo.save
     todo.parsed_description.should == 'Write report'
     todo.description = "Write first draft +report"
-    todo.parsed_description.should == "Write first draft <span class='label'>+report</span>"
+    todo.parse
+    todo.save
+    todo.parsed_description.should == "Write first draft <a href='#' class='project-badge-1 todo-badge'><span class='label'>+report</span></a>"
     todo.description = "Write report @home"
-    todo.parsed_description.should == "Write report <span class='label'>@home</span>"
+    todo.parse
+    todo.save
+    todo.parsed_description.should == "Write report <a href='#' class='context-badge-1 todo-badge'><span class='label'>@home</span></a>"
     todo.description = "Write first draft +report @home"
-    todo.parsed_description.should == "Write first draft <span class='label'>+report</span> <span class='label'>@home</span>"
+    todo.parse
+    todo.save
+    todo.parsed_description.should == "Write first draft <a href='#' class='project-badge-1 todo-badge'><span class='label'>+report</span></a> <a href='#' class='context-badge-1 todo-badge'><span class='label'>@home</span></a>"
   end
 
 end

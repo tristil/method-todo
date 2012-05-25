@@ -13,7 +13,9 @@
 <script type='text/template' id='todo-table-row-template'>
 <tr id='todo-row-<%%= todo.id %>'>
   <td><input id='todo-complete-<%%= todo.id %>' <%%= todo.completed ? "checked" : "" %> class='complete-checkbox' type='checkbox' name='todos[<%%= todo.id %>][complete]'/></td>
-  <td><span id='todo-<%%= todo.id %>'><%%= todo.description%></span></td>
+  <td>
+    <span id='todo-<%%= todo.id %>'><%%= todo.description%></span>
+  </td>
   <td><a id='todo-delete-<%%= todo.id %>' class='delete-todo-link' href='#'>[x]</a></td>
 </tr>
 </script>
@@ -28,11 +30,11 @@ $(document).ready(
       dropdowns_bar = new DropdownsBar();
 
       ActiveTodos.reset(<%= @active_todos.to_json.html_safe %>);
-      active_todo_table = new TodoTable({collection : ActiveTodos, el : '#active-todos-list'});
+      active_todo_table = new TodoTable({collection : ActiveTodos, el : '#active-todos-list', dropdowns_bar : dropdowns_bar });
       active_todo_table.render();
 
       CompletedTodos.reset(<%= @completed_todos.to_json.html_safe %>);
-      completed_todo_table = new TodoTable({collection : CompletedTodos, el : '#completed-todos-list' });
+      completed_todo_table = new TodoTable({collection : CompletedTodos, el : '#completed-todos-list', dropdowns_bar : dropdowns_bar });
       completed_todo_table.render();
 
       Contexts.reset(<%= @contexts.to_json.html_safe %>);

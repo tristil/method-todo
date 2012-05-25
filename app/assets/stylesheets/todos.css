@@ -72,3 +72,8 @@
   padding: 9px 15px;
   margin: 0px 0px;
 }
+
+.todo-badge:hover
+{
+  text-decoration: none;
+}

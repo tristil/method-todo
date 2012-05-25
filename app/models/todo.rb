@@ -63,7 +63,6 @@ class Todo < ActiveRecord::Base
         self.todo_contexts << context
       end
     end
-
   end
 
   def parsed_description
@@ -71,12 +70,14 @@ class Todo < ActiveRecord::Base
 
     Todo::project_regexp.match(self.description) do |match|
       new_description.gsub! ' +' + match[1], ''
-      new_description += " <span class='label'>+#{match[1]}</span>"
+      new_description += " <a href='#' class='project-badge-#{self.project.id} todo-badge'><span class='label'>+#{match[1]}</span></a>"
     end
 
     description.scan(Todo::context_regexp) do |match|
-      new_description.gsub! ' @' + match[0].strip, ''
-      new_description += " <span class='label'>@#{match[0]}</span>"
+      name = match[0].strip
+      new_description.gsub! ' @' + name, ''
+      context_id = self.todo_contexts.select {|todo_context| todo_context.name == name }.first.id
+      new_description += " <a href='#' class='context-badge-#{context_id} todo-badge'><span class='label'>@#{name}</span></a>"
     end
 
     new_description

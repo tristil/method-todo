@@ -21,6 +21,38 @@ var DropdownsBar = Backbone.View.extend({
     ViewOptions.project_id = null;
     ActiveTodos.redraw();
     CompletedTodos.redraw();
+  },
+
+  selectDropdownItem : function(id, type, clear)
+  {
+    this.$('#all-todos-button-navitem').removeClass('active');
+
+    if(clear)
+    {
+      this.$('.dropdown-menu li').removeClass('active');
+    }
+
+    $('#'+type+'-dropdown-navitem').addClass('active').find('li').removeClass('active');
+
+    $('#'+type+'-link-' + id).parent().addClass('active');
+
+    if(type == 'context')
+    {
+      ViewOptions.context_id = id;
+      if(clear)
+      {
+        ViewOptions.project_id = null;
+      }
+    }
+    else if(type == 'project')
+    {
+      ViewOptions.project_id = id;
+      if(clear)
+      {
+        ViewOptions.context_id = null;
+      }
+    }
   }
+
 }
 );
