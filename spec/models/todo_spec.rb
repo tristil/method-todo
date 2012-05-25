@@ -7,6 +7,7 @@ describe Todo do
 
   it ".user should return user" do
     user = User.create(:username => "Example", :email => "example@example.com", :password => "Password1")
+    user.should have(0).errors
     todo = Todo.create(:description => "A New Todo")
     todo.user = user
     todo.save
@@ -73,14 +74,17 @@ describe Todo, ".parse" do
     todo.parse
     todo.project.name.should == 'report'
     todo.save
+    todo.project.should_not be_nil
 
     todo2 = Todo.create :description => 'Write second draft +report'
     todo2.user = user
     todo2.parse
     todo2.project.should == todo.project
+    todo2.save
+    todo2.project.should_not be_nil
   end
 
-  it "should add or create a new Context when it detects +" do
+  it "should add or create a new Context when it detects @" do
     user = User.create(:username => "Example", :email => "example@example.com", :password => "Password1")
     todo = Todo.create :description => 'Write first draft @home @coffeeshop'
     todo.user = user

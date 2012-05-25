@@ -20,7 +20,7 @@ class TodosController < ApplicationController
 
     todos = Todo.includes(:todo_contexts).where(conditions).order('todos.created_at DESC')
 
-    todos_json = todos.collect {|todo| {:id => todo.id, :description => todo.parsed_description } }
+    todos_json = todos.collect {|todo| {:id => todo.id, :description => todo.parsed_description, :completed => todo.completed } }
 
     respond_to do |format|
       format.html {

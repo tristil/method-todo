@@ -1,37 +1,29 @@
-Given /a todo exists in the default list/ do
+Given /a (completed )?todo "(.*?)" exists in the (Active|Completed) list/ do |completed, description, list|
+  @description = description
   user = User.find_by_email 'newuser@example.com'
-  todo = Todo.new :description => 'A New Todo'
+  todo = Todo.new :description => description
   todo.user_id = user.id
+  if completed
+    todo.complete
+  end
   todo.save
   visit('/')
-  find(:css, '#active-todos-list').should have_content('A New Todo')
+  find(:css, "##{list.downcase}-todos-list").should have_content(description)
 end
 
 When /I mark the todo as complete/ do
   check('todos[1][complete]')
 end
 
-Then /it should be crossed-out/ do
-  todo = find(:xpath, '//span[@id="todo-1"][@class="struck-through"]')
-end
-
-Then /it should not be crossed-out/ do
-  todo = find(:xpath, '//span[@id="todo-1"][not(contains(@class, "struck-through"))]')
-end
-
 When /I uncheck the todo/ do
   uncheck('todos[1][complete]')
 end
 And /it should disappear from the "(.*?)" list/ do |list_name|
-  find(:css, '#active-todos-list').should_not have_content('A New Todo')
-end
-
-And /it should still be on the default list when I refresh/ do
-  visit('/')
-  page.should have_content('A New Todo')
+  find(:css, "##{list_name.downcase}-todos-list").should_not have_content(@description)
 end
 
 And /appear on the "(.*?)" list/ do |list_name|
-  click_link('completed-tab')
-  find(:css, '#completed-todos-list').should have_content('A New Todo')
+  list = list_name.downcase
+  click_link("#{list}-tab")
+  find(:css, "##{list}-todos-list").should have_content(@description)
 end

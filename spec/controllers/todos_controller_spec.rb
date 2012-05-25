@@ -15,7 +15,7 @@ describe TodosController do
     user.save
     xhr :get, :index
     response.body.should_not =~ /html/;
-    response.body.should == "[{\"id\":1,\"description\":\"A New Todo\"}]"
+    response.body.should == "[{\"id\":1,\"description\":\"A New Todo\",\"completed\":false}]"
   end
 
   it "GET to /todos?completed=1 should return json of completed todos" do

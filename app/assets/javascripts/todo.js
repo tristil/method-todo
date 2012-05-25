@@ -105,31 +105,34 @@ var TodoTable = Backbone.View.extend({
       }
     };
 
-    todo = ActiveTodos.find(function(todo) { return todo.id == id });
-
     $('#spinner').spin();
 
     if(checkbox.is(':checked'))
     {
+      todo = ActiveTodos.find(function(todo) { return todo.id == id });
+
       ajaxOptions.data = { complete : 1};
-      ajaxOptions.success = function(id)
+      ajaxOptions.success = function(data)
       {
-        return function(data)
-        {
-          ActiveTodos.remove(todo, {silent : true});
-          CompletedTodos.add(todo);
-          $('#todo-'+id).addClass('struck-through');
-          $('#todo-row-' + id).fadeOut('slow').remove();
-        };
-      }(id);
+        $('#todo-'+id).addClass('struck-through');
+        $('#todo-row-' + id).fadeOut('slow').remove();
+        ActiveTodos.remove(todo, {silent : true});
+        todo.set('completed', true);
+        CompletedTodos.add(todo);
+      };
     }
     else
     {
+      todo = CompletedTodos.find(function(todo) { return todo.id == id });
+
       ajaxOptions.data = { complete : 0};
       ajaxOptions.success = function(data)
       {
-        $('#todo-'+id).removeClass('struck-through');
-      }
+        $('#todo-row-' + id).fadeOut('slow').remove();
+        CompletedTodos.remove(todo, {silent : true});
+        todo.set('completed', false);
+        ActiveTodos.add(todo);
+      };
     }
     $.ajax(ajaxOptions);
   },
