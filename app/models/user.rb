@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
 
   has_many :todos
   has_many :active_todos, :class_name => 'Todo', :conditions => {:completed => false}, :order => 'created_at desc'
-  has_many :completed_todos, :class_name => 'Todo', :conditions => {:completed => true}, :order => 'created_at desc'
+  has_many :completed_todos, :class_name => 'Todo', :conditions => {:completed => true}, :order => 'completed_time desc'
 
   has_many :todo_contexts, :order => 'name'
   has_many :projects, :order => 'name'
