@@ -1,8 +1,12 @@
 <script type='text/template' id='todo-editor-template'>
   <form class='todo-editor-form' id='todo-edit-form-<%%= todo.id  %>' action='/todos/' method='PUT' style='display:inline'>
   <input id='todo-description-<%%= todo.id  %>' name='todo[<%%= todo.id  %>][description]' style='width: <%%= todo.text_description.length - 10%>em' value='<%%= todo.text_description %>' />
-  <a href='#'><span class='icon-ok todo-editor-save' id='todo-save-editor-<%%= todo.id  %>'></span></a>
-  <a href='#'><span id='todo-close-editor-<%%= todo.id  %>' class='todo-editor-close icon-remove'></span></a>
+  <a href='#' id='todo-save-editor-<%%= todo.id  %>' class='todo-editor-save'>
+    <span class='icon-ok'></span>
+  </a>
+  <a href='#' id='todo-close-editor-<%%= todo.id  %>' class='todo-editor-close '>
+    <span class='icon-remove'></span>
+  </a>
   </form>
 </script>
 

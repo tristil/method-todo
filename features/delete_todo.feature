@@ -5,7 +5,7 @@ Feature: Delete todo
 
   Scenario: Delete a todo
     Given I am logged in
-    And a todo exists in the default list
+    And a todo "A New Todo" exists in the Active list 
     When I select the todo to be deleted
     Then I should receive a popup alert
     And when I agree to delete the todo

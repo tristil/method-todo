@@ -4,6 +4,7 @@ Given /I am logged in/ do
   fill_in('user[email]', :with => 'newuser@example.com')
   fill_in('user[password]', :with => 'Password1')
   click_button('Sign in')
+  page.should have_content('Welcome')
 end
 
 When /I enter a todo description of "(.+?)"/ do |description|

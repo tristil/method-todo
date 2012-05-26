@@ -5,9 +5,9 @@ Feature: Edit a todo
 
   Scenario: Edit a todo
     Given I am logged in
-    And a todo "Buy groceries @store" exists in the Active list 
+    And a todo "Buy groceries +dinner @store " exists in the Active list 
     When I click the edit button
     And I enter a new description of "Buy milk @walmart +quiche"
-    Then the Active Todos table should only contain "Buy milk @walmart +quiche"
-    Then I should see "+quiche" in the "Project" dropdown
-    And I should see "@walmart" in the "Context" dropdown
+    Then the Active Todos table should only contain "Buy milk +quiche @walmart"
+    Then I should see "+quiche" and "+dinner" in the "Project" dropdown
+    And I should see "@walmart" and "@store" in the "Context" dropdown

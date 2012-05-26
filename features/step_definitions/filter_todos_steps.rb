@@ -22,5 +22,5 @@ When /I click the All todos button/ do
 end
 
 Then /the Active Todos table should contain "(.*?)"/ do |todo|
-  find(:xpath, "//div[@id='active-todos-list']/table/tbody//tr//td[.='#{todo}']")
+  find(:xpath, "//div[@id='active-todos-list']/table/tbody//tr//td/span[.='#{todo}']")
 end
