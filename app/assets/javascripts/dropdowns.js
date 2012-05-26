@@ -30,6 +30,7 @@ var DropdownsBar = Backbone.View.extend({
     if(clear)
     {
       this.$('.dropdown-menu li').removeClass('active');
+      this.$('.dropdown').removeClass('active');
     }
 
     $('#'+type+'-dropdown-navitem').addClass('active').find('li').removeClass('active');

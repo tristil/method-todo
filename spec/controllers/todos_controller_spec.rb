@@ -99,45 +99,15 @@ describe TodosController do
     user.todos.should be_empty
   end
 
-  it "GET to /contexts/1/todos should return a datatable or JSON based on context" do
+  it "PUT to /todos/1 should update todo" do
     user = create_and_login_user
-    context1= TodoContext.create :name => 'work'
-    context2 = TodoContext.create :name => 'home'
-
     todo = Todo.create :description => 'A New Todo'
-    todo.todo_contexts << context1
     user.todos << todo
-
-    todo2 = Todo.create :description => 'Another Todo'
-    todo2.todo_contexts << context2
-    user.todos << todo2
-
     user.save
-
-    xhr :get, :index, :context_id => 1
-    response.body.should_not =~ /html/;
-    response.body.should =~ /A New Todo/
-    response.body.should_not =~ /Another Todo/
+    put :update, {:id => todo.id, :description => 'A New Todo +report'}
+    todo = Todo.find_by_id todo.id
+    todo.project.should_not be nil
+    todo.project.name.should == 'report'
   end
 
-  it "GET to /projects/1/todos should return a datatable or JSON based on context" do
-    user = create_and_login_user
-    project1 = Project.create :name => 'TP Report'
-    project2 = Project.create :name => 'Other Report'
-
-    todo = Todo.create :description => 'A New Todo'
-    todo.project = project1
-    user.todos << todo
-
-    todo2 = Todo.create :description => 'Another Todo'
-    todo2.project = project2
-    user.todos << todo2
-
-    user.save
-
-    xhr :get, :index, :project_id => 1
-    response.body.should_not =~ /html/;
-    response.body.should =~ /A New Todo/
-    response.body.should_not =~ /Another Todo/
-  end
 end

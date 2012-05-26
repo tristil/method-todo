@@ -1,8 +1,8 @@
 And /there exists a todo with description of "(.*?)"/ do |description|
   todo = Todo.new :description => description
   todo.user = @user
-  todo.parse
   todo.save
+  todo.parse
 end
 
 And /I select a (context|project) option of "(.*?)"/ do |type, name|

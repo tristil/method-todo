@@ -22,10 +22,13 @@ var TodoList = Backbone.Collection.extend({
       parameters.push("project_id=" + ViewOptions.project_id);
     }
 
-    query_string = "";
-    if(this.url.charAt(this.url.length - 1) != '?')
+    if(this.url.indexOf('?') == -1)
     {
-      query_string="&";
+      query_string = "?";
+    }
+    else
+    {
+      query_string = "&";
     }
 
     if(parameters.length > 0)
@@ -81,17 +84,25 @@ var TodoInput = Backbone.View.extend({
 var TodoTable = Backbone.View.extend({
   events : {
     'click .complete-checkbox' : 'toggleCheckbox',
-    'click .todo-badge' : 'clickBadge'
+    'click .todo-badge' : 'clickBadge',
+    'click .edit-todo-link' : 'editTodoDescription',
+    'click .todo-editor-close' : 'closeTodoEditor',
+    'click .todo-editor-save' : 'clickSaveTodoEditor',
+    'submit .todo-editor-form' : 'saveTodoEditorForm'
   },
 
   initialize : function(options)
   {
     this.dropdowns_bar = options.dropdowns_bar;
+
     this.table_body = this.$el.find('tbody');
     this.template = _.template($('#todo-table-row-template').html());
 
+    this.editor_template = _.template($('#todo-editor-template').html());
+
     this.collection.bind('reset', this.render, this);
     this.collection.bind('add', this.addTodo, this);
+    this.collection.bind('sync', this.updateTodoDescription, this);
   },
 
   toggleCheckbox : function(event)
@@ -171,13 +182,65 @@ var TodoTable = Backbone.View.extend({
 
     ActiveTodos.redraw();
     CompletedTodos.redraw();
+  },
+
+  editTodoDescription : function(event)
+  {
+    event.preventDefault();
+    var link = $(event.currentTarget);
+    var id = parseInt(link.attr('id').replace('todo-edit-', ''));
+    $('#todo-' + id).hide();
+
+    $('#todo-' + id + '-editor').html(this.editor_template({todo : {id : id, text_description : $('#todo-' + id).text()} }));
+    $('#todo-' + id + '-editor').show();
+    $('#todo-' + id + '-editor').focus();
+  },
+
+  closeTodoEditor : function(event)
+  {
+    event.preventDefault();
+    var link = $(event.currentTarget);
+    var id = parseInt(link.attr('id').replace('todo-close-editor-', ''));
+    $('#todo-' + id + '-editor').hide();
+    $('#todo-' + id).show();
+  },
+
+  clickSaveTodoEditor: function(event)
+  {
+    event.preventDefault();
+    var link = $(event.currentTarget);
+    var id = parseInt(link.attr('id').replace('todo-save-editor-', ''));
+    this.saveTodoEditor(id);
+  },
+
+  saveTodoEditorForm : function(event)
+  {
+    event.preventDefault();
+    var form = $(event.currentTarget);
+    var id = parseInt(form.attr('id').replace('todo-edit-form-', ''));
+    this.saveTodoEditor(id);
+  },
+
+  saveTodoEditor : function(id)
+  {
+    var new_description = $('#todo-' + id + '-editor input').val();
+    var todo = this.collection.find(function(todo) { return todo.id == id });
+    todo.set('description', new_description);
+    todo.save({},{
+      success : function(data)
+      {
+        $('#todo-' + id + '-editor').hide();
+        $('#todo-' + id).show();
+        $('#todo-' + id).html(todo.get('description'));
+      }
+    }
+    );
   }
 
-}
-);
+});
 
 ActiveTodos = new TodoList();
-ActiveTodos.url= '/todos?';
+ActiveTodos.url= '/todos/';
 
 CompletedTodos = new TodoList();
-CompletedTodos.url = '/todos?completed=1';
+CompletedTodos.url = '/todos/?completed=1';

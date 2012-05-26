@@ -44,6 +44,7 @@ class TodosController < ApplicationController
         todo.complete
       end
       todo.save
+      todo.parse
     end
 
     respond_to do |format|
@@ -52,13 +53,26 @@ class TodosController < ApplicationController
     end
   end
 
+  def update
+    todo = Todo.find_by_id params[:id]
+    todo.update_attributes :description => params[:description]
+    todo.parse
+
+    json_response = {:id => todo.id, :description => todo.parsed_description, :completed => todo.completed }
+
+    respond_to do |format|
+      format.html { render :json => json_response}
+      format.json { render :json => json_response}
+    end
+  end
+
   def create
     todo = Todo.new params[:todo]
     todo.user = current_user
-    todo.parse
 
     json_response = {}
     if todo.save
+      todo.parse
       json_response[:id] = todo.id
       json_response[:description] = todo.parsed_description
       json_response[:saved] = true

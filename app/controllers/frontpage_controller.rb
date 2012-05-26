@@ -15,6 +15,5 @@ class FrontpageController < ApplicationController
     current_user.projects.each do |project|
       @projects << {:id => project.id, :name => project.name}
     end
-
   end
 end

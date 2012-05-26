@@ -14,25 +14,14 @@ MethodTodo::Application.routes.draw do
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   resources :todos do
-    collection do
-      get 'completed'
-    end
-  end
-
-  resources :todos do
     member do
       put 'complete'
     end
   end
 
-  resources :todo_contexts, :path => :contexts, :as => :contexts do
-    resources :todos
-  end
+  resources :todo_contexts, :path => :contexts, :as => :contexts
 
-  resources :projects do
-    resources :todos
-  end
-
+  resources :projects
 
   # Sample resource route with options:
   #   resources :products do

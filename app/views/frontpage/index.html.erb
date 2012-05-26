@@ -1,3 +1,11 @@
+<script type='text/template' id='todo-editor-template'>
+  <form class='todo-editor-form' id='todo-edit-form-<%%= todo.id  %>' action='/todos/' method='PUT' style='display:inline'>
+  <input id='todo-description-<%%= todo.id  %>' name='todo[<%%= todo.id  %>][description]' style='width: <%%= todo.text_description.length - 10%>em' value='<%%= todo.text_description %>' />
+  <a href='#'><span class='icon-ok todo-editor-save' id='todo-save-editor-<%%= todo.id  %>'></span></a>
+  <a href='#'><span id='todo-close-editor-<%%= todo.id  %>' class='todo-editor-close icon-remove'></span></a>
+  </form>
+</script>
+
 <script type='text/template' id='context-navitem-template'>
 <li>
   <a href='#' class='context-dropdown-item' id='context-link-<%%= context.id%>'>@<%%= context.name %></a>
@@ -15,7 +23,9 @@
   <td><input id='todo-complete-<%%= todo.id %>' <%%= todo.completed ? "checked" : "" %> class='complete-checkbox' type='checkbox' name='todos[<%%= todo.id %>][complete]'/></td>
   <td>
     <span id='todo-<%%= todo.id %>'><%%= todo.description%></span>
+    <span id='todo-<%%= todo.id %>-editor' style='display:none'></span>
   </td>
+  <td><a id='todo-edit-<%%= todo.id %>' class='edit-todo-link' href='#'><span class='icon-pencil'></span></a></td>
   <td><a id='todo-delete-<%%= todo.id %>' class='delete-todo-link' href='#'>[x]</a></td>
 </tr>
 </script>

@@ -71,16 +71,16 @@ describe Todo, ".parse" do
     user = User.create(:username => "Example", :email => "example@example.com", :password => "Password1")
     todo = Todo.create :description => 'Write first draft +report'
     todo.user = user
+    todo.save
     todo.parse
     todo.project.name.should == 'report'
-    todo.save
     todo.project.should_not be_nil
 
     todo2 = Todo.create :description => 'Write second draft +report'
     todo2.user = user
+    todo2.save
     todo2.parse
     todo2.project.should == todo.project
-    todo2.save
     todo2.project.should_not be_nil
   end
 
@@ -88,14 +88,14 @@ describe Todo, ".parse" do
     user = User.create(:username => "Example", :email => "example@example.com", :password => "Password1")
     todo = Todo.create :description => 'Write first draft @home @coffeeshop'
     todo.user = user
+    todo.save
     todo.parse
     todo.todo_contexts.first.name.should == 'home'
-    todo.save
 
     todo2 = Todo.create :description => 'Write second draft @coffeeshop @home'
     todo2.user = user
-    todo2.parse
     todo2.save
+    todo2.parse
     todo2.reload
     todo2.todo_contexts.should == todo.todo_contexts
   end
@@ -105,18 +105,22 @@ describe Todo, ".parse" do
     todo = Todo.create :description => 'Write report'
     todo.user = user
     todo.save
+    todo.parse
     todo.parsed_description.should == 'Write report'
+
     todo.description = "Write first draft +report"
-    todo.parse
     todo.save
+    todo.parse
     todo.parsed_description.should == "Write first draft <a href='#' class='project-badge-1 todo-badge'><span class='label'>+report</span></a>"
+
     todo.description = "Write report @home"
-    todo.parse
     todo.save
+    todo.parse
+
     todo.parsed_description.should == "Write report <a href='#' class='context-badge-1 todo-badge'><span class='label'>@home</span></a>"
     todo.description = "Write first draft +report @home"
-    todo.parse
     todo.save
+    todo.parse
     todo.parsed_description.should == "Write first draft <a href='#' class='project-badge-1 todo-badge'><span class='label'>+report</span></a> <a href='#' class='context-badge-1 todo-badge'><span class='label'>@home</span></a>"
   end
 

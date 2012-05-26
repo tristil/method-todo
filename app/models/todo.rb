@@ -35,6 +35,10 @@ class Todo < ActiveRecord::Base
       raise "Todo not assigned to a user, can't parse"
     end
 
+    if new_record?
+      raise ".parse meant to be run after save"
+    end
+
     if match_data = self::project_regexp.match(description)
       name = match_data[1]
       project_exists = Project.where({:name => name, :user_id => user.id})
@@ -43,6 +47,7 @@ class Todo < ActiveRecord::Base
       else
         project = Project.new({:name => name})
         project.user = user
+        project.save
       end
       self.project = project
     else
@@ -59,10 +64,13 @@ class Todo < ActiveRecord::Base
         else
           context = TodoContext.new({:name => name})
           context.user = user
+          context.save
         end
         self.todo_contexts << context
       end
     end
+
+    self.save
   end
 
   def parsed_description
