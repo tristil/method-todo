@@ -3,3 +3,5 @@ rvm:
   - 1.9.3
 before_script: 
   - rake db:migrate RAILS_ENV=test
+before_install:
+ - echo "yes" | gem uninstall json
