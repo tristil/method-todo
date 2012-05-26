@@ -13,3 +13,4 @@ it are:
   layout)
 * It will allow collaboration with other users by allowing users to enable
   shared viewing of projects and delegation of todos
+* It will support "deferred" actions
