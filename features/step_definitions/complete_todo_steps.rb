@@ -3,7 +3,7 @@ Given /a (completed )?todo "(.*?)" exists in the (Active|Completed) list/ do |co
   user = User.find_by_email 'newuser@example.com'
   @todo = Todo.new :description => description
   @todo.user_id = user.id
-  if completed
+  if list == 'Completed'
     @todo.complete
   end
   @todo.save

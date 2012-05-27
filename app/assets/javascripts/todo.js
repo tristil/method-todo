@@ -233,6 +233,7 @@ var TodoTable = Backbone.View.extend({
     var todo = this.collection.find(function(todo) { return todo.id == id });
     todo.set('description', new_description);
     todo.save({},{
+      url : '/todos/' + todo.id,
       success : function(data)
       {
         $('#todo-' + id + '-editor').hide();
