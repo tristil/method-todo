@@ -8,18 +8,21 @@ class TodosController < ApplicationController
       conditions['todo_contexts.id'] = params[:context_id]
     end
 
+    if params[:tag_id]
+      conditions['tags.id'] = params[:tag_id]
+    end
+
     if params[:project_id]
       conditions[:project_id] = params[:project_id]
     end
 
     if params[:completed] and params[:completed] == '1'
       conditions[:completed] = true
-      todos = Todo.includes(:todo_contexts).where(conditions).order('todos.completed_time DESC')
+      todos = Todo.includes(:todo_contexts, :tags).where(conditions).order('todos.completed_time DESC')
     else
       conditions[:completed] = false
-      todos = Todo.includes(:todo_contexts).where(conditions).order('todos.created_at DESC')
+      todos = Todo.includes(:todo_contexts, :tags).where(conditions).order('todos.created_at DESC')
     end
-
 
     todos_json = todos.collect {|todo| {:id => todo.id, :description => todo.parsed_description, :completed => todo.completed } }
 

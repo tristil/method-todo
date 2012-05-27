@@ -10,15 +10,9 @@
   </form>
 </script>
 
-<script type='text/template' id='context-navitem-template'>
+<script type='text/template' id='navitem-template'>
 <li>
-  <a href='#' class='context-dropdown-item' id='context-link-<%%= context.id%>'>@<%%= context.name %></a>
-</li>
-</script>
-
-<script type='text/template' id='project-navitem-template'>
-<li>
-  <a href='#' class='project-dropdown-item'  id='project-link-<%%= project.id%>'>+<%%= project.name %></a>
+  <a href='#' class='dropdown-item' id='<%%= dropdown_type %>-link-<%%= item.id%>'><%%= item_symbol %><%%= item.name %></a>
 </li>
 </script>
 
@@ -52,12 +46,16 @@ $(document).ready(
       completed_todo_table.render();
 
       Contexts.reset(<%= @contexts.to_json.html_safe %>);
-      context_dropdown = new ContextDropdown({collection : Contexts});
+      context_dropdown = new Dropdown({collection : Contexts, dropdown_type : 'context', el : '#context-dropdown-navitem'});
       context_dropdown.render();
 
       Projects.reset(<%= @projects.to_json.html_safe %>);
-      project_dropdown = new ProjectDropdown({collection : Projects})
+      project_dropdown = new Dropdown({collection : Projects, dropdown_type : 'project', el : '#project-dropdown-navitem'})
       project_dropdown.render();
+
+      Tags.reset(<%= @tags.to_json.html_safe %>);
+      tags_dropdown = new Dropdown({collection : Tags, dropdown_type : 'tag', el : '#tag-dropdown-navitem'})
+      tags_dropdown.render();
     }
 );
 </script>
@@ -77,8 +75,7 @@ $(document).ready(
 
     <li class='dropdown' id='context-dropdown-navitem'>
       <a class='dropdown-toggle' data-toggle='dropdown' href='#'>
-        Context
-        <b class='caret'></b>
+        Context<b class='caret'></b>
       </a>
       <ul class='dropdown-menu'>
       </ul>
@@ -86,12 +83,20 @@ $(document).ready(
 
     <li class='dropdown' id='project-dropdown-navitem'>
       <a class='dropdown-toggle' data-toggle='dropdown' href='#'>
-        Project
-        <b class='caret'></b>
+        Project<b class='caret'></b>
       </a>
       <ul class='dropdown-menu'>
       </ul>
     </li> <!-- dropdown #context-dropdown-navitem -->
+
+    <li class='dropdown' id='tag-dropdown-navitem'>
+      <a class='dropdown-toggle' data-toggle='dropdown' href='#'>
+        Tag<b class='caret'></b>
+      </a>
+      <ul class='dropdown-menu'>
+      </ul>
+    </li> <!-- dropdown #tag-dropdown-navitem -->
+
 
   </ul> <!-- nav-tabs #contexts-projects -->
 

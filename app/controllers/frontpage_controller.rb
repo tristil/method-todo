@@ -15,5 +15,11 @@ class FrontpageController < ApplicationController
     current_user.projects.each do |project|
       @projects << {:id => project.id, :name => project.name}
     end
+
+    @tags = []
+    current_user.tags.each do |tag|
+      @tags << {:id => tag.id, :name => tag.name}
+    end
+
   end
 end

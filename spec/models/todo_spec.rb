@@ -100,6 +100,23 @@ describe Todo, ".parse" do
     todo2.todo_contexts.should == todo.todo_contexts
   end
 
+  it "should add or create a new Tag when it detects #" do
+    user = User.create(:username => "Example", :email => "example@example.com", :password => "Password1")
+    todo = Todo.create :description => 'Write first draft #homework #Q1'
+    todo.user = user
+    todo.save
+    todo.parse
+    todo.tags.first.name.should == 'homework'
+
+    todo2 = Todo.create :description => 'Write second draft #Q1 #homework'
+    todo2.user = user
+    todo2.save
+    todo2.parse
+    todo2.reload
+    todo2.tags.should == todo.tags
+  end
+
+
   it ".parsed_description should output correct line html" do
     user = User.create(:username => "Example", :email => "example@example.com", :password => "Password1")
     todo = Todo.create :description => 'Write report'
@@ -116,12 +133,17 @@ describe Todo, ".parse" do
     todo.description = "Write report @home"
     todo.save
     todo.parse
-
     todo.parsed_description.should == "Write report <a href='#' class='context-badge-1 todo-badge'><span class='label'>@home</span></a>"
-    todo.description = "Write first draft +report @home"
+
+    todo.description = "Write report #homework"
     todo.save
     todo.parse
-    todo.parsed_description.should == "Write first draft <a href='#' class='project-badge-1 todo-badge'><span class='label'>+report</span></a> <a href='#' class='context-badge-1 todo-badge'><span class='label'>@home</span></a>"
+    todo.parsed_description.should == "Write report <a href='#' class='tag-badge-1 todo-badge'><span class='label'>#homework</span></a>"
+
+    todo.description = "Write first draft +report @home #homework"
+    todo.save
+    todo.parse
+    todo.parsed_description.should == "Write first draft <a href='#' class='project-badge-1 todo-badge'><span class='label'>+report</span></a> <a href='#' class='context-badge-1 todo-badge'><span class='label'>@home</span></a> <a href='#' class='tag-badge-1 todo-badge'><span class='label'>#homework</span></a>"
   end
 
 end

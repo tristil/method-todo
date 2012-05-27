@@ -12,10 +12,14 @@ describe "routing for todos" do
     { :post => "/contexts" }.should route_to :controller => 'todo_contexts', :action => 'create'
   end
 
-    it "should route /projects to projects controller" do
+  it "should route /projects to projects controller" do
     { :get  => "/projects" }.should route_to :controller => 'projects', :action => 'index'
     { :post => "/projects" }.should route_to :controller => 'projects', :action => 'create'
   end
 
+  it "should route /tags to tags controller" do
+    { :get  => "/tags" }.should route_to :controller => 'tags', :action => 'index'
+    { :post => "/tags" }.should route_to :controller => 'tags', :action => 'create'
+  end
 
 end

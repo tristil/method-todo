@@ -22,6 +22,11 @@ var TodoList = Backbone.Collection.extend({
       parameters.push("project_id=" + ViewOptions.project_id);
     }
 
+    if(ViewOptions.tag_id)
+    {
+      parameters.push("tag_id=" + ViewOptions.tag_id);
+    }
+
     if(this.url.indexOf('?') == -1)
     {
       query_string = "?";
@@ -68,8 +73,9 @@ var TodoInput = Backbone.View.extend({
           $('#todo_description').val('');
           focusTodoInput();
           stopSpinner();
-          Contexts.redraw();
-          Projects.redraw();
+          Contexts.fetch();
+          Projects.fetch();
+          Tags.fetch();
         }
       }
     );

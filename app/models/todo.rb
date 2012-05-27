@@ -8,13 +8,16 @@ class Todo < ActiveRecord::Base
   belongs_to :user
 
   has_and_belongs_to_many :todo_contexts
+  has_and_belongs_to_many :tags
   belongs_to :project
 
-  @@project_regexp = / \+(.+?)( |$)/
+  @@project_regexp = /\+(.+?)( |$)/
   @@context_regexp = /\@(.+?)( |$)/
+  @@tag_regexp = /\#(.+?)( |$)/
 
   cattr_accessor :project_regexp
   cattr_accessor :context_regexp
+  cattr_accessor :tag_regexp
 
   def complete
     write_attribute(:completed, true)
@@ -70,6 +73,22 @@ class Todo < ActiveRecord::Base
       end
     end
 
+    self.tags = []
+    if match_data = description.scan(self::tag_regexp)
+      match_data.each do |match|
+        name = match[0]
+        tag_exists = Tag.where({:name => name, :user_id => user.id})
+        unless tag_exists.empty?
+          tag = tag_exists.first
+        else
+          tag = Tag.new({:name => name})
+          tag.user = user
+          tag.save
+        end
+        self.tags << tag
+      end
+    end
+
     self.save
   end
 
@@ -86,6 +105,13 @@ class Todo < ActiveRecord::Base
       new_description.gsub! ' @' + name, ''
       context_id = self.todo_contexts.select {|todo_context| todo_context.name == name }.first.id
       new_description += " <a href='#' class='context-badge-#{context_id} todo-badge'><span class='label'>@#{name}</span></a>"
+    end
+
+    description.scan(Todo::tag_regexp) do |match|
+      name = match[0].strip
+      new_description.gsub! ' #' + name, ''
+      tag_id = self.tags.select {|tag| tag.name == name }.first.id
+      new_description += " <a href='#' class='tag-badge-#{tag_id} todo-badge'><span class='label'>##{name}</span></a>"
     end
 
     new_description

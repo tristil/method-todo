@@ -23,6 +23,8 @@ MethodTodo::Application.routes.draw do
 
   resources :projects
 
+  resources :tags
+
   # Sample resource route with options:
   #   resources :products do
   #     member do

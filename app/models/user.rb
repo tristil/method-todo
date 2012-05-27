@@ -17,4 +17,5 @@ class User < ActiveRecord::Base
 
   has_many :todo_contexts, :order => 'name'
   has_many :projects, :order => 'name'
+  has_many :tags, :order => 'name'
 end
