@@ -14,6 +14,8 @@ Capybara.default_selector = :css
 Capybara.javascript_driver = :webkit
 Capybara.default_driver = :webkit
 
+Capybara.default_wait_time = 5
+
 require 'headless'
 headless = Headless.new
 headless.start
