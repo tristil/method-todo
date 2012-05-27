@@ -21,6 +21,7 @@ var DropdownsBar = Backbone.View.extend({
     this.$('.dropdown-menu li').removeClass('active');
     ViewOptions.context_id = null;
     ViewOptions.project_id = null;
+    ViewOptions.tag_id = null;
     ActiveTodos.redraw();
     CompletedTodos.redraw();
   },
