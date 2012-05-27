@@ -116,6 +116,16 @@ describe Todo, ".parse" do
     todo2.tags.should == todo.tags
   end
 
+  it "should re-parse line if data seems out of sync" do
+    user = User.create(:username => "Example", :email => "example@example.com", :password => "Password1")
+    todo = Todo.new :description => 'Write first draft #homework'
+    todo.user = user
+    todo.save
+    lambda { todo.parsed_description }.should_not raise_error
+    todo.tags.should_not be_empty
+    todo.tags.first.name.should == 'homework'
+  end
+
 
   it ".parsed_description should output correct line html" do
     user = User.create(:username => "Example", :email => "example@example.com", :password => "Password1")

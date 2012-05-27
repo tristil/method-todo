@@ -93,27 +93,33 @@ class Todo < ActiveRecord::Base
   end
 
   def parsed_description
-    new_description = description.dup
+    begin
+      new_description = description.dup
 
-    Todo::project_regexp.match(self.description) do |match|
-      new_description.gsub! ' +' + match[1], ''
-      new_description += " <a href='#' class='project-badge-#{self.project.id} todo-badge'><span class='label'>+#{match[1]}</span></a>"
+      Todo::project_regexp.match(self.description) do |match|
+        new_description.gsub! ' +' + match[1], ''
+        new_description += " <a href='#' class='project-badge-#{self.project.id} todo-badge'><span class='label'>+#{match[1]}</span></a>"
+      end
+
+      description.scan(Todo::context_regexp) do |match|
+        name = match[0].strip
+        new_description.gsub! ' @' + name, ''
+        context_id = self.todo_contexts.select {|todo_context| todo_context.name == name }.first.id
+        new_description += " <a href='#' class='context-badge-#{context_id} todo-badge'><span class='label'>@#{name}</span></a>"
+      end
+
+      description.scan(Todo::tag_regexp) do |match|
+        name = match[0].strip
+        new_description.gsub! ' #' + name, ''
+        tag_id = self.tags.select {|tag| tag.name == name }.first.id
+        new_description += " <a href='#' class='tag-badge-#{tag_id} todo-badge'><span class='label'>##{name}</span></a>"
+      end
+
+      new_description
+    rescue
+      self.parse
+      # What could possibly go wrong?
+      parsed_description
     end
-
-    description.scan(Todo::context_regexp) do |match|
-      name = match[0].strip
-      new_description.gsub! ' @' + name, ''
-      context_id = self.todo_contexts.select {|todo_context| todo_context.name == name }.first.id
-      new_description += " <a href='#' class='context-badge-#{context_id} todo-badge'><span class='label'>@#{name}</span></a>"
-    end
-
-    description.scan(Todo::tag_regexp) do |match|
-      name = match[0].strip
-      new_description.gsub! ' #' + name, ''
-      tag_id = self.tags.select {|tag| tag.name == name }.first.id
-      new_description += " <a href='#' class='tag-badge-#{tag_id} todo-badge'><span class='label'>##{name}</span></a>"
-    end
-
-    new_description
   end
 end
