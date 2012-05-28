@@ -1,0 +1,11 @@
+<tr id='todo-row-<%= todo.id %>'>
+  <td><input id='todo-complete-<%= todo.id %>' <%= todo.completed ? "checked" : "" %> class='complete-checkbox' type='checkbox' name='todos[<%= todo.id %>][complete]'/></td>
+  <td>
+    <span id='todo-<%= todo.id %>'><%= todo.description%></span>
+    <span id='todo-<%= todo.id %>-editor' style='display:none'></span>
+  </td>
+  <td>
+    <a id='todo-edit-<%= todo.id %>' class='edit-todo-link' href='#'><span class='icon-pencil'></span></a>
+    <a id='todo-delete-<%= todo.id %>' class='delete-todo-link' href='#'><span class='icon-remove'></span></a>
+  </td>
+</tr>

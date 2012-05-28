@@ -10,6 +10,8 @@ gem 'devise'
 gem 'rails3_acts_as_paranoid'
 gem 'mysql'
 
+gem 'backbone-on-rails'
+
 group :development do
   gem 'rspec'
   gem 'rspec-rails'

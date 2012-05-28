@@ -1,93 +1,5 @@
-var Todo = Backbone.Model;
+MethodTodo.Views.TodoTable = Backbone.View.extend({
 
-var TodoList = Backbone.Collection.extend({
-  model : Todo,
-
-  redraw : function()
-  {
-    this.fetch({url : this.getFilteredUrl()});
-  },
-
-  getFilteredUrl : function()
-  {
-    var parameters = [];
-
-    if(ViewOptions.context_id)
-    {
-      parameters.push("context_id=" + ViewOptions.context_id);
-    }
-
-    if(ViewOptions.project_id)
-    {
-      parameters.push("project_id=" + ViewOptions.project_id);
-    }
-
-    if(ViewOptions.tag_id)
-    {
-      parameters.push("tag_id=" + ViewOptions.tag_id);
-    }
-
-    if(this.url.indexOf('?') == -1)
-    {
-      query_string = "?";
-    }
-    else
-    {
-      query_string = "&";
-    }
-
-    if(parameters.length > 0)
-    {
-      parameters = parameters.join("&");
-      query_string += parameters;
-    }
-    var url = this.url + query_string;
-
-    return this.url + query_string;
-  }
-}
-);
-
-var TodoInput = Backbone.View.extend({
-  el : '#add-todo-area',
-  events : {
-    'submit #new_todo'         : 'createTodo',
-    'click #add-todo-button'   : 'createTodo'
-  },
-
-  createTodo : function(event)
-  {
-    event.preventDefault();
-    var attributes = {
-      todo : {
-        description : $('#todo_description').val()
-      }
-    };
-    $('#spinner').spin();
-    this.collection.create(
-      attributes,
-      {
-        wait : true,
-        success : function()
-        {
-          $('#todo_description').val('');
-          focusTodoInput();
-          stopSpinner();
-          Contexts.fetch();
-          Projects.fetch();
-          Tags.fetch();
-        }
-      }
-    );
-  },
-
-  focus : function()
-  {
-    $('#todo_description').focus();
-  }
-});
-
-var TodoTable = Backbone.View.extend({
   events : {
     'click .complete-checkbox' : 'toggleCheckbox',
     'click .todo-badge' : 'clickBadge',
@@ -102,9 +14,10 @@ var TodoTable = Backbone.View.extend({
     this.dropdowns_bar = options.dropdowns_bar;
 
     this.table_body = this.$el.find('tbody');
-    this.template = _.template($('#todo-table-row-template').html());
 
-    this.editor_template = _.template($('#todo-editor-template').html());
+    this.row_template = JST['todos/table_row'];
+
+    this.editor_template = JST['todos/editor'];
 
     this.collection.bind('reset', this.render, this);
     this.collection.bind('add', this.addTodo, this);
@@ -160,7 +73,7 @@ var TodoTable = Backbone.View.extend({
 
   addTodo : function(todo, collection)
   {
-    this.table_body.prepend(this.template({todo : todo.attributes}))
+    this.table_body.prepend(this.row_template({todo : todo.attributes}))
   },
 
   render : function()
@@ -170,7 +83,7 @@ var TodoTable = Backbone.View.extend({
     this.collection.each(
       function(todo)
       {
-        self.table_body.append(self.template({todo : todo.toJSON()}))
+        self.table_body.append(self.row_template({todo : todo.toJSON()}))
       }
     );
     return this;
@@ -245,9 +158,3 @@ var TodoTable = Backbone.View.extend({
   }
 
 });
-
-ActiveTodos = new TodoList();
-ActiveTodos.url= '/todos/';
-
-CompletedTodos = new TodoList();
-CompletedTodos.url = '/todos/?completed=1';

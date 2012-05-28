@@ -1,63 +1,16 @@
-<script type='text/template' id='todo-editor-template'>
-  <form class='todo-editor-form' id='todo-edit-form-<%%= todo.id  %>' action='/todos/' method='PUT' style='display:inline'>
-  <input id='todo-description-<%%= todo.id  %>' name='todo[<%%= todo.id  %>][description]' style='width: <%%= todo.text_description.length - 10%>em' value='<%%= todo.text_description %>' />
-  <a href='#' id='todo-save-editor-<%%= todo.id  %>' class='todo-editor-save'>
-    <span class='icon-ok'></span>
-  </a>
-  <a href='#' id='todo-close-editor-<%%= todo.id  %>' class='todo-editor-close '>
-    <span class='icon-remove'></span>
-  </a>
-  </form>
-</script>
-
-<script type='text/template' id='navitem-template'>
-<li>
-  <a href='#' class='dropdown-item' id='<%%= dropdown_type %>-link-<%%= item.id%>'><%%= item_symbol %><%%= item.name %></a>
-</li>
-</script>
-
-<script type='text/template' id='todo-table-row-template'>
-<tr id='todo-row-<%%= todo.id %>'>
-  <td><input id='todo-complete-<%%= todo.id %>' <%%= todo.completed ? "checked" : "" %> class='complete-checkbox' type='checkbox' name='todos[<%%= todo.id %>][complete]'/></td>
-  <td>
-    <span id='todo-<%%= todo.id %>'><%%= todo.description%></span>
-    <span id='todo-<%%= todo.id %>-editor' style='display:none'></span>
-  </td>
-  <td><a id='todo-edit-<%%= todo.id %>' class='edit-todo-link' href='#'><span class='icon-pencil'></span></a></td>
-  <td><a id='todo-delete-<%%= todo.id %>' class='delete-todo-link' href='#'>[x]</a></td>
-</tr>
-</script>
-
 <script type='text/javascript'>
-$(document).ready(
-    function(event)
-    {
-      todo_input = new TodoInput({collection : ActiveTodos});
-      todo_input.render();
 
-      dropdowns_bar = new DropdownsBar();
-
-      ActiveTodos.reset(<%= @active_todos.to_json.html_safe %>);
-      active_todo_table = new TodoTable({collection : ActiveTodos, el : '#active-todos-list', dropdowns_bar : dropdowns_bar });
-      active_todo_table.render();
-
-      CompletedTodos.reset(<%= @completed_todos.to_json.html_safe %>);
-      completed_todo_table = new TodoTable({collection : CompletedTodos, el : '#completed-todos-list', dropdowns_bar : dropdowns_bar });
-      completed_todo_table.render();
-
-      Contexts.reset(<%= @contexts.to_json.html_safe %>);
-      context_dropdown = new Dropdown({collection : Contexts, dropdown_type : 'context', el : '#context-dropdown-navitem'});
-      context_dropdown.render();
-
-      Projects.reset(<%= @projects.to_json.html_safe %>);
-      project_dropdown = new Dropdown({collection : Projects, dropdown_type : 'project', el : '#project-dropdown-navitem'})
-      project_dropdown.render();
-
-      Tags.reset(<%= @tags.to_json.html_safe %>);
-      tags_dropdown = new Dropdown({collection : Tags, dropdown_type : 'tag', el : '#tag-dropdown-navitem'})
-      tags_dropdown.render();
-    }
-);
+  $(document).ready(function()
+  {
+    var initial_data = {
+      active_todos    : <%= @active_todos.to_json.html_safe %>,
+      completed_todos : <%= @completed_todos.to_json.html_safe %>,
+      contexts        : <%= @contexts.to_json.html_safe %>,
+      projects        : <%= @projects.to_json.html_safe %>,
+      tags            : <%= @tags.to_json.html_safe %> 
+    };
+    MethodTodo.init(initial_data);
+  });
 </script>
 
 <div class='row hidden-phone'>
