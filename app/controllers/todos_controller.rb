@@ -24,12 +24,24 @@ class TodosController < ApplicationController
       todos = Todo.includes(:todo_contexts, :tags).where(conditions).order('todos.created_at DESC')
     end
 
-    todos_json = todos.collect {|todo| {:id => todo.id, :description => todo.parsed_description, :completed => todo.completed } }
-
     respond_to do |format|
       format.html {
-          render :json => todos_json
+          render :json => todos
       }
+    end
+  end
+
+  def show
+    id = params[:id]
+    todo = Todo.find_by_id id
+
+    if todo.nil? or todo.user_id != current_user.id
+      raise "Could not access todo"
+    end
+
+    respond_to do |format|
+      format.html { render :json => todo}
+      format.json { render :json => todo }
     end
   end
 
@@ -58,14 +70,17 @@ class TodosController < ApplicationController
 
   def update
     todo = Todo.find_by_id params[:id]
+
+    if todo.nil? or todo.user_id != current_user.id
+      raise "Could not access todo"
+    end
+
     todo.update_attributes :description => params[:description]
     todo.parse
 
-    json_response = {:id => todo.id, :description => todo.parsed_description, :completed => todo.completed }
-
     respond_to do |format|
-      format.html { render :json => json_response}
-      format.json { render :json => json_response}
+      format.html { render :json => todo }
+      format.json { render :json => todo }
     end
   end
 

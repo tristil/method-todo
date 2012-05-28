@@ -18,6 +18,16 @@ describe TodosController do
     response.body.should == "[{\"id\":1,\"description\":\"A New Todo\",\"completed\":false}]"
   end
 
+  it "GET to /todos/1 should return json for first todo" do
+    user = create_and_login_user
+    todo = Todo.create :description => 'A New Todo'
+    user.todos << todo
+    user.save
+    xhr :get, :show, :id => 1
+    response.body.should_not =~ /html/;
+    response.body.should == "{\"id\":1,\"description\":\"A New Todo\",\"completed\":false}"
+  end
+
   it "GET to /todos?completed=1 should return json of completed todos" do
     user = create_and_login_user
     todo = Todo.create :description => 'A New Todo'
@@ -39,9 +49,15 @@ describe TodosController do
     todo2 = Todo.create :description => 'Another Todo'
     todo3 = Todo.create :description => 'A Third Todo'
 
-    todo2.complete
-    todo.complete
-    todo3.complete
+    Timecop.freeze(DateTime.new(2012, 5, 1, 1)) do
+      todo2.complete
+    end
+    Timecop.freeze(DateTime.new(2012, 5, 1, 2)) do
+      todo.complete
+    end
+    Timecop.freeze(DateTime.new(2012, 5, 1, 3)) do
+      todo3.complete
+    end
 
     user.todos << todo
     user.todos << todo2
@@ -50,9 +66,9 @@ describe TodosController do
 
     xhr :get, :index, :completed => 1
     ActiveSupport::JSON.decode(response.body).should == [
-      {"id"=>3, "description"=>"A Third Todo", "completed"=>true},
-      {"id"=>1, "description"=>"A New Todo", "completed"=>true},
-      {"id"=>2, "description"=>"Another Todo", "completed"=>true}
+      {"id"=>3, "description"=>"A Third Todo <span class='completed-badge label label-inverse'>5/01/2012</span>", "completed"=>true},
+      {"id"=>1, "description"=>"A New Todo <span class='completed-badge label label-inverse'>5/01/2012</span>", "completed"=>true},
+      {"id"=>2, "description"=>"Another Todo <span class='completed-badge label label-inverse'>5/01/2012</span>", "completed"=>true}
     ]
   end
 

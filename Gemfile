@@ -29,6 +29,7 @@ group :test do
   gem 'cucumber-rails'
   gem 'capybara-webkit'
   gem 'headless'
+  gem 'timecop'
 end
 
 # Gems used only for assets and not required

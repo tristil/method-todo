@@ -26,13 +26,13 @@ MethodTodo.Views.TodoTable = Backbone.View.extend({
 
   toggleCheckbox : function(event)
   {
+    var self = this;
     var checkbox = $(event.target);
     var id = parseInt(checkbox.attr('id').replace("todo-complete-", ""));
 
     var ajaxOptions = {
       type    : 'PUT',
       url     : '/todos/'+id+'/complete',
-      data    : {complete : 1},
       complete : function(jqXHR, textStatus)
       {
         stopSpinner();
@@ -43,37 +43,40 @@ MethodTodo.Views.TodoTable = Backbone.View.extend({
 
     if(checkbox.is(':checked'))
     {
-      todo = ActiveTodos.find(function(todo) { return todo.id == id });
-
-      ajaxOptions.data = { complete : 1};
-      ajaxOptions.success = function(data)
-      {
-        $('#todo-'+id).addClass('struck-through');
-        $('#todo-row-' + id).fadeOut('slow').remove();
-        ActiveTodos.remove(todo, {silent : true});
-        todo.set('completed', true);
-        CompletedTodos.add(todo);
-      };
+      $('#todo-'+id).addClass('struck-through');
+      from_collection = ActiveTodos;
+      to_collection = CompletedTodos;
+      ajaxOptions.data = {complete : 1};
     }
     else
     {
-      todo = CompletedTodos.find(function(todo) { return todo.id == id });
-
-      ajaxOptions.data = { complete : 0};
-      ajaxOptions.success = function(data)
-      {
-        $('#todo-row-' + id).fadeOut('slow').remove();
-        CompletedTodos.remove(todo, {silent : true});
-        todo.set('completed', false);
-        ActiveTodos.add(todo);
-      };
+      from_collection = CompletedTodos;
+      to_collection = ActiveTodos;
+      ajaxOptions.data = {complete : 0};
     }
+
+    todo = from_collection.find(function(todo) { return todo.id == id });
+
+    ajaxOptions.success = function(data)
+    {
+      $('#todo-row-' + id).fadeOut('slow').remove();
+      from_collection.remove(todo, {silent : true});
+      todo.fetch(
+      {
+        url : '/todos/' + todo.id,
+        success : function(todo)
+        {
+          to_collection.add(todo);
+        }
+      });
+    };
+
     $.ajax(ajaxOptions);
   },
 
   addTodo : function(todo, collection)
   {
-    this.table_body.prepend(this.row_template({todo : todo.attributes}))
+    this.table_body.prepend(this.row_template({todo : todo.attributes}));
   },
 
   render : function()

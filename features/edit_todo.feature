@@ -5,7 +5,7 @@ Feature: Edit a todo
 
   Scenario: Edit a todo
     Given I am logged in
-    And a todo "Buy groceries +dinner @store " exists in the Active list 
+    And a todo "Buy groceries +dinner @store" exists in the Active list 
     When I click the edit button
     And I enter a new description of "Buy milk @walmart +quiche"
     Then the Active Todos table should contain "Buy milk +quiche @walmart"
@@ -14,7 +14,7 @@ Feature: Edit a todo
 
   Scenario: Edit a completed todo
     Given I am logged in
-    And a todo "Buy groceries +dinner @store " exists in the Completed list 
+    And a todo "Buy groceries +dinner @store" exists in the Completed list 
     When I click the edit button
     And I enter a new description of "Buy milk @walmart +quiche"
     Then the Completed Todos table should contain "Buy milk +quiche @walmart"

@@ -19,12 +19,18 @@ end
 When /I uncheck the todo/ do
   uncheck('todos[1][complete]')
 end
+
 And /it should disappear from the "(.*?)" list/ do |list_name|
   find(:css, "##{list_name.downcase}-todos-list").should_not have_content(@description)
 end
 
-And /appear on the "(.*?)" list/ do |list_name|
+And /appear on the "(.*?)" list as "(.*?)"/ do |list_name, description|
+  now = Time.now
+  description.gsub!('%m', now.month.to_s)
+  description.gsub!('%d', now.day.to_s)
+  description.gsub!('%Y', now.year.to_s)
+
   list = list_name.downcase
   click_link("#{list}-tab")
-  find(:css, "##{list}-todos-list").should have_content(@description)
+  find(:css, "##{list}-todos-list").should have_content(description)
 end
