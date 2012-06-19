@@ -9,7 +9,7 @@ end
 
 When /I enter a todo description of "(.+?)"/ do |description|
   @todo_description = description
-  fill_in('todo[description]', :with => description)
+  fill_in('todo_description', :with => description)
   click_button('add-todo-button')
 end
 
