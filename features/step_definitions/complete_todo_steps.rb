@@ -26,9 +26,8 @@ end
 
 And /appear on the "(.*?)" list as "(.*?)"/ do |list_name, description|
   now = Time.now
-  description.gsub!('%m', now.month.to_s)
-  description.gsub!('%d', now.day.to_s)
-  description.gsub!('%Y', now.year.to_s)
+
+  description = Time.now.utc.strftime(description)
 
   list = list_name.downcase
   click_link("#{list}-tab")

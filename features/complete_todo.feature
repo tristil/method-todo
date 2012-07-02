@@ -8,7 +8,7 @@ Feature: Complete todo
     And a todo "A New Todo" exists in the Active list 
     When I mark the todo as complete 
     And it should disappear from the "Active" list 
-    And appear on the "Completed" list as "A New Todo %m/%d/%Y"
+    And appear on the "Completed" list as "A New Todo %-m/%d/%Y"
 
   Scenario: Uncomplete a todo
     Given I am logged in
