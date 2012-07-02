@@ -29,6 +29,7 @@ Notes
 
 * Uses jQuery, Bootstrap and Backbone
 * Uses Rspec and Cucumber for BDD
+* See http://rubydoc.info/github/tristil/method-todo/frames for documentation
 
 Installation
 ------------
