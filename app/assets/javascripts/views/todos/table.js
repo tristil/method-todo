@@ -6,6 +6,7 @@ MethodTodo.Views.TodoTable = Backbone.View.extend({
     'click .edit-todo-link' : 'editTodoDescription',
     'click .todo-editor-close' : 'closeTodoEditor',
     'click .todo-editor-save' : 'clickSaveTodoEditor',
+    'click .delete-todo-link' : 'openDeleteModal',
     'submit .todo-editor-form' : 'saveTodoEditorForm'
   },
 
@@ -29,8 +30,7 @@ MethodTodo.Views.TodoTable = Backbone.View.extend({
     event.preventDefault();
     var delete_link = $(event.currentTarget);
     var id = parseInt(delete_link.attr('id').replace("todo-delete-", ""));
-    $('#delete-todo-id').html(id);
-    $('#delete-todo-modal').modal('show');
+    modal = new MethodTodo.Views.DeleteTodoModal(id);
   },
 
   toggleCheckbox : function(event)

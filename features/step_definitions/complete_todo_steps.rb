@@ -2,12 +2,13 @@ Given /a (completed )?todo "(.*?)" exists in the (Active|Completed) list/ do |co
   @description = description
   user = User.find_by_email 'newuser@example.com'
   @todo = Todo.new :description => description
-  @todo.user_id = user.id
+  @todo.user = user
   if list == 'Completed'
     @todo.complete
   end
   @todo.save
   @todo.parse
+  visit('/')
   find(:css, "##{list.downcase}-todos-list").should have_content(description)
 end
 

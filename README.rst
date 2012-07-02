@@ -1,3 +1,5 @@
+.. image:: https://secure.travis-ci.org/tristil/method-todo.png?branch=master
+
 What Is It?
 -----------
 
@@ -29,7 +31,8 @@ Notes
 
 * Uses jQuery, Bootstrap and Backbone
 * Uses Rspec and Cucumber for BDD
-* See http://rubydoc.info/github/tristil/method-todo/frames for documentation
+* See http://rubydoc.info/github/tristil/method-todo/frames for code documentation
+* CI through Travis CI: http://travis-ci.org/#!/tristil/method-todo
 
 Installation
 ------------
