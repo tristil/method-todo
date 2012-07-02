@@ -2,9 +2,13 @@ Method Todo
 -----------
 
 .. image:: https://secure.travis-ci.org/tristil/method-todo.png?branch=master
+   :alt: Travis CI badge showing build status
 
 What Is It?
 ===========
+
+.. image:: screenshot.png
+   :alt:  Screenshot of mobile view of app 
 
 This is a simple todo list app, built for my personal use. The design goals for
 it are:
