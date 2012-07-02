@@ -7,7 +7,7 @@ Method Todo
 What Is It?
 ===========
 
-.. image:: screenshot.png
+.. image:: https://github.com/tristil/method-todo/raw/master/screenshot.png
    :alt:  Screenshot of mobile view of app 
 
 This is a simple todo list app, built for my personal use. The design goals for
