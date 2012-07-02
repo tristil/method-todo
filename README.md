@@ -1,16 +1,13 @@
 Method Todo
------------
-
-.. image:: https://secure.travis-ci.org/tristil/method-todo.png?branch=master
-   :alt: Travis CI badge showing build status
-
-What Is It?
 ===========
 
-.. figure:: https://github.com/tristil/method-todo/raw/master/screenshot.png
-   :alt:  Screenshot of mobile view of app
+![Travis CI badge showing build status](https://secure.travis-ci.org/tristil/method-todo.png?branch=master)
 
-    Mobile View
+What Is It?
+-----------
+
+![Screenshot of mobile view of app](https://github.com/tristil/method-todo/raw/master/screenshot.png)
+Mobile View
 
 This is a simple todo list app, built for my personal use. The design goals for
 it are:
@@ -27,7 +24,7 @@ it are:
 * It will support "deferred" actions
 
 How to Use
-==========
+----------
 
 * Use @, +, and # in the description line of your todo action to assign
   Context, Project and Tag associations respectively 
@@ -36,7 +33,7 @@ How to Use
 * Click the checkbox next to a Todo to complete it
 
 Notes
-=====
+-----
 
 * Uses jQuery, Bootstrap and Backbone
 * Uses Rspec and Cucumber for BDD
@@ -44,7 +41,7 @@ Notes
 * CI through Travis CI: http://travis-ci.org/#!/tristil/method-todo
 
 Installation
-============
+------------
 
 * Follows normal Ruby on Rails application setup 
 * Requires Rails 3.1+
