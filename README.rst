@@ -9,9 +9,7 @@ What Is It?
 
 .. image:: https://github.com/tristil/method-todo/raw/master/screenshot.png
    :alt:  Screenshot of mobile view of app 
-   :height: 476
-   :width: 294
-   
+   :scale: 50
 
 This is a simple todo list app, built for my personal use. The design goals for
 it are:
