@@ -14,3 +14,28 @@ it are:
 * It will allow collaboration with other users by allowing users to enable
   shared viewing of projects and delegation of todos
 * It will support "deferred" actions
+
+How to Use
+----------
+
+* Use @, +, and # in the description line of your todo action to assign
+  Context, Project and Tag associations respectively 
+* Click on the 'badges' in the Todo list to sort the list for just the Context,
+  Badge or Tag
+* Click the checkbox next to a Todo to complete it
+
+Notes
+-----
+
+* Uses jQuery, Bootstrap and Backbone
+* Uses Rspec and Cucumber for BDD
+
+Installation
+------------
+
+* Follows normal Ruby on Rails application setup 
+* Requires Rails 3.1+
+* Run `bundle install`
+* Configure database in `config/database.yml`
+* Run `rake db:migrate RAILS_ENV=production`
+* Use Unicorn or Modrails to host

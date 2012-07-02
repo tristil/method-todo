@@ -1,6 +1,11 @@
+###
+# REST controller for fetching +Todo+ records
+
 class TodosController < ApplicationController
   before_filter :authenticate_user!
 
+  # GET /todos
+  # @return [void]
   def index
     todos = get_todos_by_params
 
@@ -11,6 +16,8 @@ class TodosController < ApplicationController
     end
   end
 
+  # GET /todos/1
+  # @return [void]
   def show
     id = params[:id]
     todo = Todo.find_by_id id
@@ -25,6 +32,8 @@ class TodosController < ApplicationController
     end
   end
 
+  # GET /todos/1/complete
+  # @return [void]
   def complete
     id = params[:id]
     json_response = {'completed' => false}
@@ -48,6 +57,8 @@ class TodosController < ApplicationController
     end
   end
 
+  # PUT /todos/1
+  # @return [void]
   def update
     todo = Todo.find_by_id params[:id]
 
@@ -64,6 +75,8 @@ class TodosController < ApplicationController
     end
   end
 
+  # POST /todos
+  # @return [void]
   def create
     todo = Todo.new params[:todo]
     todo.user = current_user
@@ -84,6 +97,8 @@ class TodosController < ApplicationController
     end
   end
 
+  # DELETE /todos
+  # @return [void]
   def destroy
     id = params[:id]
     json_response = {'deleted' => false}

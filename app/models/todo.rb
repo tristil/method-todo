@@ -1,38 +1,78 @@
-class Todo < ActiveRecord::Base
-  acts_as_paranoid
+###
+# Model for +Todo+ records
+# - acts_as_paranoid
 
-  attr_accessible :description, :completed, :completed_time, :project
+class Todo < ActiveRecord::Base
+
+  attr_accessible :description
+  # @!attribute description
+  #   @return [String] text of the +Todo+
+
+  attr_accessible :completed
+  # @!attribute completed
+  #   @return [Boolean] Whether it is completed
+
+  attr_accessible :completed_time
+  # @!attribute completed_time
+  #   @return [Datetime] Time of completion
+
+  acts_as_paranoid
 
   validates :description, :presence => true
 
+  # @!attribute user
+  #   @return [User]
   belongs_to :user
 
+  # @!attribute todo_contexts
+  #   @return [Array<TodoContext>]
   has_and_belongs_to_many :todo_contexts
+
+  # @!attribute tags
+  #   @return [Array<Tag>]
   has_and_belongs_to_many :tags
+
+  # @!attribute project
+  #   @return [Project]
   belongs_to :project
 
+  # Regexp for pulling +Project+ out of description
   @@project_regexp = /\+(.+?)( |$)/
+
+  # Regexp for pulling +TodoContext+ out of description
   @@context_regexp = /\@(.+?)( |$)/
+
+  # Regexp for pulling +Tag+ out of description
   @@tag_regexp = /\#(.+?)( |$)/
 
   cattr_accessor :project_regexp
   cattr_accessor :context_regexp
   cattr_accessor :tag_regexp
 
+  # Mark the +Todo+ as completed
+  # @return [void]
   def complete
     write_attribute(:completed, true)
     write_attribute(:completed_time, Time.now)
   end
 
+  # Mark the +Todo+ as no longer complete
+  # @return [void]
   def uncomplete
     write_attribute(:completed, false)
     write_attribute(:completed_time, 0)
   end
 
+  # Get the first associated +TodoContext+
+  # @return [TodoContext]
+  # @return [nil]
   def todo_context
     todo_contexts.empty? ? nil : todo_contexts.first
   end
 
+  # Parse description line to create +TodoContext+, +Project+ and +Tag+
+  # associations. Must be run after the record is saved.
+  # @return [void]
   def parse
     unless user
       raise "Todo not assigned to a user, can't parse"
@@ -92,6 +132,8 @@ class Todo < ActiveRecord::Base
     self.save
   end
 
+  # Get formatted line (with Bootstrap 'badges') to display in data-table
+  # @return [String]
   def parsed_description
     Time::DATE_FORMATS[:american] = "%-m/%d/%Y"
     begin
@@ -128,6 +170,9 @@ class Todo < ActiveRecord::Base
     end
   end
 
+  # Render the record as json
+  # @param options [Hash]
+  # @return [Hash]
   def as_json options = nil
     {
       :id => self.id,

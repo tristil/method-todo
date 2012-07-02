@@ -1,6 +1,11 @@
+###
+# REST controller for fetching +Tag+ records
+
 class TagsController < ApplicationController
   before_filter :authenticate_user!
 
+  # GET /tags
+  # @return [void]
   def index
     @tags = current_user.tags.collect {|tag| {:id => tag.id, :name => tag.name } }
 

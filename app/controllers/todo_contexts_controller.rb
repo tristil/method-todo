@@ -1,6 +1,11 @@
+###
+# REST controller for fetching +TodoContext+ records
+
 class TodoContextsController < ApplicationController
   before_filter :authenticate_user!
 
+  # GET /contexts
+  # @return [void]
   def index
     @contexts = current_user.todo_contexts.collect {|context| {:id => context.id, :name => context.name } }
 

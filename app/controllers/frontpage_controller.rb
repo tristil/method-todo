@@ -1,10 +1,18 @@
+###
+# Controller for front page of application
+
 class FrontpageController < ApplicationController
   before_filter :authenticate_user!
+
+  # GET /
+  # @return [void]
   def index
     set_preferences
     bootstrap_page
   end
 
+  # Toggle the status of the :show_help user preference
+  # @return [void]
   def toggle_help
     if current_user.preferences[:show_help].nil?
       current_user.preferences[:show_help] = false
