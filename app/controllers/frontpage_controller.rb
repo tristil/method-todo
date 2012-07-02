@@ -1,6 +1,27 @@
 class FrontpageController < ApplicationController
   before_filter :authenticate_user!
   def index
+    set_preferences
+    bootstrap_page
+  end
+
+  def toggle_help
+    if current_user.preferences[:show_help].nil?
+      current_user.preferences[:show_help] = false
+    else
+      current_user.preferences[:show_help] = current_user.preferences[:show_help] ? false : true
+    end
+
+    current_user.save
+
+    respond_to do |format|
+      format.html { render :json => current_user.preferences[:show_help] }
+    end
+  end
+
+  private
+
+  def bootstrap_page
     @todo = Todo.new
 
     @active_todos = current_user.active_todos.collect {|todo| todo.as_json }
@@ -20,6 +41,9 @@ class FrontpageController < ApplicationController
     current_user.tags.each do |tag|
       @tags << {:id => tag.id, :name => tag.name}
     end
+  end
 
+  def set_preferences
+    @show_help = current_user.preferences[:show_help].nil? ? true : current_user.preferences[:show_help]
   end
 end

@@ -14,7 +14,10 @@
 </script>
 
 <div class='row hidden-phone'>
-  <div class='span2 offset10'>
+  <div id='help-container' class='span8'>
+    <%= render :partial => 'frontpage/help_box', :locals => {:show_help => @show_help } %>
+  </div>
+  <div class='span2 offset2'>
     <strong>Welcome, <%= current_user.username %></strong>
   </div>
 </div>

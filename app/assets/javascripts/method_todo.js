@@ -17,6 +17,8 @@ window.MethodTodo = {
 
     ViewOptions = {};
 
+    page = new MethodTodo.Views.Page();
+
     todo_input = new MethodTodo.Views.TodoInput({collection : ActiveTodos});
     todo_input.render();
 

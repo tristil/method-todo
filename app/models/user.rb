@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :username
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :username, :preferences
 
   validates :username, :presence => true, :uniqueness => true
 
@@ -18,4 +18,6 @@ class User < ActiveRecord::Base
   has_many :todo_contexts, :order => 'name'
   has_many :projects, :order => 'name'
   has_many :tags, :order => 'name'
+
+  serialize :preferences, Hash
 end

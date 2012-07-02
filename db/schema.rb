@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120526222853) do
+ActiveRecord::Schema.define(:version => 20120702044447) do
 
   create_table "projects", :force => true do |t|
     t.string   "name"
@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(:version => 20120526222853) do
     t.datetime "completed_time"
     t.datetime "deleted_at"
     t.integer  "project_id"
+    t.text     "preferences"
   end
 
   create_table "users", :force => true do |t|
@@ -79,6 +80,7 @@ ActiveRecord::Schema.define(:version => 20120526222853) do
     t.datetime "updated_at",                             :null => false
     t.string   "username",               :default => "", :null => false
     t.datetime "deleted_at"
+    t.text     "preferences"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

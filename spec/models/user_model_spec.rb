@@ -92,5 +92,13 @@ describe User do
     user.projects.should == [project]
   end
 
+  it ".preferences should return and set a hash" do
+    user = User.create(:username => "Example", :email => "example@example.com", :password => "Password1")
+    user.preferences.should == {}
+    user.preferences[:show_help] = false
+    user.save
+    user.reload
+    user.preferences[:show_help].should == false
+  end
 
 end
