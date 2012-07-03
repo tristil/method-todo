@@ -6,8 +6,14 @@ MethodTodo.Views.TodoInput = Backbone.View.extend({
     'click #add-todo-button'   : 'createTodo'
   },
 
+  initialize : function(options)
+  {
+    this.parent = options.parent;
+  },
+
   createTodo : function(event)
   {
+    var self = this;
     event.preventDefault();
     var attributes = {
       todo : {
@@ -24,9 +30,9 @@ MethodTodo.Views.TodoInput = Backbone.View.extend({
           $('#todo_description').val('');
           focusTodoInput();
           stopSpinner();
-          Contexts.fetch();
-          Projects.fetch();
-          Tags.fetch();
+          self.parent.Contexts.fetch();
+          self.parent.Projects.fetch();
+          self.parent.Tags.fetch();
         }
       }
     );

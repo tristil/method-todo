@@ -12,6 +12,8 @@ MethodTodo.Views.TodoTable = Backbone.View.extend({
 
   initialize : function(options)
   {
+    this.parent = options.parent;
+
     this.dropdowns_bar = options.dropdowns_bar;
 
     this.table_body = this.$el.find('tbody');
@@ -53,14 +55,14 @@ MethodTodo.Views.TodoTable = Backbone.View.extend({
     if(checkbox.is(':checked'))
     {
       $('#todo-'+id).addClass('struck-through');
-      from_collection = ActiveTodos;
-      to_collection = CompletedTodos;
+      from_collection = this.parent.ActiveTodos;
+      to_collection = this.parent.CompletedTodos;
       ajaxOptions.data = {complete : 1};
     }
     else
     {
-      from_collection = CompletedTodos;
-      to_collection = ActiveTodos;
+      from_collection = this.parent.CompletedTodos;
+      to_collection = this.parent.ActiveTodos;
       ajaxOptions.data = {complete : 0};
     }
 
@@ -111,8 +113,8 @@ MethodTodo.Views.TodoTable = Backbone.View.extend({
 
     this.dropdowns_bar.selectDropdownItem(id, badge_type, true);
 
-    ActiveTodos.redraw();
-    CompletedTodos.redraw();
+    this.parent.ActiveTodos.redraw();
+    this.parent.CompletedTodos.redraw();
   },
 
   editTodoDescription : function(event)

@@ -172,4 +172,27 @@ describe Todo, ".parse" do
     end
   end
 
+  it ".local_completed_time should return value for current_user's timezone" do
+    user = User.create(:username => "Example", :email => "example@example.com", :password => "Password1")
+    todo = Todo.create :description => 'Write first draft +report'
+    todo.user = user
+    todo.save
+
+    user.preferences[:timezone_offset] = -5
+    user.save
+
+    Timecop.freeze(DateTime.new(2012, 5, 1, 23, 59, 59)) do
+      todo.parse
+      todo.complete
+      todo.save
+    end
+    todo.local_completed_time.to_formatted_s(:american).should == '5/01/2012'
+
+    user.preferences[:timezone_offset] = 0
+    user.save
+
+    todo.local_completed_time.to_formatted_s(:american).should == '5/02/2012'
+  end
+
+
 end

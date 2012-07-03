@@ -5,8 +5,9 @@ MethodTodo.Views.DropdownBar = Backbone.View.extend({
     'click #all-todos-button-navitem' : 'viewAllTodos'
   },
 
-  initialize : function()
+  initialize : function(options)
   {
+    this.parent = options.parent;
     this.all_button = this.$('#all-todos-button-navitem');
   },
 
@@ -19,11 +20,11 @@ MethodTodo.Views.DropdownBar = Backbone.View.extend({
     this.$('#all-todos-button-navitem').addClass('active');
     this.$('.dropdown').removeClass('active');
     this.$('.dropdown-menu li').removeClass('active');
-    ViewOptions.context_id = null;
-    ViewOptions.project_id = null;
-    ViewOptions.tag_id = null;
-    ActiveTodos.redraw();
-    CompletedTodos.redraw();
+    MethodTodo.Globals.ViewOptions.context_id = null;
+    MethodTodo.Globals.ViewOptions.project_id = null;
+    MethodTodo.Globals.ViewOptions.tag_id = null;
+    this.parent.ActiveTodos.redraw();
+    this.parent.CompletedTodos.redraw();
   },
 
   selectDropdownItem : function(id, type, clear)
@@ -42,29 +43,29 @@ MethodTodo.Views.DropdownBar = Backbone.View.extend({
 
     if(type == 'context')
     {
-      ViewOptions.context_id = id;
+      MethodTodo.Globals.ViewOptions.context_id = id;
       if(clear)
       {
-        ViewOptions.project_id = null;
-        ViewOptions.tag_id = null;
+        MethodTodo.Globals.ViewOptions.project_id = null;
+        MethodTodo.Globals.ViewOptions.tag_id = null;
       }
     }
     else if(type == 'project')
     {
-      ViewOptions.project_id = id;
+      MethodTodo.Globals.ViewOptions.project_id = id;
       if(clear)
       {
-        ViewOptions.context_id = null;
-        ViewOptions.tag_id= null;
+        MethodTodo.Globals.ViewOptions.context_id = null;
+        MethodTodo.Globals.ViewOptions.tag_id= null;
       }
     }
     else if(type == 'tag')
     {
-      ViewOptions.tag_id = id;
+      MethodTodo.Globals.ViewOptions.tag_id = id;
       if(clear)
       {
-        ViewOptions.project_id = null;
-        ViewOptions.context_id = null;
+        MethodTodo.Globals.ViewOptions.project_id = null;
+        MethodTodo.Globals.ViewOptions.context_id = null;
       }
     }
   }

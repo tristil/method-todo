@@ -31,6 +31,7 @@ group :test do
   gem 'capybara-webkit'
   gem 'headless'
   gem 'timecop'
+  gem 'rspec-mocks'
 end
 
 # Gems used only for assets and not required

@@ -230,6 +230,7 @@ DEPENDENCIES
   rails (= 3.2.6)
   rails3_acts_as_paranoid
   rspec
+  rspec-mocks
   rspec-rails
   sass-rails (~> 3.2.3)
   sqlite3

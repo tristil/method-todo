@@ -70,6 +70,14 @@ class Todo < ActiveRecord::Base
     todo_contexts.empty? ? nil : todo_contexts.first
   end
 
+  # Get the completed time in the user's most recent timezone
+  # @return [Datetime]
+  def local_completed_time
+    timezone_offset = self.user.preferences[:timezone_offset]
+    timezone_offset = timezone_offset ? timezone_offset : 0
+    self.completed_time.in_time_zone(timezone_offset)
+  end
+
   # Parse description line to create +TodoContext+, +Project+ and +Tag+
   # associations. Must be run after the record is saved.
   # @return [void]
@@ -135,7 +143,6 @@ class Todo < ActiveRecord::Base
   # Get formatted line (with Bootstrap 'badges') to display in data-table
   # @return [String]
   def parsed_description
-    Time::DATE_FORMATS[:american] = "%-m/%d/%Y"
     begin
       new_description = description.dup
 
@@ -159,7 +166,7 @@ class Todo < ActiveRecord::Base
       end
 
       if self.completed
-        new_description += " <span class='completed-badge label label-inverse'>#{self.completed_time.to_formatted_s(:american)}</span>"
+        new_description += " <span class='completed-badge label label-inverse'>#{self.local_completed_time.to_formatted_s(:american)}</span>"
       end
 
       new_description

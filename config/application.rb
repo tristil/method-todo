@@ -58,5 +58,7 @@ module MethodTodo
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    Time::DATE_FORMATS[:american] = "%-m/%d/%Y"
   end
 end

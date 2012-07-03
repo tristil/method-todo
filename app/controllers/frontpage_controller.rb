@@ -27,6 +27,47 @@ class FrontpageController < ApplicationController
     end
   end
 
+  # Get and Set timezone
+  # @return [void]
+  def timezone
+
+    if request.post?
+      offset = nil
+      lookup_type = nil
+
+      if MethodTodo::Application.config.perform_geoname_lookups and params[:latitude] and params[:longitude]
+        lookup_type = 'geoname'
+        begin
+          latlon = [params[:latitude].to_f, params[:longitude].to_f]
+          timezone = Timezone::Zone.new :latlon => latlon
+          offset = timezone.utc_offset / (60 * 60)
+        rescue => e
+          logger.warn "WARNING:   Connection with Geonames failed, couldn't look up timezone"
+        end
+      end
+
+      if offset.nil? and params[:offset]
+        lookup_type = 'javascript'
+        offset = params[:offset]
+        # Have to flip the sign because getTimezoneOffset is backward
+        offset = -offset.to_i
+      end
+
+      if offset.nil?
+        lookup_type = 'default'
+        current_offset = current_user.preferences[:timezone_offset]
+        offset = current_offset ? current_offset : 0
+      end
+    end
+
+    current_user.preferences[:timezone_offset] = offset
+    current_user.save
+
+    respond_to do |format|
+      format.html { render :json => { :offset => offset, :lookup => lookup_type} }
+    end
+  end
+
   private
 
   def bootstrap_page

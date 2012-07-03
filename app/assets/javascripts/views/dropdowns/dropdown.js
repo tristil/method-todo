@@ -7,6 +7,8 @@ MethodTodo.Views.Dropdown = Backbone.View.extend({
 
   initialize : function(options)
   {
+    this.parent = options.parent;
+
     this.dropdown_item_template = JST['dropdowns/dropdown_item'];
 
     this.dropdown_type = options.dropdown_type;
@@ -59,8 +61,8 @@ MethodTodo.Views.Dropdown = Backbone.View.extend({
 
     this.setViewOptionValue(id);
 
-    ActiveTodos.redraw();
-    CompletedTodos.redraw();
+    this.parent.ActiveTodos.redraw();
+    this.parent.CompletedTodos.redraw();
     event.preventDefault();
   },
 
@@ -68,15 +70,15 @@ MethodTodo.Views.Dropdown = Backbone.View.extend({
   {
     if(this.dropdown_type == 'project')
     {
-      ViewOptions.project_id = value;
+      MethodTodo.Globals.ViewOptions.project_id = value;
     }
     else if(this.dropdown_type == 'context')
     {
-      ViewOptions.context_id = value;
+      MethodTodo.Globals.ViewOptions.context_id = value;
     }
     else if(this.dropdown_type == 'tag')
     {
-      ViewOptions.tag_id = value;
+      MethodTodo.Globals.ViewOptions.tag_id = value;
     }
   },
 
@@ -87,13 +89,13 @@ MethodTodo.Views.Dropdown = Backbone.View.extend({
 
     this.setViewOptionValue(null);
 
-    if(ViewOptions.project_id == null && ViewOptions.context_id == null && ViewOptions.tag_id == null)
+    if(MethodTodo.Globals.ViewOptions.project_id == null && MethodTodo.Globals.ViewOptions.context_id == null && MethodTodo.Globals.ViewOptions.tag_id == null)
     {
       $('#all-todos-button-navitem').addClass('active');
     }
 
-    ActiveTodos.redraw();
-    CompletedTodos.redraw();
+    this.parent.ActiveTodos.redraw();
+    this.parent.CompletedTodos.redraw();
     event.preventDefault();
   }
 

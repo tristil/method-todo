@@ -9,6 +9,7 @@
       projects        : <%= @projects.to_json.html_safe %>,
       tags            : <%= @tags.to_json.html_safe %> 
     };
+
     MethodTodo.init(initial_data);
   });
 </script>
