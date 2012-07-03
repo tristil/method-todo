@@ -27,7 +27,7 @@ end
 And /appear on the "(.*?)" list as "(.*?)"/ do |list_name, description|
   now = Time.now
 
-  description = Time.now.utc.strftime(description)
+  description = Time.now.strftime(description)
 
   list = list_name.downcase
   click_link("#{list}-tab")
