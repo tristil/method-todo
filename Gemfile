@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.3'
+gem 'rails', '3.2.6'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -9,6 +9,7 @@ gem 'sqlite3'
 gem 'devise'
 gem 'rails3_acts_as_paranoid'
 gem 'mysql'
+gem 'timezone'
 
 gem 'backbone-on-rails'
 
