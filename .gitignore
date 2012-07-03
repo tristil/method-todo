@@ -17,4 +17,4 @@
 /doc
 .yardoc
 
-config/credentials.yml
+/config/credentials.yml
