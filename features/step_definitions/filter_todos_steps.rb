@@ -8,7 +8,7 @@ And /there exists a todo with description of "(.*?)"/ do |description|
 end
 
 And /I select a (context|project) option of "(.*?)"/ do |type, name|
-  visit('/')
+  visit(root_path)
   dropdown_item = find(:xpath, "//ul[@class='dropdown-menu']/li/a[.='#{name}']")
   dropdown_item.click
 end

@@ -1,5 +1,5 @@
 Given /I have arrived on the front page/ do
-  visit('/')
+  visit(root_path)
 end
 
 And /I am not logged in/ do

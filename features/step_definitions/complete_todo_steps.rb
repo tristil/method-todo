@@ -8,7 +8,7 @@ Given /a (completed )?todo "(.*?)" exists in the (Active|Completed) list/ do |co
   end
   @todo.save
   @todo.parse
-  visit('/')
+  visit(root_path)
   find(:css, "##{list.downcase}-todos-list").should have_content(description)
 end
 

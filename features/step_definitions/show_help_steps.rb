@@ -11,7 +11,7 @@ When /I dismiss the help text it should disappear/ do
 end
 
 When /I return to the page it should be closed/ do
-  visit('/')
+  visit(root_path)
   find(:css, '#help-box').should_not be_visible
   find(:css, '#show-help-box').should be_visible
 end

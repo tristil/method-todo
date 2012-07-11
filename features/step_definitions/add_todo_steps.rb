@@ -1,6 +1,6 @@
 Given /I am logged in/ do
   @user = User.create :username => 'Example', :email => 'newuser@example.com', :password => 'Password1'
-  visit('/users/sign_in')
+  visit(new_user_session_path)
   fill_in('user[email]', :with => 'newuser@example.com')
   fill_in('user[password]', :with => 'Password1')
   click_button('Sign in')
