@@ -11,11 +11,13 @@ MethodTodo.Views.FilterHeader = Backbone.View.extend({
   {
     if(this.parent.TodoFilter.isUnfiltered())
     {
-      var message = 'Showing: All';
+      var message = 'Showing: All ';
+      message += this.getStatusString() + " ";
     }
     else
     {
       var message = "Showing: ";
+      message += this.getStatusString() + " ";
 
       var filters = [];
       if(this.parent.TodoFilter.context_id)
@@ -37,6 +39,18 @@ MethodTodo.Views.FilterHeader = Backbone.View.extend({
     }
 
     this.$el.html(message + ' Todos');
+  },
+
+  getStatusString : function()
+  {
+    if(this.parent.TodoFilter.status == 'active')
+    {
+      return "Active";
+    }
+    else
+    {
+      return "Completed";
+    }
   },
 
   getCollectionByType : function(type)

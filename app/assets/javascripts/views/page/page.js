@@ -75,12 +75,14 @@ MethodTodo.Views.Page = Backbone.View.extend({
     var tab = $(event.target);
     var target_div = tab.attr('href');
     var list_type = tab.attr('id').replace('-tab', '');
+    this.TodoFilter.status = list_type;
     if(list_type == 'active')
     {
       list_type = "";
     }
     $(tab).tab('show');
     focusTodoInput();
+    this.filter_header.refresh();
   },
 
   getGeoPosition : function()

@@ -10,5 +10,3 @@ Feature: Show contexts and projects
     And  I enter a todo description of "Buy eggs +quiche" 
     Then I should see "+report" and "+quiche" in the "Project" dropdown
     And I should see "@home" and "@work" in the "Context" dropdown
-
-

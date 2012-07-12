@@ -6,4 +6,4 @@ Feature: Click on badges to filter todos
   When I click a badge for "@store"
   Then the Active Todos table should only contain "Buy groceries +quiche @store"
   And the context dropdown should read '@store'
-  And the page should have a '@store' header
+  And the filter header should read 'Active @store'

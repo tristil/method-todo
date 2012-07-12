@@ -27,7 +27,7 @@ Then /the (Active|Completed) Todos table should contain "(.*?)"/ do |table_type,
   find(:xpath, "//div[@id='#{table_type.downcase}-todos-list']/table/tbody//tr//td/span[contains(., '#{todo}')]")
 end
 
-And /the page should have an? '(.+?)' header/ do |header|
+And /the filter header should read '(.+?)'/ do |header|
   find(:css, '#filter').should have_content "Showing: #{header} Todos"
 end
 

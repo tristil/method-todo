@@ -24,6 +24,10 @@ And /it should disappear from the "(.*?)" list/ do |list_name|
   find(:css, "##{list_name.downcase}-todos-list").should_not have_content(@description)
 end
 
+When /I click on the (Active|Completed) tab/ do |list|
+  click_link("#{list.downcase}-tab")
+end
+
 And /appear on the "(.*?)" list as "(.*?)"/ do |list_name, description|
   now = Time.now
 
@@ -32,4 +36,12 @@ And /appear on the "(.*?)" list as "(.*?)"/ do |list_name, description|
   list = list_name.downcase
   click_link("#{list}-tab")
   find(:css, "##{list}-todos-list").should have_content(description)
+end
+
+Then /the (Active|Completed) table should be visible/ do |list|
+  find(:css, "##{list.downcase}-todos-list").should be_visible
+end
+
+Then /the (Active|Completed) table should not be visible/ do |list|
+  find(:css, "##{list.downcase}-todos-list").should_not be_visible
 end

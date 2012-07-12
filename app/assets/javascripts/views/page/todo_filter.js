@@ -1,6 +1,7 @@
 MethodTodo.Views.TodoFilter = Backbone.View.extend({
   el : 'body',
 
+  status : 'active',
   project_id : null,
   context_id: null,
   tag_id: null,

@@ -11,7 +11,7 @@ Feature: Filter todos by context, project and/or tags
     And I select a context option of "@work"
     Then the Active Todos table should only contain "Write report @work"
     And the context dropdown should read '@work'
-    And the page should have a '@work' header
+    And the filter header should read 'Active @work'
 
   Scenario: View todos for a given project
     Given I am logged in
@@ -21,7 +21,7 @@ Feature: Filter todos by context, project and/or tags
     And I select a context option of "+quiche"
     Then the Active Todos table should only contain "Buy groceries +quiche"
     And the project dropdown should read '+quiche'
-    And the page should have a '+quiche' header
+    And the filter header should read 'Active +quiche'
 
   Scenario: View todos for a given project and context combined 
     Given I am logged in
@@ -34,7 +34,7 @@ Feature: Filter todos by context, project and/or tags
     And the context dropdown should read '@store'
     And the tag dropdown should read 'Tag'
     And the project dropdown should read '+quiche'
-    And the page should have a '@store, +quiche' header
+    And the filter header should read 'Active @store, +quiche' header
 
   Scenario: Select All button after filtering todos
     Given I am logged in
@@ -46,4 +46,4 @@ Feature: Filter todos by context, project and/or tags
     And I click the All todos button 
     Then the Active Todos table should contain "Buy groceries +quiche @store"
     And the Active Todos table should contain "Write report +project @work"
-    And the page should have an 'All' header
+    And the filter header should read 'All Active'
