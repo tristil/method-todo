@@ -62,7 +62,6 @@ ActiveRecord::Schema.define(:version => 20120702044447) do
     t.datetime "completed_time"
     t.datetime "deleted_at"
     t.integer  "project_id"
-    t.text     "preferences"
   end
 
   create_table "users", :force => true do |t|

@@ -12,92 +12,61 @@ MethodTodo.Views.Page = Backbone.View.extend({
     this.help_box = new MethodTodo.Views.HelpBox();
     $('.alert').delay(1200).fadeOut('slow');
 
+    this.TodoFilter = new MethodTodo.Views.TodoFilter({parent : this});
+    MethodTodo.Globals.TodoFilter = this.TodoFilter;
+
     this.setupCollections();
     this.setupViews();
     this.getGeoPosition();
   },
 
-  setupCollections : function()
-  {
-    MethodTodo.Globals.ViewOptions = {};
-
-    this.Contexts = new MethodTodo.Collections.Contexts();
-    this.Projects = new MethodTodo.Collections.Projects();
-    this.Tags     = new MethodTodo.Collections.Tags();
+  setupCollections : function() { this.Contexts = new MethodTodo.Collections.Contexts(); this.Projects = new MethodTodo.Collections.Projects(); this.Tags     = new MethodTodo.Collections.Tags();
+    this.Contexts.reset(this.initial_data.contexts);
+    this.Projects.reset(this.initial_data.projects);
+    this.Tags.reset(this.initial_data.tags);
 
     this.ActiveTodos = new MethodTodo.Collections.Todos();
     this.ActiveTodos.url= '/todos/';
+    this.ActiveTodos.reset(this.initial_data.active_todos);
 
     this.CompletedTodos = new MethodTodo.Collections.Todos();
     this.CompletedTodos.url = '/todos/?completed=1';
+    this.CompletedTodos.reset(this.initial_data.completed_todos);
   },
 
   setupViews : function()
   {
-    todo_input = new MethodTodo.Views.TodoInput(
+    this.todo_input = new MethodTodo.Views.TodoInput(
         {
           collection : this.ActiveTodos,
           parent : this
         }
     );
+    this.todo_input.render();
 
-    todo_input.render();
+    this.filter_header = new MethodTodo.Views.FilterHeader({parent : this});
 
-    dropdowns_bar = new MethodTodo.Views.DropdownBar({parent : this});
+    this.dropdowns_bar = new MethodTodo.Views.DropdownBar({parent : this});
+    this.dropdowns_bar.render();
 
-    this.ActiveTodos.reset(this.initial_data.active_todos);
     active_todo_table = new MethodTodo.Views.TodoTable(
         {
           collection : this.ActiveTodos,
           el : '#active-todos-list',
-          dropdowns_bar : dropdowns_bar,
           parent : this
         }
     );
     active_todo_table.render();
 
-    this.CompletedTodos.reset(this.initial_data.completed_todos);
     completed_todo_table = new MethodTodo.Views.TodoTable(
         {
           collection : this.CompletedTodos,
           el : '#completed-todos-list',
-          dropdowns_bar : dropdowns_bar,
           parent : this
         }
     );
     completed_todo_table.render();
 
-    this.Contexts.reset(this.initial_data.contexts);
-    context_dropdown = new MethodTodo.Views.Dropdown(
-        {
-          collection : this.Contexts,
-          dropdown_type : 'context',
-          el : '#context-dropdown-navitem',
-          parent : this
-        }
-    );
-    context_dropdown.render();
-
-    this.Projects.reset(this.initial_data.projects);
-    project_dropdown = new MethodTodo.Views.Dropdown(
-        {
-          collection : this.Projects,
-          dropdown_type : 'project',
-          el : '#project-dropdown-navitem',
-          parent : this
-        }
-    );
-    project_dropdown.render();
-
-    this.Tags.reset(this.initial_data.tags);
-    tags_dropdown = new MethodTodo.Views.Dropdown(
-        {
-          collection : this.Tags,
-          dropdown_type : 'tag', el : '#tag-dropdown-navitem',
-          parent : this
-        }
-    );
-    tags_dropdown.render();
   },
 
   switchTab : function(event)
@@ -160,6 +129,22 @@ MethodTodo.Views.Page = Backbone.View.extend({
     else
     {
       geoDenied();
+    }
+  },
+
+  getSymbolFromType : function(type)
+  {
+    if(type  == 'project')
+    {
+      return '+';
+    }
+    else if(type == 'context')
+    {
+      return '@';
+    }
+    else if(type == 'tag')
+    {
+      return '#';
     }
   }
 

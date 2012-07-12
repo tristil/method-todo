@@ -27,11 +27,12 @@ group :test do
   gem 'autotest-rails'
   gem 'autotest-notification'
   gem 'cucumber'
-  gem 'cucumber-rails'
+  gem 'cucumber-rails', require: false
   gem 'capybara-webkit'
   gem 'headless'
   gem 'timecop'
   gem 'rspec-mocks'
+  gem 'spork'
 end
 
 # Gems used only for assets and not required

@@ -15,11 +15,17 @@
 </script>
 
 <div class='row hidden-phone'>
-  <div id='help-container' class='span8'>
+  <div id='help-container' class='span10'>
     <%= render :partial => 'frontpage/help_box', :locals => {:show_help => @show_help } %>
   </div>
-  <div class='span2 offset2'>
+  <div class='span2'>
     <strong>Welcome, <%= current_user.username %></strong>
+  </div>
+</div>
+
+<div class='row'>
+  <div class='span4'>
+    <strong><span id='filter'>Showing: All Todos</span></strong>
   </div>
 </div>
 

@@ -14,8 +14,6 @@ MethodTodo.Views.TodoTable = Backbone.View.extend({
   {
     this.parent = options.parent;
 
-    this.dropdowns_bar = options.dropdowns_bar;
-
     this.table_body = this.$el.find('tbody');
 
     this.row_template = JST['todos/table_row'];
@@ -107,14 +105,12 @@ MethodTodo.Views.TodoTable = Backbone.View.extend({
   {
     event.preventDefault();
     var badge = $(event.currentTarget);
-    var badge_id = _(badge.attr('class').split(/\s+/)).find(function(className) { return className != 'todo-badge' });
+    var badge_id = _(badge.attr('class').split(/\s+/)).find(
+        function(className) { return className != 'todo-badge' });
     var badge_type = badge_id.match(/(.*)-badge/)[1];
     var id = parseInt(badge_id.replace(badge_type + '-badge-', ''));
 
-    this.dropdowns_bar.selectDropdownItem(id, badge_type, true);
-
-    this.parent.ActiveTodos.redraw();
-    this.parent.CompletedTodos.redraw();
+    this.parent.TodoFilter.applyFilter(badge_type, id, true);
   },
 
   editTodoDescription : function(event)
@@ -124,7 +120,8 @@ MethodTodo.Views.TodoTable = Backbone.View.extend({
     var id = parseInt(link.attr('id').replace('todo-edit-', ''));
     $('#todo-' + id).hide();
 
-    $('#todo-' + id + '-editor').html(this.editor_template({todo : {id : id, text_description : $('#todo-' + id).text()} }));
+    $('#todo-' + id + '-editor').html(this.editor_template(
+          {todo : {id : id, text_description : $('#todo-' + id).text()} }));
     $('#todo-' + id + '-editor').show();
     $('#todo-' + id + '-editor').focus();
   },

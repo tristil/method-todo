@@ -8,7 +8,6 @@ And /there exists a todo with description of "(.*?)"/ do |description|
 end
 
 And /I select a (context|project) option of "(.*?)"/ do |type, name|
-  visit(root_path)
   dropdown_item = find(:xpath, "//ul[@class='dropdown-menu']/li/a[.='#{name}']")
   dropdown_item.click
 end
@@ -26,4 +25,12 @@ end
 
 Then /the (Active|Completed) Todos table should contain "(.*?)"/ do |table_type, todo|
   find(:xpath, "//div[@id='#{table_type.downcase}-todos-list']/table/tbody//tr//td/span[contains(., '#{todo}')]")
+end
+
+And /the page should have an? '(.+?)' header/ do |header|
+  find(:css, '#filter').should have_content "Showing: #{header} Todos"
+end
+
+And /the (context|project|tag) dropdown should read '(.+?)'/ do |type, label|
+  find(:xpath, "//li[@id='#{type}-dropdown-navitem']/a[@class='dropdown-toggle']").should have_content(label)
 end

@@ -9,65 +9,96 @@ MethodTodo.Views.DropdownBar = Backbone.View.extend({
   {
     this.parent = options.parent;
     this.all_button = this.$('#all-todos-button-navitem');
+    this.caret_html = caret_html = "<b class='caret'></b>";
+
+    this.context_dropdown = new MethodTodo.Views.Dropdown(
+        {
+          collection : this.parent.Contexts,
+          dropdown_type : 'context',
+          el : '#context-dropdown-navitem',
+          parent : this
+        }
+    );
+    this.context_dropdown.render();
+
+    this.project_dropdown = new MethodTodo.Views.Dropdown(
+        {
+          collection : this.parent.Projects,
+          dropdown_type : 'project',
+          el : '#project-dropdown-navitem',
+          parent : this
+        }
+    );
+    this.project_dropdown.render();
+
+    this.tags_dropdown = new MethodTodo.Views.Dropdown(
+        {
+          collection : this.parent.Tags,
+          dropdown_type : 'tag', el : '#tag-dropdown-navitem',
+          parent : this
+        }
+    );
+    this.tags_dropdown.render();
   },
 
   viewAllTodos : function()
   {
-    var caret_html = "<b class='caret'></b>";
-    $('#project-dropdown-navitem a.dropdown-toggle').html('Project' + caret_html);
-    $('#context-dropdown-navitem a.dropdown-toggle').html('Context' + caret_html);
-    $('#tag-dropdown-navitem a.dropdown-toggle').html('Tag' + caret_html);
-    this.$('#all-todos-button-navitem').addClass('active');
-    this.$('.dropdown').removeClass('active');
-    this.$('.dropdown-menu li').removeClass('active');
-    MethodTodo.Globals.ViewOptions.context_id = null;
-    MethodTodo.Globals.ViewOptions.project_id = null;
-    MethodTodo.Globals.ViewOptions.tag_id = null;
-    this.parent.ActiveTodos.redraw();
-    this.parent.CompletedTodos.redraw();
+    this.resetDropdownTitles();
+    this.selectAllButton();
+    this.clearAllSelections();
+
+    this.parent.TodoFilter.removeAllFilters();
   },
 
-  selectDropdownItem : function(id, type, clear)
+  resetDropdownTitles : function()
   {
-    this.$('#all-todos-button-navitem').removeClass('active');
+    $('#project-dropdown-navitem a.dropdown-toggle').html('Project' + this.caret_html);
+    $('#context-dropdown-navitem a.dropdown-toggle').html('Context' + this.caret_html);
+    $('#tag-dropdown-navitem a.dropdown-toggle').html('Tag' + this.caret_html);
+  },
 
-    if(clear)
-    {
-      this.$('.dropdown-menu li').removeClass('active');
-      this.$('.dropdown').removeClass('active');
-    }
+  selectDropdownItem : function(type, id)
+  {
+    var dropdown = this.getDropdownByType(type);
+    dropdown.setAsActive();
+    dropdown.setActiveItem(id);
+  },
 
-    $('#'+type+'-dropdown-navitem').addClass('active').find('li').removeClass('active');
-
-    $('#'+type+'-link-' + id).parent().addClass('active');
-
+  getDropdownByType : function(type)
+  {
     if(type == 'context')
     {
-      MethodTodo.Globals.ViewOptions.context_id = id;
-      if(clear)
-      {
-        MethodTodo.Globals.ViewOptions.project_id = null;
-        MethodTodo.Globals.ViewOptions.tag_id = null;
-      }
+      return this.context_dropdown;
     }
     else if(type == 'project')
     {
-      MethodTodo.Globals.ViewOptions.project_id = id;
-      if(clear)
-      {
-        MethodTodo.Globals.ViewOptions.context_id = null;
-        MethodTodo.Globals.ViewOptions.tag_id= null;
-      }
+      return this.project_dropdown;
     }
     else if(type == 'tag')
     {
-      MethodTodo.Globals.ViewOptions.tag_id = id;
-      if(clear)
-      {
-        MethodTodo.Globals.ViewOptions.project_id = null;
-        MethodTodo.Globals.ViewOptions.context_id = null;
-      }
+      return this.tags_dropdown;
     }
+  },
+
+  setDropdownTitle : function(type, id)
+  {
+    this.getDropdownByType(type).setDropdownTitleFromId(id);
+  },
+
+  selectAllButton : function()
+  {
+    this.$('#all-todos-button-navitem').addClass('active');
+  },
+
+  deselectAllButton : function()
+  {
+    this.$('#all-todos-button-navitem').removeClass('active');
+  },
+
+  clearAllSelections : function()
+  {
+    this.$('.dropdown-menu li').removeClass('active');
+    this.$('.dropdown').removeClass('active');
   }
 
 });

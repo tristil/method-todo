@@ -10,19 +10,19 @@ MethodTodo.Collections.Todos = Backbone.Collection.extend({
   {
     var parameters = [];
 
-    if(MethodTodo.Globals.ViewOptions.context_id)
+    if(MethodTodo.Globals.TodoFilter.context_id)
     {
-      parameters.push("context_id=" + MethodTodo.Globals.ViewOptions.context_id);
+      parameters.push("context_id=" + MethodTodo.Globals.TodoFilter.context_id);
     }
 
-    if(MethodTodo.Globals.ViewOptions.project_id)
+    if(MethodTodo.Globals.TodoFilter.project_id)
     {
-      parameters.push("project_id=" + MethodTodo.Globals.ViewOptions.project_id);
+      parameters.push("project_id=" + MethodTodo.Globals.TodoFilter.project_id);
     }
 
-    if(MethodTodo.Globals.ViewOptions.tag_id)
+    if(MethodTodo.Globals.TodoFilter.tag_id)
     {
-      parameters.push("tag_id=" + MethodTodo.Globals.ViewOptions.tag_id);
+      parameters.push("tag_id=" + MethodTodo.Globals.TodoFilter.tag_id);
     }
 
     if(this.url.indexOf('?') == -1)
