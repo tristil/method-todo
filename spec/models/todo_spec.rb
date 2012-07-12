@@ -1,6 +1,22 @@
 require 'spec_helper'
 
 describe Todo do
+
+  it "should raise an error over mass-assignment" do
+    expect do
+      Todo.new(:user_id => 2)
+    end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
+
+    expect do
+      Todo.new(:completed => true)
+    end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
+
+    expect do
+      Todo.new(:completed_time => Time.now)
+    end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
+
+  end
+
   it "should require a description" do
     Todo.new.should have(1).error_on(:description)
   end

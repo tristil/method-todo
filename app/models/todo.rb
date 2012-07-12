@@ -8,11 +8,9 @@ class Todo < ActiveRecord::Base
   # @!attribute description
   #   @return [String] text of the +Todo+
 
-  attr_accessible :completed
   # @!attribute completed
   #   @return [Boolean] Whether it is completed
 
-  attr_accessible :completed_time
   # @!attribute completed_time
   #   @return [Datetime] Time of completion
 
