@@ -6,6 +6,8 @@ Method Todo
 What Is It?
 -----------
 
+Watch a video showing the current features of Method Todo: http://www.youtube.com/watch?v=4zTIwNvOMOs&feature=youtu.be
+
 ![Screenshot of mobile view of app](https://github.com/tristil/method-todo/raw/master/screenshot.png)
 Mobile View
 
