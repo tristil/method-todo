@@ -1,5 +1,14 @@
+/*
+ * @class MethodTodo.Views.TodoTable
+ * Represents the data table containing Todos
+ * @extends Backbone.View
+ */
 MethodTodo.Views.TodoTable = Backbone.View.extend({
 
+  /*
+   * @cfg
+   * Event hookups
+   */
   events : {
     'click .complete-checkbox' : 'toggleCheckbox',
     'click .todo-badge' : 'clickBadge',
@@ -10,6 +19,12 @@ MethodTodo.Views.TodoTable = Backbone.View.extend({
     'submit .todo-editor-form' : 'saveTodoEditorForm'
   },
 
+  /*
+   * @constructor
+   * Create a new TodoTable instance
+   * @param {Object} options
+   * @param options.parent Parent view that instiantiated this
+   */
   initialize : function(options)
   {
     this.parent = options.parent;
@@ -25,6 +40,10 @@ MethodTodo.Views.TodoTable = Backbone.View.extend({
     this.collection.bind('sync', this.updateTodoDescription, this);
   },
 
+  /*
+   * Respond to click event to launch DeleteTodoModal
+   * @param {jQuery.Event}
+   */
   openDeleteModal : function(event)
   {
     event.preventDefault();
@@ -33,6 +52,10 @@ MethodTodo.Views.TodoTable = Backbone.View.extend({
     modal = new MethodTodo.Views.DeleteTodoModal(id);
   },
 
+  /*
+   * Respond to click event to move Todo to Completed or Active status
+   * @param {jQuery.Event}
+   */
   toggleCheckbox : function(event)
   {
     var self = this;
@@ -83,11 +106,19 @@ MethodTodo.Views.TodoTable = Backbone.View.extend({
     $.ajax(ajaxOptions);
   },
 
+  /*
+   * Add a Todo to the associated Collection
+   * @param {MethodTodo.Models.Todo} todo
+   * @param {MethodTodo.Collections.Todos} collection
+   */
   addTodo : function(todo, collection)
   {
     this.table_body.prepend(this.row_template({todo : todo.attributes}));
   },
 
+  /*
+   * How to show this TodoTable
+   */
   render : function()
   {
     this.table_body.html('');
@@ -101,6 +132,10 @@ MethodTodo.Views.TodoTable = Backbone.View.extend({
     return this;
   },
 
+  /*
+   * Respond to click event to set filter based on clicked badge
+   * @param {jQuery.Event}
+   */
   clickBadge : function(event)
   {
     event.preventDefault();
@@ -113,6 +148,10 @@ MethodTodo.Views.TodoTable = Backbone.View.extend({
     this.parent.TodoFilter.applyFilter(badge_type, id, true);
   },
 
+  /*
+   * Respond to click event to open line editor for a Todo
+   * @param {jQuery.Event}
+   */
   editTodoDescription : function(event)
   {
     event.preventDefault();
@@ -126,6 +165,10 @@ MethodTodo.Views.TodoTable = Backbone.View.extend({
     $('#todo-' + id + '-editor').focus();
   },
 
+  /*
+   * Respond to click event to open line editor for a Todo
+   * @param {jQuery.Event}
+   */
   closeTodoEditor : function(event)
   {
     event.preventDefault();
@@ -135,6 +178,10 @@ MethodTodo.Views.TodoTable = Backbone.View.extend({
     $('#todo-' + id).show();
   },
 
+  /*
+   * Respond to click event to close line editor and save changes to Todo
+   * @param {jQuery.Event}
+   */
   clickSaveTodoEditor: function(event)
   {
     event.preventDefault();
@@ -143,6 +190,10 @@ MethodTodo.Views.TodoTable = Backbone.View.extend({
     this.saveTodoEditor(id);
   },
 
+  /*
+   * Respond to submit event to close line editor and save changes to Todo
+   * @param {jQuery.Event}
+   */
   saveTodoEditorForm : function(event)
   {
     event.preventDefault();
@@ -151,6 +202,10 @@ MethodTodo.Views.TodoTable = Backbone.View.extend({
     this.saveTodoEditor(id);
   },
 
+  /*
+   * Update todo on backend
+   * @param {Integer} id
+   */
   saveTodoEditor : function(id)
   {
     var new_description = $('#todo-' + id + '-editor input').val();

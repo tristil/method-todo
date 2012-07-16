@@ -1,10 +1,29 @@
+/*
+ * @class MethodTodo.Views.DropdownBar
+ * Represents the bar containing Dropdowns
+ * @extends Backbone.View
+ */
 MethodTodo.Views.DropdownBar = Backbone.View.extend({
+
+  /*
+   * @cfg {String} DOM id to target
+   */
   el : '#dropdowns-bar',
 
+  /*
+   * @cfg
+   * Event hookups
+   */
   events : {
     'click #all-todos-button-navitem' : 'viewAllTodos'
   },
 
+  /*
+   * @constructor
+   * Create a new DropdownBar instance
+   * @param {Object} options
+   * @param options.parent Parent view that instiantiated this
+   */
   initialize : function(options)
   {
     this.parent = options.parent;
@@ -41,6 +60,9 @@ MethodTodo.Views.DropdownBar = Backbone.View.extend({
     this.tags_dropdown.render();
   },
 
+  /*
+   * Reset filter to show all Todos
+   */
   viewAllTodos : function()
   {
     this.resetDropdownTitles();
@@ -50,6 +72,9 @@ MethodTodo.Views.DropdownBar = Backbone.View.extend({
     this.parent.TodoFilter.removeAllFilters();
   },
 
+  /*
+   * Reset titles of the attached Dropdowns
+   */
   resetDropdownTitles : function()
   {
     $('#project-dropdown-navitem a.dropdown-toggle').html('Project' + this.caret_html);
@@ -57,6 +82,11 @@ MethodTodo.Views.DropdownBar = Backbone.View.extend({
     $('#tag-dropdown-navitem a.dropdown-toggle').html('Tag' + this.caret_html);
   },
 
+  /*
+   * Select a dropdown item by collection type and record id
+   * @param {String} type
+   * @param {Integer} id
+   */
   selectDropdownItem : function(type, id)
   {
     var dropdown = this.getDropdownByType(type);
@@ -64,6 +94,11 @@ MethodTodo.Views.DropdownBar = Backbone.View.extend({
     dropdown.setActiveItem(id);
   },
 
+  /*
+   * Get the dropdown corresponding to the collection type
+   * @param {String} type
+   * @return {Backbone.Collection}
+   */
   getDropdownByType : function(type)
   {
     if(type == 'context')
@@ -80,21 +115,35 @@ MethodTodo.Views.DropdownBar = Backbone.View.extend({
     }
   },
 
+  /*
+   * Set the dropdown title based on collection type and record id
+   * @param {String} type
+   * @param {Integer} id
+   */
   setDropdownTitle : function(type, id)
   {
     this.getDropdownByType(type).setDropdownTitleFromId(id);
   },
 
+  /*
+   * Mark the All button as 'active'
+   */
   selectAllButton : function()
   {
     this.$('#all-todos-button-navitem').addClass('active');
   },
 
+  /*
+   * Unmark the All button as 'active'
+   */
   deselectAllButton : function()
   {
     this.$('#all-todos-button-navitem').removeClass('active');
   },
 
+  /*
+   * Clear all the selections from attached dropdowns
+   */
   clearAllSelections : function()
   {
     this.$('.dropdown-menu li').removeClass('active');

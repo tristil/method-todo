@@ -1,10 +1,25 @@
+/*
+ * @class MethodTodo.Views.Dropdown
+ * Represents a dropdown for Context, Project, Tag
+ * @extends Backbone.View
+ */
 MethodTodo.Views.Dropdown = Backbone.View.extend({
 
+  /*
+   * @cfg
+   * Event hookups
+   */
   events : {
     'click .dropdown-item' : 'selectItem',
     'click .dropdown-reset' : 'unselectItem'
   },
 
+  /*
+   * @constructor
+   * Create a new Dropdown instance
+   * @param {Object} options
+   * @param options.parent Parent view that instantiated this
+   */
   initialize : function(options)
   {
     this.parent = options.parent;
@@ -23,6 +38,9 @@ MethodTodo.Views.Dropdown = Backbone.View.extend({
     this.item_symbol = this.parent.parent.getSymbolFromType(this.dropdown_type);
   },
 
+  /*
+   * How to show this dropdown
+   */
   render : function()
   {
     this.dropdown_menu.html("<li><a href='#' id='"+ this.dropdown_type +"-link-reset' class='dropdown-reset'>Any</a></li>");
@@ -39,18 +57,13 @@ MethodTodo.Views.Dropdown = Backbone.View.extend({
     return this;
   },
 
-  setAsActive : function()
-  {
-    $('#'+this.dropdown_type+'-dropdown-navitem').addClass('active').find('li').removeClass('active');
-  },
-
-  setActiveItem : function(id)
-  {
-    this.$('#'+this.dropdown_type+'-link-' + id).parent().addClass('active');
-  },
-
+  /*
+   * Responds to the click event on the dropdown
+   * @param {jQuery.Event}
+   */
   selectItem : function(event)
   {
+    event.preventDefault();
     var title = $(event.target).text();
     this.setDropdownTitle(title);
 
@@ -60,27 +73,12 @@ MethodTodo.Views.Dropdown = Backbone.View.extend({
     var id = $(event.target).attr('id').replace(this.dropdown_type+'-link-', '');
 
     this.parent.parent.TodoFilter.applyFilter(this.dropdown_type, id, false);
-    event.preventDefault();
   },
 
-  getItemNameById : function(id)
-  {
-     var record = this.collection.find(
-      function(record) { return record.id == id }
-      );
-     return record.get('name');
-  },
-
-  setDropdownTitleFromId : function(id)
-  {
-    this.setDropdownTitle(this.item_symbol + this.getItemNameById(id));
-  },
-
-  setDropdownTitle : function(title)
-  {
-    this.$('a.dropdown-toggle').html(title + this.caret_html);
-  },
-
+  /*
+   * Respond to clicking on 'Any' in dropdown
+   * @param {jQuery.Event}
+   */
   unselectItem : function(event)
   {
     event.preventDefault();
@@ -93,6 +91,54 @@ MethodTodo.Views.Dropdown = Backbone.View.extend({
     {
       this.parent.selectAllButton();
     }
+  },
+
+  /*
+   * Make the dropdown display as 'active'
+   */
+  setAsActive : function()
+  {
+    $('#'+this.dropdown_type+'-dropdown-navitem').addClass('active').find('li').removeClass('active');
+  },
+
+  /*
+   * Select an item in the dropdown
+   * @param {Integer} id Id of record in associated collection
+   */
+  setActiveItem : function(id)
+  {
+    this.$('#'+this.dropdown_type+'-link-' + id).parent().addClass('active');
+  },
+
+  /*
+   * Fetch the name of an item from the associated collection, using id
+   * @param {Integer} id Id of record in associated collection
+   * @return {String}
+   */
+  getItemNameById : function(id)
+  {
+     var record = this.collection.find(
+      function(record) { return record.id == id }
+      );
+     return record.get('name');
+  },
+
+  /*
+   * Set title of the dropdown by id of record in associated collection
+   * @param {Integer} id Id of record in associated collection
+   */
+  setDropdownTitleFromId : function(id)
+  {
+    this.setDropdownTitle(this.item_symbol + this.getItemNameById(id));
+  },
+
+  /*
+   * Set title of dropdown
+   * @param {String} title
+   */
+  setDropdownTitle : function(title)
+  {
+    this.$('a.dropdown-toggle').html(title + this.caret_html);
   }
 
 });

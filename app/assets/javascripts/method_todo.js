@@ -1,3 +1,6 @@
+/*
+ * Namespace object for looking up Backbone objects
+ */
 window.MethodTodo = {
   Models: {},
   Collections: {},

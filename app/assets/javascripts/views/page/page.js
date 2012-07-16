@@ -1,10 +1,28 @@
+/*
+ * @class MethodTodo.Views.Page
+ * Represents the page containing other views
+ * @extends Backbone.View
+ */
 MethodTodo.Views.Page = Backbone.View.extend({
+
+  /*
+   * @cfg {String} DOM id to target
+   */
   el : 'body',
 
+  /*
+   * @cfg
+   * Event hookups
+   */
   events : {
     'click .nav-tabs a' : 'switchTab'
   },
 
+  /*
+   * @constructor
+   * Create a new Page instance
+   * @param {Object} initial_data Data for bootstrapping page
+   */
   initialize : function(initial_data)
   {
     this.initial_data = initial_data;
@@ -20,6 +38,9 @@ MethodTodo.Views.Page = Backbone.View.extend({
     this.getGeoPosition();
   },
 
+  /*
+   * Set up the collections
+   */
   setupCollections : function() { this.Contexts = new MethodTodo.Collections.Contexts(); this.Projects = new MethodTodo.Collections.Projects(); this.Tags     = new MethodTodo.Collections.Tags();
     this.Contexts.reset(this.initial_data.contexts);
     this.Projects.reset(this.initial_data.projects);
@@ -34,6 +55,9 @@ MethodTodo.Views.Page = Backbone.View.extend({
     this.CompletedTodos.reset(this.initial_data.completed_todos);
   },
 
+  /*
+   * Set up the views
+   */
   setupViews : function()
   {
     this.todo_input = new MethodTodo.Views.TodoInput(
@@ -66,9 +90,11 @@ MethodTodo.Views.Page = Backbone.View.extend({
         }
     );
     completed_todo_table.render();
-
   },
 
+  /*
+   * Switch between the Active and Completed tabs
+   */
   switchTab : function(event)
   {
     event.preventDefault();
@@ -85,6 +111,10 @@ MethodTodo.Views.Page = Backbone.View.extend({
     this.filter_header.refresh();
   },
 
+  /*
+   * Try to get the geo position of the user and send to server, by hook or by
+   * crook
+   */
   getGeoPosition : function()
   {
     var sendPayload = function(payload)
@@ -134,6 +164,11 @@ MethodTodo.Views.Page = Backbone.View.extend({
     }
   },
 
+  /*
+   * Get the notation symbol for a type
+   * @param {String} type
+   * @return {String}
+   */
   getSymbolFromType : function(type)
   {
     if(type  == 'project')

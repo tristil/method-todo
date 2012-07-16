@@ -1,12 +1,30 @@
+/*
+ * @class MethodTodo.Views.FilterHeader
+ * An area at the top of the page that displays changes in the TodoFilter
+ * @extends Backbone.View
+ */
 MethodTodo.Views.FilterHeader = Backbone.View.extend({
+
+  /*
+   * @cfg {String} DOM id to target
+   */
   el : '#filter',
 
+  /*
+   * @constructor
+   * Create a new FilterHeader instance
+   * @param {Object} options
+   * @param options.parent Parent view that instiantiated this
+   */
   initialize : function(options)
   {
     this.parent = options.parent;
     this.refresh();
   },
 
+  /*
+   * Redraw the FilterHeader
+   */
   refresh : function()
   {
     if(this.parent.TodoFilter.isUnfiltered())
@@ -41,6 +59,10 @@ MethodTodo.Views.FilterHeader = Backbone.View.extend({
     this.$el.html(message + ' Todos');
   },
 
+  /*
+   * Get operative status string, e.g. Active or Completed
+   * @return {String}
+   */
   getStatusString : function()
   {
     if(this.parent.TodoFilter.status == 'active')
@@ -53,6 +75,11 @@ MethodTodo.Views.FilterHeader = Backbone.View.extend({
     }
   },
 
+  /*
+   * Get a collection by its type
+   * @param {String} type
+   * @return {Backbone.Collection}
+   */
   getCollectionByType : function(type)
   {
     if(type == 'project')
@@ -69,6 +96,12 @@ MethodTodo.Views.FilterHeader = Backbone.View.extend({
     }
   },
 
+  /*
+   * Get the name of the filter for collection type and record id
+   * @param {String} type
+   * @param {Integer} id
+   * @return {String}
+   */
   getFilterName: function(type, id)
   {
      var record = this.getCollectionByType(type).find(

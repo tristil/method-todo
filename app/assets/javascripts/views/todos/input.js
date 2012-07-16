@@ -1,16 +1,39 @@
+/*
+ * @class MethodTodo.Views.TodoInput
+ * Represents the input for adding Todos
+ * @extends Backbone.View
+ */
 MethodTodo.Views.TodoInput = Backbone.View.extend({
+
+  /*
+   * @cfg {String} DOM id to target
+   */
   el : '#add-todo-area',
 
+  /*
+   * @cfg
+   * Event hookups
+   */
   events : {
     'submit #new_todo'         : 'createTodo',
     'click #add-todo-button'   : 'createTodo'
   },
 
+  /*
+   * @constructor
+   * Create a new TodoInput instance
+   * @param {Object} options
+   * @param options.parent Parent view that instiantiated this
+   */
   initialize : function(options)
   {
     this.parent = options.parent;
   },
 
+  /*
+   * Respond to submit event to create a Todo
+   * @param {jQuery.Event}
+   */
   createTodo : function(event)
   {
     var self = this;
@@ -38,6 +61,9 @@ MethodTodo.Views.TodoInput = Backbone.View.extend({
     );
   },
 
+  /*
+   * Return focus to the input
+   */
   focus : function()
   {
     $('#todo_description').focus();
