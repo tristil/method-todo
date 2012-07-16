@@ -33,6 +33,9 @@ group :test do
   gem 'timecop'
   gem 'rspec-mocks'
   gem 'spork'
+
+  gem 'jasmine'
+  gem 'jasmine-headless-webkit'
 end
 
 # Gems used only for assets and not required
