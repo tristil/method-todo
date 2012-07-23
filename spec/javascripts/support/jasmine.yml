@@ -11,12 +11,8 @@
 #   - dist/**/*.js
 #
 src_files:
-  - public/javascripts/prototype.js
-  - public/javascripts/effects.js
-  - public/javascripts/controls.js
-  - public/javascripts/dragdrop.js
-  - public/javascripts/application.js
-  - public/javascripts/**/*.js
+  - jquery.js
+  - application.js 
 
 # stylesheets
 #
@@ -68,6 +64,11 @@ spec_files:
 # src_dir: public
 #
 src_dir:
+  - app/assets/javascripts
+
+asset_paths:
+  - vendor/assets/javascripts
+  - app/assets/templates
 
 # spec_dir
 #

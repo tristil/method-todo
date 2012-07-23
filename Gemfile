@@ -13,6 +13,16 @@ gem 'timezone'
 
 gem 'backbone-on-rails'
 
+group :guard do
+  gem 'guard'
+  gem 'guard-rails'
+  gem 'guard-spork'
+  gem 'guard-rspec'
+  gem 'guard-cucumber'
+  gem 'guard-rails-assets'
+  gem 'guard-jasmine-headless-webkit'
+end
+
 group :development do
   gem 'rspec'
   gem 'rspec-rails'
@@ -23,9 +33,6 @@ group :test do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'database_cleaner'
-  gem 'autotest-standalone'
-  gem 'autotest-rails'
-  gem 'autotest-notification'
   gem 'cucumber'
   gem 'cucumber-rails', require: false
   gem 'capybara-webkit'
@@ -33,8 +40,8 @@ group :test do
   gem 'timecop'
   gem 'rspec-mocks'
   gem 'spork'
-
   gem 'jasmine'
+  gem 'jasmine-spec-extras'
   gem 'jasmine-headless-webkit'
 end
 

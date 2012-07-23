@@ -42,6 +42,7 @@ MethodTodo.Collections.Todos = Backbone.Collection.extend({
       parameters.push("tag_id=" + MethodTodo.Globals.TodoFilter.tag_id);
     }
 
+    // If string doesn't have ? begin with it
     if(this.url.indexOf('?') == -1)
     {
       query_string = "?";
