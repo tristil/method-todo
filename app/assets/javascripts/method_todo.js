@@ -7,6 +7,11 @@ window.MethodTodo = {
   Views: {},
   Routers: {},
   Globals : {},
+
+  /*
+   * Initializes the Backbone page hierarchy
+   * @param {Object} initial_data Data for bootstrapping page
+   */
   init: function(initial_data) {
     page = new MethodTodo.Views.Page(initial_data);
   }
