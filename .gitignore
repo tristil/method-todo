@@ -18,3 +18,7 @@
 .yardoc
 
 /config/credentials.yml
+
+.jhw-cache
+
+/public/assets

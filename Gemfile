@@ -14,6 +14,7 @@ gem 'timezone'
 gem 'backbone-on-rails'
 
 group :guard do
+  gem 'libnotify'
   gem 'guard'
   gem 'guard-rails'
   gem 'guard-spork'
