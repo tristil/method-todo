@@ -7,7 +7,7 @@ class ProjectsController < ApplicationController
   # GET /projects
   # @return [void]
   def index
-    @projects = current_user.projects.collect {|project| {:id => project.id, :name => project.name }}
+    @projects = current_user.projects
 
     respond_to do |format|
       format.html{ render :json => @projects }

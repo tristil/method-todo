@@ -7,7 +7,7 @@ class TagsController < ApplicationController
   # GET /tags
   # @return [void]
   def index
-    @tags = current_user.tags.collect {|tag| {:id => tag.id, :name => tag.name } }
+    @tags = current_user.tags
 
     respond_to do |format|
       format.html{ render :json => @tags }

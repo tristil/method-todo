@@ -11,7 +11,8 @@ MethodTodo.Views.Dropdown = Backbone.View.extend({
    */
   events : {
     'click .dropdown-item' : 'selectItem',
-    'click .dropdown-reset' : 'unselectItem'
+    'click .dropdown-reset' : 'unselectItem',
+    'click .manage-filters' : 'manageFilters'
   },
 
   /*
@@ -35,7 +36,7 @@ MethodTodo.Views.Dropdown = Backbone.View.extend({
 
     this.collection.bind('reset', this.render, this);
 
-    this.item_symbol = this.parent.parent.getSymbolFromType(this.dropdown_type);
+    this.item_symbol = getSymbolFromType(this.dropdown_type);
   },
 
   /*
@@ -54,6 +55,7 @@ MethodTodo.Views.Dropdown = Backbone.View.extend({
         );
       }
     );
+    self.dropdown_menu.append("<li><a href='#' id='manage-"+ this.dropdown_type +"s' class='manage-filters'>Manage...</a></li>");
     return this;
   },
 
@@ -91,6 +93,19 @@ MethodTodo.Views.Dropdown = Backbone.View.extend({
     {
       this.parent.selectAllButton();
     }
+  },
+
+  /*
+   * Respond to clicking on 'Manage...' in dropdown
+   * @param {jQuery.Event}
+   */
+  manageFilters : function(event)
+  {
+    event.preventDefault();
+    var manage_filters_modal = new MethodTodo.Views.ManageFilterModal(
+        {filter_type : this.dropdown_type, parent: this}
+    );
+    manage_filters_modal.render();
   },
 
   /*

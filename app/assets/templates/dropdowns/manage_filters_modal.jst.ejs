@@ -1,0 +1,28 @@
+<div class="modal-header">
+  <button class="close" data-dismiss="modal">×</button>
+  <h3>Manage <%= filter_type %></h3>
+</div>
+
+<div class="modal-body">
+  <table class='table-bordered table-striped' style='width: 100%'>
+  <thead>
+    <tr>
+      <th style='width: 5%; padding-right: 10px'>Delete</th>
+      <th style='padding-left: 20px; text-align: left'>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% filters.forEach(function(item) { %>
+      <tr>
+        <td><a id='filter-item-<%= item.id %>' href="#" class="btn">Delete Filters</a>
+        </td>
+        <td style='padding-left: 20px'><%= item.get('name') %></td>
+      </tr>
+      <% }); %>
+  </tbody>
+</table>
+</div>
+
+<div class="modal-footer">
+  <a id='close-manage-filters-modal' href="#" class="btn">Close</a>
+</div>

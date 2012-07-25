@@ -86,18 +86,6 @@
 
 </div> <!-- tabbable -->
 
-<div class='modal' id='delete-todo-modal' style='display:none'>
-  <span id='delete-todo-id' style='display:none'></span>
-  <div class="modal-header">
-    <button class="close" data-dismiss="modal">×</button>
-    <h3>Delete Todo?</h3>
-  </div>
-  <div class="modal-body">
-    <p>Are you sure you want to delete this todo?</p>
-  </div>
+<%= render :partial => 'delete_todo_modal' %>
 
-  <div class="modal-footer">
-    <a id='close-delete-todo-modal' href="#" class="btn">Close</a>
-    <a id='delete-todo-button' href="#" class="btn btn-primary">Delete</a>
-  </div>
-</div>
+<div class='modal' id='manage-filters-modal' style='display:none'></div>

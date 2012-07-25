@@ -8,13 +8,12 @@ describe TodoContextsController do
 
   it "should show contexts for todos" do
     user = create_and_login_user
-    todo = Todo.new(:description => 'A New Todo')
+    todo = Todo.create(:description => 'A New Todo')
     todo_context = TodoContext.create(:name => 'work')
     todo_context.user = user
     todo_context.save
     todo.todo_contexts << todo_context
     user.todos << todo
-    user.save
     get :index
     ActiveSupport::JSON.decode(response.body).should == [{"id" => 1, "name" => 'work'}]
   end

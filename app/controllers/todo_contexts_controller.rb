@@ -7,7 +7,7 @@ class TodoContextsController < ApplicationController
   # GET /contexts
   # @return [void]
   def index
-    @contexts = current_user.todo_contexts.collect {|context| {:id => context.id, :name => context.name } }
+    @contexts = current_user.todo_contexts
 
     respond_to do |format|
       format.html{ render :json => @contexts }

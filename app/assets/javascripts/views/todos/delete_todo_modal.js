@@ -15,7 +15,7 @@ MethodTodo.Views.DeleteTodoModal = Backbone.View.extend({
    * Event hookups
    */
   events : {
-    'click #close-delete-todo-modal' : 'closeDeleteModal',
+    'click #close-delete-todo-modal' : 'closeModal',
     'click #delete-todo-button' : 'deleteTodo'
   },
 
@@ -27,17 +27,17 @@ MethodTodo.Views.DeleteTodoModal = Backbone.View.extend({
   initialize : function(id)
   {
     this.id = id;
-    $('#delete-todo-modal').modal('show');
+    this.$el.modal('show');
   },
 
   /*
    * Respond to click event to close dialog without deleting anything
    * @param {jQuery.Event}
    */
-  closeDeleteModal : function(event)
+  closeModal : function(event)
   {
     event.preventDefault();
-    $('#delete-todo-modal').modal('hide');
+    this.$el.modal('hide');
   },
 
   /*

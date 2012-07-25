@@ -19,4 +19,15 @@ class Tag < ActiveRecord::Base
   attr_accessible :name
 
   validates :name, :presence => true
+
+  # Render the record as json
+  # @param options [Hash]
+  # @return [Hash]
+  def as_json options = nil
+    {
+      :id => self.id,
+      :name => self.name
+    }
+  end
+
 end

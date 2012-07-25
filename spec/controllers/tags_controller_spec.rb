@@ -8,13 +8,11 @@ describe TagsController do
 
   it "should show contexts for todos" do
     user = create_and_login_user
-    todo = Todo.new(:description => 'A New Todo')
+    todo = Todo.create(:description => 'A New Todo')
     tag = Tag.create(:name => 'work')
     tag.user = user
     tag.save
     todo.tags << tag
-    user.tags << tag
-    user.save
     get :index
     ActiveSupport::JSON.decode(response.body).should == [{"id" => 1, "name" => 'work'}]
   end

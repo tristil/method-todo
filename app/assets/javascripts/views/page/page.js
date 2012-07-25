@@ -162,28 +162,6 @@ MethodTodo.Views.Page = Backbone.View.extend({
     {
       geoDenied();
     }
-  },
-
-  /*
-   * Get the notation symbol for a type
-   * @param {String} type
-   * @return {String}
-   */
-  getSymbolFromType : function(type)
-  {
-    if(type  == 'project')
-    {
-      return '+';
-    }
-    else if(type == 'context')
-    {
-      return '@';
-    }
-    else if(type == 'tag')
-    {
-      return '#';
-    }
   }
-
 }
 );

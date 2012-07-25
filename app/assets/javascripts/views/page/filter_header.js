@@ -107,7 +107,7 @@ MethodTodo.Views.FilterHeader = Backbone.View.extend({
      var record = this.getCollectionByType(type).find(
       function(record) { return record.id == id }
       );
-     return this.parent.getSymbolFromType(type) + record.get('name');
+     return getSymbolFromType(type) + record.get('name');
   }
 
 });

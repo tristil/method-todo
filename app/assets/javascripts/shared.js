@@ -31,3 +31,26 @@ function stopSpinner()
     $('#spinner').data().spinner.stop();
   }
 }
+
+/*
+ * Get the notation symbol for a type
+ * @param {String} type
+ * @return {String}
+ */
+function getSymbolFromType(type)
+{
+  if(type  == 'project')
+  {
+    return '+';
+  }
+  else if(type == 'context')
+  {
+    return '@';
+  }
+  else if(type == 'tag')
+  {
+    return '#';
+  }
+}
+
+

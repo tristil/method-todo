@@ -9,12 +9,11 @@ describe ProjectsController do
   it "should show projects for todos" do
     user = create_and_login_user
     todo = Todo.new(:description => 'A New Todo')
-    project = Project.create!(:name => 'TP Report')
+    project = Project.create(:name => 'TP Report')
     project.user = user
     project.save
     todo.project = project
     user.todos << todo
-    user.save
     get :index
     ActiveSupport::JSON.decode(response.body).should == [{"id"=>1, "name"=>"TP Report"}]
   end

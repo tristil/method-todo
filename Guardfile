@@ -6,13 +6,6 @@ guard 'rails-assets' do
   watch('config/application.rb')
 end
 
-group :rails do
-  guard 'rails' do
-    watch('Gemfile.lock')
-    watch(%r{^(config|lib)/.*})
-  end
-end
-
 group :tests do
 
   guard 'spork', :cucumber_env => { 'RAILS_ENV' => 'test' }, :rspec_env => { 'RAILS_ENV' => 'test' } do
@@ -70,3 +63,8 @@ group :jasmine do
   end
 end
 
+guard 'bundler' do
+  watch('Gemfile')
+  # Uncomment next line if Gemfile contain `gemspec' command
+  # watch(/^.+\.gemspec/)
+end
