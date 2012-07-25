@@ -16,6 +16,8 @@ gem 'backbone-on-rails'
 group :guard do
   gem 'libnotify'
   gem 'guard'
+  gem 'guard-rails'
+  gem 'guard-rails-assets'
   gem 'guard-bundler'
   gem 'guard-spork'
   gem 'guard-rspec'

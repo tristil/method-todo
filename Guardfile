@@ -1,3 +1,14 @@
+guard 'bundler' do
+  watch('Gemfile')
+  # Uncomment next line if Gemfile contain `gemspec' command
+  # watch(/^.+\.gemspec/)
+end
+
+guard 'rails', :environment => 'development' do
+  watch('Gemfile.lock')
+  watch(%r{^(config|lib)/.*})
+end
+
 # Make sure this guard is ABOVE any other guards using assets such as jasmine-headless-webkit
 # It is recommended to make explicit list of assets in `config/application.rb`
 # config.assets.precompile = ['application.js', 'application.css', 'all-ie.css']
@@ -63,8 +74,3 @@ group :jasmine do
   end
 end
 
-guard 'bundler' do
-  watch('Gemfile')
-  # Uncomment next line if Gemfile contain `gemspec' command
-  # watch(/^.+\.gemspec/)
-end
