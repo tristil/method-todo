@@ -17,6 +17,8 @@ MethodTodo.Views.ManageFilterModal = Backbone.View.extend({
    */
   events : {
     'click #close-manage-filters-modal' : 'closeModal',
+    'click .remove-filter-button' : 'removeFilter',
+    'click #cancel-filter-removal-confirmation-dialog' : 'cancelConfirmation'
   },
 
   /*
@@ -43,7 +45,13 @@ MethodTodo.Views.ManageFilterModal = Backbone.View.extend({
     }
     this.parent = options.parent;
     this.template = JST['dropdowns/manage_filters_modal'];
+    this.confirmation_dialog = JST['dropdowns/manage_filters_confirmation'];
     this.collection = this.parent.collection;
+
+    this.nice_name = this.filter_type.replace(
+        /^./,
+        function(letter) { return letter.toUpperCase() });
+
   },
 
   /*
@@ -51,16 +59,30 @@ MethodTodo.Views.ManageFilterModal = Backbone.View.extend({
    */
   render : function()
   {
-    var nice_name = this.filter_type.replace(
-        /^./,
-        function(letter) { return letter.toUpperCase() }) + 's';
-
     this.$el.html(this.template({
-      filter_type : nice_name,
+      filter_type : this.nice_name + 's',
       filters     : this.collection
     }));
 
     this.$el.modal('show');
+  },
+
+  /*
+   * Respond to click event on delete button in modal
+   * @param {jQuery.Event}
+   */
+  removeFilter : function(event)
+  {
+    event.preventDefault();
+    var id = $(event.currentTarget).attr('id').replace('filter-item-', '');
+    $('#manage-filters-confirmation').show();
+    $('#main-manage-filters').hide();
+
+    var filter = this.collection.find(function(item) { return item.id == id } );
+
+    $('#manage-filters-confirmation').html(this.confirmation_dialog(
+      {filter_type : this.nice_name, filter_name : filter.get('name'), filter_id : id}
+    ));
   },
 
   /*
@@ -71,6 +93,17 @@ MethodTodo.Views.ManageFilterModal = Backbone.View.extend({
   {
     event.preventDefault();
     this.$el.modal('hide');
+  },
+
+  /*
+   * Respond to click event to close confirmation dialog without deleting anything
+   * @param {jQuery.Event}
+   */
+  cancelConfirmation : function(event)
+  {
+    event.preventDefault();
+    $('#manage-filters-confirmation').hide();
+    $('#main-manage-filters').show();
   }
 }
 );

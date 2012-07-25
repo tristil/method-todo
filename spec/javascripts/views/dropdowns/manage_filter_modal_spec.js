@@ -33,7 +33,7 @@ describe('ManageFilterModal object', function()
         }
       );
 
-      it("should populate checkbox rows", function()
+      it("should populate data rows", function()
         {
           this.collection.reset([{id : 1, name : 'home'}, {id : 2, name : 'work'}]);
           var modal = new MethodTodo.Views.ManageFilterModal(
@@ -43,6 +43,23 @@ describe('ManageFilterModal object', function()
           expect(modal.$el.find("tbody tr td a#filter-item-1")).toExist();
           expect(modal.$el.find("tbody tr td:contains('work')")).toExist();
         }
+      );
+
+      it("should display confirmation dialog after clicking on delete button", function()
+          {
+            this.collection.reset([{id : 1, name : 'home'}, {id : 2, name : 'work'}]);
+            var modal = new MethodTodo.Views.ManageFilterModal(
+              {filter_type: 'context', parent : this.dropdown}
+            );
+            modal.render();
+
+            $('#filter-item-1').click();
+
+            waitsFor( function() {
+              return $('#manage-filters-confirmation').is(":visible");
+            });
+
+          }
       );
     }
 );

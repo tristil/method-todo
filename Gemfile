@@ -20,7 +20,6 @@ group :guard do
   gem 'guard-spork'
   gem 'guard-rspec'
   gem 'guard-cucumber'
-  gem 'guard-rails-assets'
   gem 'guard-jasmine-headless-webkit'
 end
 
