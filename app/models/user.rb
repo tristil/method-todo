@@ -42,7 +42,7 @@ class User < ActiveRecord::Base
 
   # @!attribute todos
   #   @return [Array<Todo>]
-  has_many :todos
+  has_many :todos, :extend => StripTextExtension
 
   # @!attribute active_todos
   #   @return [Array<Todo>] Get only active todos

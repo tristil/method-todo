@@ -18,6 +18,7 @@ MethodTodo.Views.ManageFilterModal = Backbone.View.extend({
   events : {
     'click #close-manage-filters-modal' : 'closeModal',
     'click .remove-filter-button' : 'removeFilter',
+    'click #remove-filter-button-final' : 'removeFilterFinal',
     'click #cancel-filter-removal-confirmation-dialog' : 'cancelConfirmation'
   },
 
@@ -83,6 +84,34 @@ MethodTodo.Views.ManageFilterModal = Backbone.View.extend({
     $('#manage-filters-confirmation').html(this.confirmation_dialog(
       {filter_type : this.nice_name, filter_name : filter.get('name'), filter_id : id}
     ));
+
+  },
+
+  /*
+   * Respond to click event on Remove All button in modal
+   * @param {jQuery.Event}
+   */
+  removeFilterFinal : function(event)
+  {
+    event.preventDefault();
+    var id = $(event.currentTarget).attr('filter-id');
+    $.ajax(
+        {
+          url  : '/'+this.filter_type + 's/' + id,
+          type : 'DELETE',
+          data : { id : id },
+          success : function(data)
+          {
+            $('#manage-filters-confirmation').hide();
+            $('#main-manage-filters').show();
+          },
+          error : function(request, status, error)
+          {
+            $('#manage-filters-confirmation').hide();
+            $('#main-manage-filters').show();
+          }
+        }
+    );
   },
 
   /*

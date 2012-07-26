@@ -61,6 +61,42 @@ describe('ManageFilterModal object', function()
 
           }
       );
+
+      it("should submit request to remove filter from todos", function()
+          {
+            this.collection.reset([{id : 1, name : 'home'}, {id : 2, name : 'work'}]);
+            var modal = new MethodTodo.Views.ManageFilterModal(
+              {filter_type: 'context', parent : this.dropdown}
+            );
+            modal.render();
+
+            // Spy on jQuery's ajax method
+            var spy = sinon.spy(jQuery, 'ajax');
+
+            $('#filter-item-1').click();
+
+            waitsFor( function() {
+              return $('#manage-filters-confirmation').is(":visible");
+            });
+
+            runs(function() {
+              $("#remove-filter-button-final").click();
+            });
+
+            runs( function() {
+              expect(spy).toHaveBeenCalled();
+              expect(spy.getCall(0).args[0].url)
+                  .toEqual("/contexts/1");
+            });
+
+            waitsFor( function() {
+              return $('#main-manage-filters').is(":visible");
+            });
+
+
+          }
+        );
+
     }
 );
 

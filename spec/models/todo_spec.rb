@@ -209,6 +209,25 @@ describe Todo, ".parse" do
 
     todo.local_completed_time.to_formatted_s(:american).should == '5/02/2012'
   end
+end
 
+describe Todo, ".strip_text" do
+  it "remove text from description" do
+    user = User.create(:username => "Example", :email => "example@example.com", :password => "Password1")
 
+    todo = Todo.create :description => 'Write first draft +report @home'
+    todo.user = user
+    todo.parse
+    todo.save
+
+    todo2 = Todo.create :description => 'Write final draft +report @work'
+    todo2.user = user
+    todo2.parse
+    todo2.save
+
+    todos = user.todos.strip_text! '+report'
+
+    todo.reload.description.should == 'Write first draft @home'
+    todo2.reload.description.should == 'Write final draft @work'
+  end
 end
