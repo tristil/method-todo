@@ -49,6 +49,8 @@ MethodTodo.Views.ManageFilterModal = Backbone.View.extend({
     this.confirmation_dialog = JST['dropdowns/manage_filters_confirmation'];
     this.collection = this.parent.collection;
 
+    this.collection.bind('reset', this.render, this);
+
     this.nice_name = this.filter_type.replace(
         /^./,
         function(letter) { return letter.toUpperCase() });
@@ -93,6 +95,7 @@ MethodTodo.Views.ManageFilterModal = Backbone.View.extend({
    */
   removeFilterFinal : function(event)
   {
+    var self = this;
     event.preventDefault();
     var id = $(event.currentTarget).attr('filter-id');
     $.ajax(
@@ -104,6 +107,9 @@ MethodTodo.Views.ManageFilterModal = Backbone.View.extend({
           {
             $('#manage-filters-confirmation').hide();
             $('#main-manage-filters').show();
+            self.parent.parent.parent.Tags.fetch();
+            self.parent.parent.parent.Projects.fetch();
+            self.parent.parent.parent.Contexts.fetch();
           },
           error : function(request, status, error)
           {

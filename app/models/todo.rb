@@ -175,6 +175,16 @@ class Todo < ActiveRecord::Base
     end
   end
 
+  # Remove a string from locally scoped Todos' descriptions
+  # @param text [String]
+  # @return [void]
+  def self.strip_text! text
+    all.each do |todo|
+      todo.description = todo.description.gsub(text, '').gsub(/ +/, ' ').strip
+      todo.save
+    end
+  end
+
   # Render the record as json
   # @param options [Hash]
   # @return [Hash]

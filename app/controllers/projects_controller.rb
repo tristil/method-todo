@@ -24,7 +24,7 @@ class ProjectsController < ApplicationController
     project = Project.find_by_id id
 
     if project and project.user_id == current_user.id
-      current_user.todos.strip_text! '#'+project.name
+      current_user.todos.strip_text! '+'+project.name
       project.destroy
       json_response['deleted'] = true
     end

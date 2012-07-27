@@ -5,3 +5,17 @@ end
 Then /the filter management menu for (Context|Project|Tag)s should appear/ do |filter_type|
   popup = find(:xpath, '//div[@id="manage-filters-modal"][@class="modal in"]')
 end
+
+When /I click the Delete Filter button for "(.*)"/ do |value|
+  find(:css, "#main-manage-filters td:contains('#{value}')").parent.find('.remove-filter-button').click
+end
+
+And /I click the Delete All confirmation button/ do
+  find(:css, "#remove-filter-button-final").click
+end
+
+Then /the Remove Filter dialog should only show "(.*)"/ do |value|
+  all(:css, "#main-manage-filters td.remove-filter-name").each do |td|
+    td.should have_content(value)
+  end
+end

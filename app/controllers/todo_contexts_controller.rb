@@ -24,7 +24,7 @@ class TodoContextsController < ApplicationController
     context = TodoContext.find_by_id id
 
     if context and context.user_id == current_user.id
-      current_user.todos.strip_text! '#'+project.name
+      current_user.todos.strip_text! '@'+context.name
       context.destroy
       json_response['deleted'] = true
     end

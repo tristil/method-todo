@@ -1,12 +1,8 @@
-guard 'bundler' do
-  watch('Gemfile')
-  # Uncomment next line if Gemfile contain `gemspec' command
-  # watch(/^.+\.gemspec/)
-end
-
-guard 'rails', :environment => 'development' do
-  watch('Gemfile.lock')
-  watch(%r{^(config|lib)/.*})
+group :server do
+  guard 'rails', :environment => 'development' do
+    watch('Gemfile.lock')
+    watch(%r{^(config|lib)/.*})
+  end
 end
 
 # Make sure this guard is ABOVE any other guards using assets such as jasmine-headless-webkit
@@ -18,6 +14,11 @@ end
 #end
 
 group :tests do
+  guard 'bundler' do
+    watch('Gemfile')
+    # Uncomment next line if Gemfile contain `gemspec' command
+    # watch(/^.+\.gemspec/)
+  end
 
   guard 'spork', :cucumber_env => { 'RAILS_ENV' => 'test' }, :rspec_env => { 'RAILS_ENV' => 'test' } do
     watch('config/application.rb')
