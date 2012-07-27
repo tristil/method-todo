@@ -44,6 +44,8 @@ GEM
       net-sftp (>= 2.0.0)
       net-ssh (>= 2.0.14)
       net-ssh-gateway (>= 1.1.0)
+    capistrano-rvm (0.0.1)
+      capistrano
     capistrano-unicorn (0.1.6)
       capistrano
     capybara (1.1.2)
@@ -257,6 +259,8 @@ PLATFORMS
 DEPENDENCIES
   backbone-on-rails
   bootstrap-sass (~> 2.0.2)
+  capistrano
+  capistrano-rvm
   capistrano-unicorn
   capybara-webkit
   coffee-rails (~> 3.2.1)

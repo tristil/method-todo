@@ -10,7 +10,7 @@ gem 'devise'
 gem 'rails3_acts_as_paranoid'
 gem 'mysql'
 gem 'timezone'
-
+gem 'jquery-rails'
 gem 'backbone-on-rails'
 
 group :guard do
@@ -23,12 +23,6 @@ group :guard do
   gem 'guard-rspec'
   gem 'guard-cucumber'
   gem 'guard-jasmine-headless-webkit'
-end
-
-group :development do
-  gem 'rspec'
-  gem 'rspec-rails'
-  gem 'capistrano-unicorn'
 end
 
 group :test do
@@ -60,8 +54,6 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'jquery-rails'
-
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
@@ -71,10 +63,10 @@ gem 'jquery-rails'
 # Use unicorn as the app server
 group :deployment do
   gem 'unicorn'
+  gem 'capistrano'
+  gem 'capistrano-unicorn'
+  gem 'capistrano-rvm'
 end
-
-# Deploy with Capistrano
-# gem 'capistrano'
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
