@@ -15,12 +15,6 @@
   position: fixed;
 }
 
-.navbar-fixed-bottom
-{
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
 .navbar-bottom .nav > li
 {
   margin-right: 10px;
@@ -70,9 +64,9 @@
 
 #new_todo
 {
-  float:left; 
-  border-top: none; 
-  border-bottom: none; 
+  float:left;
+  border-top: none;
+  border-bottom: none;
   box-shadow:none;
   display:inline;
   padding: 9px 15px;

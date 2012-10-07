@@ -44,26 +44,24 @@
     </div>
 
     <div id='main-content'>
-    <div class='container'>
-      <% unless flash.empty? %>
-        <div class='row'>
-          <div class='span4 offset4'>
-            <% if notice %>
-              <p class="alert alert-info"><%= notice %></p>
-            <% end %>
-            <% if alert %>
-              <p class="alert alert-error"><%= alert %></p>
-            <% end %>
+      <div class='container'>
+        <% unless flash.empty? %>
+          <div class='row'>
+            <div class='span4 offset4'>
+              <% if notice %>
+                <p class="alert alert-info"><%= notice %></p>
+              <% end %>
+              <% if alert %>
+                <p class="alert alert-error"><%= alert %></p>
+              <% end %>
+            </div>
           </div>
-        </div>
-      <% end %>
-
-      <div class='row'>
+        <% end %>
+        <div class='row'>
           <%= yield %>
-      </div>
-
-    </div> <!-- .container -->
-  </div>
+        </div>
+      </div> <!-- .container -->
+    </div> <!-- #main-content -->
 
     <div class='navbar navbar-fixed-bottom'>
       <div class='navbar-inner'>
@@ -79,9 +77,9 @@
               <li><%= link_to('Signup', new_user_registration_path, {:id => 'signup-link'})  %></li>
             <% end %>
           </ul>
-
         </div>
-      </div>
-    </div>
+      </div> <!-- .navbar-inner -->
+    </div> <!-- .navbar-fixed-bottom -->
+
   </body>
 </html>
