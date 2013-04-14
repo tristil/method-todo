@@ -15,8 +15,13 @@ Spork.prefork do
   # prefer to use XPath just remove this line and adjust any selectors in your
   # steps to use the XPath syntax.
   Capybara.default_selector = :css
-  Capybara.javascript_driver = :webkit
-  Capybara.default_driver = :webkit
+  if Rails.env.test?
+    Capybara.javascript_driver = :selenium
+    Capybara.default_driver = :selenium
+  else
+    Capybara.javascript_driver = :webkit
+    Capybara.default_driver = :webkit
+  end
 
   # Remove/comment out the lines below if your app doesn't have a database.
   # For some databases (like MongoDB and CouchDB) you may need to use :truncation instead.

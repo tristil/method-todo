@@ -14,6 +14,7 @@ gem 'jquery-rails'
 gem 'backbone-on-rails'
 
 group :guard do
+  gem 'rb-fsevent'
   gem 'libnotify'
   gem 'guard'
   gem 'guard-rails'

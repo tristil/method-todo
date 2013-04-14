@@ -82,18 +82,20 @@ class TodosController < ApplicationController
     todo.user = current_user
 
     json_response = {}
+    status = 200
     if todo.save
       todo.parse
       json_response[:id] = todo.id
       json_response[:description] = todo.parsed_description
       json_response[:saved] = true
     else
+      status = 500
       json_response[:saved] = false
     end
 
     respond_to do |format|
       format.html { redirect_to '/' }
-      format.json { render :json => json_response }
+      format.json { render :json => json_response, status: status }
     end
   end
 

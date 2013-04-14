@@ -48,14 +48,19 @@ MethodTodo.Views.TodoInput = Backbone.View.extend({
       attributes,
       {
         wait : true,
-        success : function()
-        {
+        success : function() {
           $('#todo_description').val('');
           focusTodoInput();
           stopSpinner();
           self.parent.Contexts.fetch();
           self.parent.Projects.fetch();
           self.parent.Tags.fetch();
+        },
+        error: function() {
+          $('#todo_description').val('');
+          focusTodoInput();
+          stopSpinner();
+          alert("Can't create todo!");
         }
       }
     );

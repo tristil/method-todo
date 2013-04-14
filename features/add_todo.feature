@@ -10,6 +10,11 @@ Feature: Add a todo
     And the add todo input should have focus
     And the input should be cleared
 
+  Scenario: Show validation error when todo is invalid
+    Given I am logged in
+    When I enter a todo description of ""
+    Then an alert should appear
+
   Scenario: Add a todo with @context
     Given I am logged in
     When I enter a todo description of "Write report @work"

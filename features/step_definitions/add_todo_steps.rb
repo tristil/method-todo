@@ -7,7 +7,7 @@ Given /I am logged in/ do
   page.should have_content('Welcome')
 end
 
-When /I enter a todo description of "(.+?)"/ do |description|
+When /I enter a todo description of "(.*?)"/ do |description|
   @todo_description = description
   fill_in('todo_description', :with => description)
   click_button('add-todo-button')
@@ -30,4 +30,8 @@ And /it should be marked with a (Context|Project) of "(.+?)"/ do |type, context|
   prefix = type == 'Context' ? '@' : '+'
   page.should have_selector(:xpath, "//span[@class='label'][.='#{prefix}#{context}']")
   #page.should_not have_selector(:xpath, "//td[.='#{@todo_description}']")
+end
+
+Then /an alert should appear/ do
+  page.driver.browser.switch_to.alert.accept
 end
