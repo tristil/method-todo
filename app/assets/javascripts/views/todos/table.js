@@ -208,6 +208,7 @@ MethodTodo.Views.TodoTable = Backbone.View.extend({
    */
   saveTodoEditor : function(id)
   {
+    var self = this;
     var new_description = $('#todo-' + id + '-editor input').val();
     var todo = this.collection.find(function(todo) { return todo.id == id });
     todo.set('description', new_description);
@@ -218,6 +219,9 @@ MethodTodo.Views.TodoTable = Backbone.View.extend({
         $('#todo-' + id + '-editor').hide();
         $('#todo-' + id).show();
         $('#todo-' + id).html(todo.get('description'));
+        self.parent.Contexts.fetch();
+        self.parent.Projects.fetch();
+        self.parent.Tags.fetch();
       }
     }
     );

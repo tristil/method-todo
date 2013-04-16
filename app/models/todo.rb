@@ -71,8 +71,7 @@ class Todo < ActiveRecord::Base
   # Get the completed time in the user's most recent timezone
   # @return [Datetime]
   def local_completed_time
-    timezone_offset = self.user.preferences[:timezone_offset]
-    timezone_offset = timezone_offset ? timezone_offset : 0
+    timezone_offset = self.user.preferences[:timezone_offset] || 0
     self.completed_time.in_time_zone(timezone_offset)
   end
 

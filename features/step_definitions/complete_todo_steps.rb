@@ -9,6 +9,9 @@ Given /a (completed )?todo "(.*?)" exists in the (Active|Completed) list/ do |co
   @todo.save
   @todo.parse
   visit(root_path)
+  if list == 'Completed'
+    click_link "completed-tab"
+  end
   find(:css, "##{list.downcase}-todos-list").should have_content(description)
 end
 
@@ -29,9 +32,7 @@ When /I click on the (Active|Completed) tab/ do |list|
 end
 
 And /appear on the "(.*?)" list as "(.*?)"/ do |list_name, description|
-  now = Time.now
-
-  description = Time.now.strftime(description)
+  description = Time.now.in_time_zone(0).strftime(description)
 
   list = list_name.downcase
   click_link("#{list}-tab")

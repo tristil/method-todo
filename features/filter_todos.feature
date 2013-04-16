@@ -18,7 +18,7 @@ Feature: Filter todos by context, project and/or tags
     And there exists a todo with description of "Buy groceries +quiche"
     And there exists a todo with description of "Write report +project"
     When I have arrived on the front page
-    And I select a context option of "+quiche"
+    And I select a project option of "+quiche"
     Then the Active Todos table should only contain "Buy groceries +quiche"
     And the project dropdown should read '+quiche'
     And the filter header should read 'Active +quiche'

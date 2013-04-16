@@ -1,4 +1,5 @@
 When /I click "Manage\.\.\." on the (Context|Project|Tag) menu/ do |filter_type|
+  click_link filter_type
   find(:css, "#manage-#{filter_type.downcase}s").click
 end
 
@@ -12,6 +13,8 @@ end
 
 And /I click the Delete All confirmation button/ do
   find(:css, "#remove-filter-button-final").click
+  page.driver.browser.switch_to.alert.accept
+  click_link "Close"
 end
 
 Then /the Remove Filter dialog should only show "(.*)"/ do |value|

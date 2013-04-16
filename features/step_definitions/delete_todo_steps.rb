@@ -8,6 +8,7 @@ end
 
 And /when I agree to delete the todo/ do
   click_link('delete-todo-button');
+  page.driver.browser.switch_to.alert.accept
 end
 
 Then /it should disappear from the todo list/ do

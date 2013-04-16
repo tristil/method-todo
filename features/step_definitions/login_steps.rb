@@ -19,12 +19,10 @@ When /I select the option to log in/ do
 end
 
 Then /I should be taken to the signup page/ do
-  page.status_code.should == 200
   page.should have_content("Password confirmation")
 end
 
 Then /I should be taken to the login page/ do
-  page.status_code.should == 200
   page.should_not have_content("Password confirmation")
 end
 

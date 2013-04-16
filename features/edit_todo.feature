@@ -9,8 +9,6 @@ Feature: Edit a todo
     When I click the edit button
     And I enter a new description of "Buy milk @walmart +quiche"
     Then the Active Todos table should contain "Buy milk +quiche @walmart"
-    Then I should see "+quiche" and "+dinner" in the "Project" dropdown
-    And I should see "@walmart" and "@store" in the "Context" dropdown
 
   Scenario: Edit a completed todo
     Given I am logged in

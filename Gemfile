@@ -42,6 +42,10 @@ group :test do
   gem 'jasmine-headless-webkit'
 end
 
+group :test, :development do
+  gem 'debugger'
+end
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
