@@ -302,6 +302,7 @@ DEPENDENCIES
   mysql
   rails (~> 3.2)
   rails3_acts_as_paranoid
+  raindrops (~> 0.10.0)
   rb-fsevent
   rspec
   rspec-mocks
