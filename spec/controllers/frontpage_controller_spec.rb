@@ -57,7 +57,7 @@ describe FrontpageController, "#timezone" do
   end
 
   it "should set timezone preference when lat and lon are passed" do
-    post :timezone, :latitude => @latitude, :longitude => @longitude
+    post :set_timezone, :latitude => @latitude, :longitude => @longitude
     data = ActiveSupport::JSON.decode(response.body)
     data["offset"].should == -5
     @user.reload
@@ -65,7 +65,7 @@ describe FrontpageController, "#timezone" do
   end
 
   it "should set timezone preference when offset is passed" do
-    post :timezone, :offset => "5"
+    post :set_timezone, :offset => "5"
     data = ActiveSupport::JSON.decode(response.body)
     data["offset"].should == -5
     @user.reload
@@ -77,7 +77,7 @@ describe FrontpageController, "#timezone" do
     # and not call geoname
     Timezone::Zone.should_not_receive :new
     MethodTodo::Application.config.perform_geoname_lookups = false
-    post :timezone, :latitude => @latitude, :longitude => @longitude, :offset => "5"
+    post :set_timezone, :latitude => @latitude, :longitude => @longitude, :offset => "5"
     data = ActiveSupport::JSON.decode(response.body)
     data["offset"].should == -5
     @user.reload

@@ -27,9 +27,15 @@ task :backup do
   run "mysqldump -u root methodgtd > /tmp/#{filename}"
 end
 
+task :set_credentials do
+  upload("#{File.expand_path(File.dirname(__FILE__))}/credentials.yml",
+         "#{current_path}/config/credentials.yml")
+end
+
 before "deploy:migrate", "backup"
 
 after "deploy:update", "deploy:cleanup"
 after "deploy:update", "deploy:migrate"
+after "deploy:update", "set_credentials"
 
 require 'capistrano-unicorn'
