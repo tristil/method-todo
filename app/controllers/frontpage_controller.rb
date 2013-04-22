@@ -31,15 +31,11 @@ class FrontpageController < ApplicationController
   # @return [void]
   def set_timezone
     offset, lookup_type = nil, nil
-    if MethodTodo::Application.config.perform_geoname_lookups && params[:latitude] && params[:longitude]
+    if geonames_available?
       lookup_type = 'geoname'
-      begin
-        latlon = [params[:latitude].to_f, params[:longitude].to_f]
-        timezone = Timezone::Zone.new :latlon => latlon
-        offset = timezone.utc_offset / (60 * 60)
-      rescue => e
-        logger.warn "WARNING: Connection with Geonames failed, couldn't look up timezone"
-      end
+      latlon = [params[:latitude].to_f, params[:longitude].to_f]
+      timezone = Timezone::Zone.new :latlon => latlon
+      offset = timezone.utc_offset / (60 * 60)
     end
 
     if offset.nil?
@@ -66,26 +62,20 @@ class FrontpageController < ApplicationController
   #############################################################################
   private
 
+  def geonames_available?
+    MethodTodo::Application.config.perform_geoname_lookups &&
+      params[:latitude] && params[:longitude]
+  end
+
   def bootstrap_page
     @todo = Todo.new
 
     @active_todos = current_user.active_todos.collect {|todo| todo.as_json }
     @completed_todos = current_user.completed_todos.collect {|todo| todo.as_json }
 
-    @contexts = []
-    current_user.todo_contexts.each do |context|
-      @contexts << {:id => context.id, :name => context.name}
-    end
-
-    @projects = []
-    current_user.projects.each do |project|
-      @projects << {:id => project.id, :name => project.name}
-    end
-
-    @tags = []
-    current_user.tags.each do |tag|
-      @tags << {:id => tag.id, :name => tag.name}
-    end
+    @contexts = current_user.todo_contexts.map(&:as_json)
+    @projects = current_user.projects.map(&:as_json)
+    @tags = current_user.tags.map(&:as_json)
   end
 
   def set_preferences
