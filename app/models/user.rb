@@ -11,8 +11,8 @@
 class User < ActiveRecord::Base
   acts_as_paranoid
 
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable,
+         :trackable, :validatable
 
   # @!attribute email
   #   @return [String]
@@ -44,14 +44,6 @@ class User < ActiveRecord::Base
   #   @return [Array<Todo>]
   has_many :todos
 
-  # @!attribute active_todos
-  #   @return [Array<Todo>] Get only active todos
-  has_many :active_todos, :class_name => 'Todo', :conditions => {:completed => false}, :order => 'created_at desc'
-
-  # @!attribute completed_todos
-  #   @return [Array<Todo>] Get only completed todos
-  has_many :completed_todos, :class_name => 'Todo', :conditions => {:completed => true}, :order => 'completed_time desc'
-
   # @!attribute todo_contexts
   #   @return [Array<TodoContext>]
   has_many :todo_contexts, :order => 'name'
@@ -65,4 +57,22 @@ class User < ActiveRecord::Base
   has_many :tags, :order => 'name'
 
   serialize :preferences, Hash
+
+  #  Get only active todos
+  #   @return [Array<Todo>]
+  def active_todos
+    todos.active.order("created_at DESC")
+  end
+
+  # Get only completed todos
+  #   @return [Array<Todo>]
+  def completed_todos
+    todos.completed.order("completed_time DESC")
+  end
+
+  # Get todos for user based on options
+  #   @return [Array<Todo>]
+  def todos_for_options(options)
+    todos.for_options(options)
+  end
 end

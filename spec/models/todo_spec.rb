@@ -31,6 +31,56 @@ describe Todo do
     todo.user.should == user
   end
 
+  describe ".for_options" do
+    let!(:context1) { TodoContext.create!(name: 'work')  }
+    let!(:context2) { TodoContext.create!(name: 'home')  }
+    let!(:tag) { Tag.create!(name: 'boring') }
+    let!(:tag2) { Tag.create!(name: 'interesting') }
+    let!(:project) { Project.create!(name: 'quiche') }
+    let!(:project2) { Project.create!(name: 'pie') }
+    let!(:todo1) { Todo.create!(description: 'Do something') }
+    let!(:todo2) { Todo.create!(description: 'Do something else') }
+    let!(:todo3) { Todo.create!(description: 'Do something nu') }
+
+    it "returns active todos if completed is not passed in" do
+      todo2.complete
+      todo2.save!
+      Todo.for_options.should == [todo3, todo1]
+    end
+
+    it "returns completed todos if completed is passed in" do
+      todo1.complete
+      todo1.save!
+      todo3.complete
+      todo3.save!
+      Todo.for_options(completed: 1).should == [todo3, todo1]
+    end
+
+    it "returns todos for a context if context_id is passed in" do
+      todo1.todo_contexts << context1
+      todo2.todo_contexts << context2
+      todo3.todo_contexts << context1
+      Todo.for_options(context_id: context1.id).should == [todo3, todo1]
+    end
+
+    it "returns todos for a tag if tag_id is passed in" do
+      todo1.tags << tag
+      todo2.tags << tag2
+      todo3.tags << tag
+      Todo.for_options(tag_id: tag.id).should == [todo3, todo1]
+    end
+
+    it "returns todos for a project if project_id is passed in" do
+      todo1.project = project
+      todo1.save!
+      todo2.project = project2
+      todo2.save!
+      todo3.project = project
+      todo3.save!
+      Todo.for_options(project_id: project.id).should == [todo3, todo1]
+    end
+  end
+
   it ".complete should mark record as completed and set completed time" do
     todo = Todo.create(:description => "A New Todo")
     todo.complete

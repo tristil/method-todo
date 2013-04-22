@@ -47,6 +47,34 @@ class Todo < ActiveRecord::Base
   cattr_accessor :context_regexp
   cattr_accessor :tag_regexp
 
+  scope :active, where(completed: false)
+  scope :completed, where(completed: true)
+
+  # Scope todos for constrained set of options
+  #   @return [Array<Todo>]
+  def self.for_options(options = {})
+    if options[:completed]
+      todos = completed.order('todos.completed_time DESC')
+    else
+      todos = active.order('todos.created_at DESC')
+    end
+
+    if options[:context_id]
+      todos = todos.includes(:todo_contexts).
+        where(todo_contexts: {id: options[:context_id]})
+    end
+
+    if options[:tag_id]
+      todos = todos.includes(:tags).where(tags: {id: options[:tag_id]})
+    end
+
+    if options[:project_id]
+      todos = todos.where(project_id: options[:project_id])
+    end
+    todos
+  end
+
+
   # Mark the +Todo+ as completed
   # @return [void]
   def complete

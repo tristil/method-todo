@@ -7,7 +7,7 @@ class TodosController < ApplicationController
   # GET /todos
   # @return [void]
   def index
-    todos = get_todos_by_params
+    todos = current_user.todos_for_options(todo_search_params)
 
     respond_to do |format|
       format.html {
@@ -120,30 +120,7 @@ class TodosController < ApplicationController
 
   private
 
-  def get_todos_by_params
-    conditions = {:user_id => current_user.id}
-
-    if params[:context_id]
-      conditions['todo_contexts.id'] = params[:context_id]
-    end
-
-    if params[:tag_id]
-      conditions['tags.id'] = params[:tag_id]
-    end
-
-    if params[:project_id]
-      conditions[:project_id] = params[:project_id]
-    end
-
-    if params[:completed] and params[:completed] == '1'
-      conditions[:completed] = true
-      todos = Todo.includes(:todo_contexts, :tags).where(conditions).order('todos.completed_time DESC')
-    else
-      conditions[:completed] = false
-      todos = Todo.includes(:todo_contexts, :tags).where(conditions).order('todos.created_at DESC')
-    end
-
-    todos
+  def todo_search_params
+    params.slice(:completed, :context_id, :tag_id, :project_id)
   end
-
 end
