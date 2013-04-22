@@ -39,3 +39,5 @@ after "deploy:update", "deploy:migrate"
 after "deploy:update", "set_credentials"
 
 require 'capistrano-unicorn'
+
+after 'deploy:restart', 'unicorn:restart'
