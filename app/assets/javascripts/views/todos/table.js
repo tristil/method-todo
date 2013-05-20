@@ -16,6 +16,7 @@ MethodTodo.Views.TodoTable = Backbone.View.extend({
     'click .todo-editor-close' : 'closeTodoEditor',
     'click .todo-editor-save' : 'clickSaveTodoEditor',
     'click .delete-todo-link' : 'openDeleteModal',
+    'click .toggle-tickler-status-link' : 'toggleTicklerStatus',
     'submit .todo-editor-form' : 'saveTodoEditorForm'
   },
 
@@ -225,6 +226,26 @@ MethodTodo.Views.TodoTable = Backbone.View.extend({
       }
     }
     );
-  }
+  },
 
+  /*
+   * Toggle tickler status of todo
+   * @param {jQuery.Event}
+   */
+  toggleTicklerStatus: function(event) {
+    event.preventDefault();
+    var self = this;
+    var id = parseInt($(event.currentTarget).attr('id').replace('todo-tickler-', ''));
+    var todo = this.collection.find(function(todo) { return todo.id == id });
+
+    $('#spinner').spin();
+
+    todo.save({},{
+      url : '/todos/' + todo.id + '/toggle_tickler_status',
+      success : function(data) {
+        stopSpinner();
+        self.parent.TodoFilter.refresh();
+      }
+    });
+  }
 });

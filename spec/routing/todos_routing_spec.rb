@@ -5,6 +5,7 @@ describe "routing for todos" do
     { :get  => "/todos" }.should route_to :controller => 'todos', :action => 'index'
     { :post => "/todos" }.should route_to :controller => 'todos', :action => 'create'
     { :put => "/todos/1/complete" }.should route_to :controller => 'todos', :action => 'complete', :id => "1"
+    { :put => "/todos/1/toggle_tickler_status" }.should route_to :controller => 'todos', :action => 'toggle_tickler_status', :id => "1"
     { :get => "/todos/1" }.should route_to :controller => 'todos', :action => 'show', :id => "1"
     { :delete => "/todos/1" }.should route_to :controller => 'todos', :action => 'destroy', :id => "1"
   end

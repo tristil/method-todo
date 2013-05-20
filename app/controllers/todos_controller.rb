@@ -57,6 +57,26 @@ class TodosController < ApplicationController
     end
   end
 
+  # PUT /todos/1/toggle_tickler_status
+  # @return [void]
+  def toggle_tickler_status
+    todo = Todo.find_by_id params[:id]
+
+    if todo.nil? or todo.user_id != current_user.id
+      raise "Could not access todo"
+    end
+
+    todo.toggle_tickler_status
+    todo.save!
+
+    json_response = {'tickler' => todo.tickler}
+
+    respond_to do |format|
+      format.html { render :json => json_response}
+      format.json { render :json => json_response }
+    end
+  end
+
   # PUT /todos/1
   # @return [void]
   def update
@@ -121,6 +141,6 @@ class TodosController < ApplicationController
   private
 
   def todo_search_params
-    params.slice(:completed, :context_id, :tag_id, :project_id)
+    params.slice(:completed, :context_id, :tag_id, :project_id, :tickler)
   end
 end

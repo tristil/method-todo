@@ -15,7 +15,6 @@ MethodTodo.Views.Page = Backbone.View.extend({
    * Event hookups
    */
   events : {
-    'click .nav-tabs a' : 'switchTab'
   },
 
   /*
@@ -32,7 +31,6 @@ MethodTodo.Views.Page = Backbone.View.extend({
 
     this.TodoFilter = new MethodTodo.Views.TodoFilter({parent : this});
     MethodTodo.Globals.TodoFilter = this.TodoFilter;
-
     this.setupCollections();
     this.setupViews();
     this.getGeoPosition();
@@ -53,6 +51,10 @@ MethodTodo.Views.Page = Backbone.View.extend({
     this.CompletedTodos = new MethodTodo.Collections.Todos();
     this.CompletedTodos.url = '/todos/?completed=1';
     this.CompletedTodos.reset(this.initial_data.completed_todos);
+
+    this.TicklerTodos = new MethodTodo.Collections.Todos();
+    this.TicklerTodos.url = '/todos/?tickler=1';
+    this.TicklerTodos.reset(this.initial_data.tickler_todos);
   },
 
   /*
@@ -73,6 +75,8 @@ MethodTodo.Views.Page = Backbone.View.extend({
     this.dropdowns_bar = new MethodTodo.Views.DropdownBar({parent : this});
     this.dropdowns_bar.render();
 
+    this._setUpTabs();
+
     active_todo_table = new MethodTodo.Views.TodoTable(
         {
           collection : this.ActiveTodos,
@@ -90,25 +94,31 @@ MethodTodo.Views.Page = Backbone.View.extend({
         }
     );
     completed_todo_table.render();
+
+    tickler_todo_table = new MethodTodo.Views.TodoTable(
+        {
+          collection : this.TicklerTodos,
+          el : '#tickler-todos-list',
+          parent : this
+        }
+    );
+    tickler_todo_table.render();
+
   },
 
-  /*
-   * Switch between the Active and Completed tabs
-   */
-  switchTab : function(event)
-  {
-    event.preventDefault();
-    var tab = $(event.target);
-    var target_div = tab.attr('href');
-    var list_type = tab.attr('id').replace('-tab', '');
-    this.TodoFilter.status = list_type;
-    if(list_type == 'active')
-    {
-      list_type = "";
-    }
-    $(tab).tab('show');
-    focusTodoInput();
-    this.filter_header.refresh();
+  _setUpTabs: function() {
+    var self = this;
+    this.tabs = new MethodTodo.Views.Tabs({el: '.nav-tabs'});
+
+    this.tabs.on('switch-tab', function(list_type) {
+      if(list_type == 'active')
+      {
+        list_type = "";
+      }
+      focusTodoInput();
+      self.TodoFilter.status = list_type;
+      self.filter_header.refresh();
+    });
   },
 
   /*
@@ -128,6 +138,7 @@ MethodTodo.Views.Page = Backbone.View.extend({
           {
             self.CompletedTodos.fetch();
             self.ActiveTodos.fetch();
+            self.TicklerTodos.fetch();
           }
         }
       );

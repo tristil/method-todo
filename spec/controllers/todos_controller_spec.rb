@@ -15,7 +15,9 @@ describe TodosController do
     user.save
     xhr :get, :index
     response.body.should_not =~ /html/;
-    response.body.should == "[{\"id\":1,\"description\":\"A New Todo\",\"completed\":false}]"
+    response.body.should == [
+      {"id" => 1, "description" => "A New Todo","completed" => false,
+       "tickler" => false}].to_json
   end
 
   it "GET to /todos/1 should return json for first todo" do
@@ -25,7 +27,9 @@ describe TodosController do
     user.save
     xhr :get, :show, :id => 1
     response.body.should_not =~ /html/;
-    response.body.should == "{\"id\":1,\"description\":\"A New Todo\",\"completed\":false}"
+    response.body.should == {
+      "id" => 1, "description" => "A New Todo", "completed" => false,
+      "tickler" => false}.to_json
   end
 
   it "GET to /todos?completed=1 should return json of completed todos" do
@@ -66,12 +70,11 @@ describe TodosController do
 
     xhr :get, :index, :completed => 1
     ActiveSupport::JSON.decode(response.body).should == [
-      {"id"=>3, "description"=>"A Third Todo <span class='completed-badge label label-inverse'>5/01/2012</span>", "completed"=>true},
-      {"id"=>1, "description"=>"A New Todo <span class='completed-badge label label-inverse'>5/01/2012</span>", "completed"=>true},
-      {"id"=>2, "description"=>"Another Todo <span class='completed-badge label label-inverse'>5/01/2012</span>", "completed"=>true}
+      {"id"=>3, "description"=>"A Third Todo <span class='completed-badge label label-inverse'>5/01/2012</span>", "completed"=>true, "tickler" => false},
+      {"id"=>1, "description"=>"A New Todo <span class='completed-badge label label-inverse'>5/01/2012</span>", "completed"=>true, "tickler" => false},
+      {"id"=>2, "description"=>"Another Todo <span class='completed-badge label label-inverse'>5/01/2012</span>", "completed"=>true, "tickler" => false}
     ]
   end
-
 
   it "POST to /todos should create new Todo" do
     user = create_and_login_user
@@ -126,4 +129,16 @@ describe TodosController do
     todo.project.name.should == 'report'
   end
 
+  it "PUT to /todos/1/toggle_tickler_status updates tickler status" do
+    user = create_and_login_user
+    todo = Todo.create :description => 'A New Todo'
+    user.todos << todo
+    user.save
+    put :toggle_tickler_status, {:id => todo.id}
+    todo = Todo.find_by_id todo.id
+    todo.tickler.should == true
+    put :toggle_tickler_status, {:id => todo.id}
+    todo = Todo.find_by_id todo.id
+    todo.tickler.should == false
+  end
 end

@@ -5,9 +5,10 @@
     var initial_data = {
       active_todos    : <%= @active_todos.to_json.html_safe %>,
       completed_todos : <%= @completed_todos.to_json.html_safe %>,
+      tickler_todos   : <%= @tickler_todos.to_json.html_safe %>,
       contexts        : <%= @contexts.to_json.html_safe %>,
       projects        : <%= @projects.to_json.html_safe %>,
-      tags            : <%= @tags.to_json.html_safe %> 
+      tags            : <%= @tags.to_json.html_safe %>
     };
 
     MethodTodo.init(initial_data);
@@ -70,6 +71,9 @@
     <li>
       <a href='#completed-todos-list' id='completed-tab'>Completed</a>
     </li>
+    <li>
+      <a href='#tickler-todos-list' id='tickler-tab'>Tickler</a>
+    </li>
   </ul> <!-- nav-tabs #active-completed -->
 
   <div class='tab-content'>
@@ -81,6 +85,10 @@
     <div id='completed-todos-list' class='tab-pane'>
       <%= render :partial => 'todos/todolist', :locals => {:todos => @completed_todos } %>
     </div> <!-- completed-todos -->
+
+    <div id='tickler-todos-list' class='tab-pane'>
+      <%= render :partial => 'todos/todolist', :locals => {:todos => @tickler_todos } %>
+    </div> <!-- tickler-todos -->
 
   </div> <!-- tab-content -->
 

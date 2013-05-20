@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Todo do
 
-  it "should raise an error over mass-assignment" do
+  it "raises an error over mass-assignment" do
     expect do
       Todo.new(:user_id => 2)
     end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
@@ -17,11 +17,11 @@ describe Todo do
 
   end
 
-  it "should require a description" do
+  it "requires a description" do
     Todo.new.should have(1).error_on(:description)
   end
 
-  it ".user should return user" do
+  specify "#user return user" do
     user = User.create(:username => "Example", :email => "example@example.com", :password => "Password1")
     user.should have(0).errors
     todo = Todo.create(:description => "A New Todo")
@@ -31,7 +31,7 @@ describe Todo do
     todo.user.should == user
   end
 
-  describe ".for_options" do
+  describe "#for_options" do
     let!(:context1) { TodoContext.create!(name: 'work')  }
     let!(:context2) { TodoContext.create!(name: 'home')  }
     let!(:tag) { Tag.create!(name: 'boring') }
@@ -46,6 +46,14 @@ describe Todo do
       todo2.complete
       todo2.save!
       Todo.for_options.should == [todo3, todo1]
+    end
+
+    it "returns 'tickler' todos if tickler is passed in" do
+      todo1.tickler = true
+      todo1.save!
+      todo3.tickler = true
+      todo3.save!
+      Todo.for_options(tickler: true).should == [todo3, todo1]
     end
 
     it "returns completed todos if completed is passed in" do
@@ -81,7 +89,7 @@ describe Todo do
     end
   end
 
-  it ".complete should mark record as completed and set completed time" do
+  specify "#complete marks record as completed and sets completed time" do
     todo = Todo.create(:description => "A New Todo")
     todo.complete
     todo.save
@@ -89,7 +97,7 @@ describe Todo do
     todo.completed.should be_true
   end
 
-  it ".uncomplete should mark record as not completed and clear completed time" do
+  specify "#uncomplete marks record as not completed and clears completed time" do
     todo = Todo.create(:description => "A New Todo")
     todo.uncomplete
     todo.save
@@ -97,14 +105,14 @@ describe Todo do
     todo.completed.should be_false
   end
 
-  it ".destroy should use Acts as Paranoid to virtually delete the todo" do
+  specify"#destroy uses Acts as Paranoid to virtually delete the todo" do
     todo = Todo.create(:description => "A New Todo")
     todo.destroy
     Todo.all.should == []
     Todo.only_deleted.should == [todo]
   end
 
-  it ".todo_contexts should return contexts of this todo" do
+  specify"#todo_contexts returns contexts of this todo" do
     todo = Todo.create(:description => "A New Todo")
     todo_context = TodoContext.create(:name => 'home')
     todo.todo_contexts << todo_context
@@ -113,7 +121,7 @@ describe Todo do
     todo.todo_contexts.should == [todo_context]
   end
 
-  it ".todo_context should return the first context" do
+  specify "#todo_context returns the first context" do
     todo = Todo.create(:description => "A New Todo")
     todo_context = TodoContext.create(:name => 'home')
     todo.todo_contexts << todo_context
@@ -122,7 +130,7 @@ describe Todo do
     todo.todo_context.should == todo_context
   end
 
-  it ".project should return the project" do
+  specify "#project returns the project" do
     todo = Todo.create(:description => "A New Todo")
     project = Project.create(:name => 'TP Report')
     todo.project = project
@@ -130,19 +138,10 @@ describe Todo do
     todo.reload
     todo.project.should == project
   end
-
-  it ".to_json should use .as_json" do
-    user = User.create(:username => "Example", :email => "example@example.com", :password => "Password1")
-    todo = Todo.create(:description => "A New Todo +project")
-    todo.user = user
-    todo.save
-    todo.parse
-    ActiveSupport::JSON.decode(todo.to_json).should == {"id"=>1, "description"=>"A New Todo <a href='#' class='project-badge-1 todo-badge'><span class='label'>+project</span></a>", "completed"=>false}
-  end
 end
 
-describe Todo, ".parse" do
-  it "should add or create a new Project when it detects +" do
+describe Todo, "#parse" do
+  it "adds or creates a new Project when it detects +" do
     user = User.create(:username => "Example", :email => "example@example.com", :password => "Password1")
     todo = Todo.create :description => 'Write first draft +report'
     todo.user = user
@@ -159,7 +158,7 @@ describe Todo, ".parse" do
     todo2.project.should_not be_nil
   end
 
-  it "should add or create a new Context when it detects @" do
+  it "adds or creates a new Context when it detects @" do
     user = User.create(:username => "Example", :email => "example@example.com", :password => "Password1")
     todo = Todo.create :description => 'Write first draft @home @coffeeshop'
     todo.user = user
@@ -175,7 +174,7 @@ describe Todo, ".parse" do
     todo2.todo_contexts.should == todo.todo_contexts
   end
 
-  it "should add or create a new Tag when it detects #" do
+  it "adds or creates a new Tag when it detects #" do
     user = User.create(:username => "Example", :email => "example@example.com", :password => "Password1")
     todo = Todo.create :description => 'Write first draft #homework #Q1'
     todo.user = user
@@ -191,7 +190,7 @@ describe Todo, ".parse" do
     todo2.tags.should == todo.tags
   end
 
-  it "should re-parse line if data seems out of sync" do
+  it "re-parses line if data seems out of sync" do
     user = User.create(:username => "Example", :email => "example@example.com", :password => "Password1")
     todo = Todo.new :description => 'Write first draft #homework'
     todo.user = user
@@ -202,7 +201,7 @@ describe Todo, ".parse" do
   end
 
 
-  it ".parsed_description should output correct line html" do
+  it "#parsed_description outputs correct line html" do
     user = User.create(:username => "Example", :email => "example@example.com", :password => "Password1")
     todo = Todo.create :description => 'Write report'
     todo.user = user
@@ -238,7 +237,7 @@ describe Todo, ".parse" do
     end
   end
 
-  it ".local_completed_time should return value for current_user's timezone" do
+  it "#local_completed_time returns value for current_user's timezone" do
     user = User.create(:username => "Example", :email => "example@example.com", :password => "Password1")
     todo = Todo.create :description => 'Write first draft +report'
     todo.user = user
@@ -261,8 +260,8 @@ describe Todo, ".parse" do
   end
 end
 
-describe Todo, ".strip_text" do
-  it "remove text from description" do
+describe Todo, "#strip_text" do
+  it "removes text from description" do
     user = User.create(:username => "Example", :email => "example@example.com", :password => "Password1")
 
     todo = Todo.create :description => 'Write first draft +report @home'

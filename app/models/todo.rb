@@ -47,13 +47,16 @@ class Todo < ActiveRecord::Base
   cattr_accessor :context_regexp
   cattr_accessor :tag_regexp
 
-  scope :active, where(completed: false)
-  scope :completed, where(completed: true)
+  scope :active, where(completed: false, tickler: false)
+  scope :completed, where(completed: true, tickler: false)
+  scope :ticklers, where(tickler: true, completed: false)
 
   # Scope todos for constrained set of options
   #   @return [Array<Todo>]
   def self.for_options(options = {})
-    if options[:completed]
+    if options[:tickler]
+      todos = ticklers.order('todos.created_at DESC')
+    elsif options[:completed]
       todos = completed.order('todos.completed_time DESC')
     else
       todos = active.order('todos.created_at DESC')
@@ -74,7 +77,6 @@ class Todo < ActiveRecord::Base
     todos
   end
 
-
   # Mark the +Todo+ as completed
   # @return [void]
   def complete
@@ -87,6 +89,12 @@ class Todo < ActiveRecord::Base
   def uncomplete
     write_attribute(:completed, false)
     write_attribute(:completed_time, 0)
+  end
+
+  # Mark the +Todo+ as for the 'tickler' file or not
+  # @return [void]
+  def toggle_tickler_status
+    write_attribute(:tickler, !tickler)
   end
 
   # Get the first associated +TodoContext+
@@ -112,7 +120,7 @@ class Todo < ActiveRecord::Base
     end
 
     if new_record?
-      raise ".parse meant to be run after save"
+      raise "#parse meant to be run after save"
     end
 
     if match_data = self::project_regexp.match(description)
@@ -219,7 +227,8 @@ class Todo < ActiveRecord::Base
     {
       :id => self.id,
       :description => self.parsed_description,
-      :completed => self.completed
+      :completed => self.completed,
+      :tickler => self.tickler
     }
   end
 end

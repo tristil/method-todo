@@ -1,16 +1,20 @@
-Given /a (completed )?todo "(.*?)" exists in the (Active|Completed) list/ do |completed, description, list|
+Given /a (completed )?todo "(.*?)" exists in the (Active|Completed|Tickler) list/ do |completed, description, list|
   @description = description
   user = User.find_by_email 'newuser@example.com'
   @todo = Todo.new :description => description
   @todo.user = user
   if list == 'Completed'
     @todo.complete
+  elsif list == "Tickler"
+    @todo.toggle_tickler_status
   end
-  @todo.save
+  @todo.save!
   @todo.parse
   visit(root_path)
   if list == 'Completed'
     click_link "completed-tab"
+  elsif list == "Tickler"
+    click_link "tickler-tab"
   end
   find(:css, "##{list.downcase}-todos-list").should have_content(description)
 end
@@ -27,7 +31,7 @@ And /it should disappear from the "(.*?)" list/ do |list_name|
   find(:css, "##{list_name.downcase}-todos-list").should_not have_content(@description)
 end
 
-When /I click on the (Active|Completed) tab/ do |list|
+When /I click on the (Active|Completed|Tickler) tab/ do |list|
   click_link("#{list.downcase}-tab")
 end
 
@@ -39,10 +43,10 @@ And /appear on the "(.*?)" list as "(.*?)"/ do |list_name, description|
   find(:css, "##{list}-todos-list").should have_content(description)
 end
 
-Then /the (Active|Completed) table should be visible/ do |list|
+Then /the (Active|Completed|Tickler) table should be visible/ do |list|
   find(:css, "##{list.downcase}-todos-list").should be_visible
 end
 
-Then /the (Active|Completed) table should not be visible/ do |list|
+Then /the (Active|Completed|Tickler) table should not be visible/ do |list|
   find(:css, "##{list.downcase}-todos-list").should_not be_visible
 end

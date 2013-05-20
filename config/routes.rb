@@ -4,9 +4,9 @@ MethodTodo::Application.routes.draw do
   match 'toggle_help' => 'frontpage#toggle_help'
   match 'timezone' => 'frontpage#set_timezone', via: :post
 
-  # Sample resource route (maps HTTP verbs to controller actions automatically):
   resources :todos do
     member do
+      put "toggle_tickler_status"
       put 'complete'
     end
   end

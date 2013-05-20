@@ -70,6 +70,12 @@ class User < ActiveRecord::Base
     todos.completed.order("completed_time DESC")
   end
 
+  # Get only tickler todos
+  #   @return [Array<Todo>]
+  def tickler_todos
+    todos.ticklers.order("completed_time DESC")
+  end
+
   # Get todos for user based on options
   #   @return [Array<Todo>]
   def todos_for_options(options)

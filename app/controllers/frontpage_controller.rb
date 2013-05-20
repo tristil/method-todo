@@ -72,6 +72,7 @@ class FrontpageController < ApplicationController
 
     @active_todos = current_user.active_todos.collect {|todo| todo.as_json }
     @completed_todos = current_user.completed_todos.collect {|todo| todo.as_json }
+    @tickler_todos = current_user.tickler_todos.collect {|todo| todo.as_json }
 
     @contexts = current_user.todo_contexts.map(&:as_json)
     @projects = current_user.projects.map(&:as_json)

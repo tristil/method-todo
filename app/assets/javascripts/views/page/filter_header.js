@@ -68,9 +68,9 @@ MethodTodo.Views.FilterHeader = Backbone.View.extend({
     if(this.parent.TodoFilter.status == 'active')
     {
       return "Active";
-    }
-    else
-    {
+    } else if(this.parent.TodoFilter.status == 'tickler') {
+      return 'Tickler';
+    } else {
       return "Completed";
     }
   },

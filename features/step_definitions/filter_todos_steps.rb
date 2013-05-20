@@ -35,7 +35,7 @@ Then /the (Active|Completed) Todos table should contain "(.*?)"/ do |table_type,
 end
 
 And /the filter header should read '(.+?)'/ do |header|
-  find(:css, '#filter').should have_content "Showing: #{header} Todos"
+  find(:css, '#filter').should have_content "#{header}"
 end
 
 And /the (context|project|tag) dropdown should read '(.+?)'/ do |type, label|

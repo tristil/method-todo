@@ -13,7 +13,7 @@ MethodTodo.Views.TodoFilter = Backbone.View.extend({
   el : 'body',
 
   /*
-   * @cfg {String} active|completed
+   * @cfg {String} active|completed|tickler
    */
   status : 'active',
 
@@ -31,7 +31,6 @@ MethodTodo.Views.TodoFilter = Backbone.View.extend({
    * @cfg {null|Integer} Current Tag Id
    */
   tag_id: null,
-
 
   /*
    * @constructor
@@ -51,6 +50,7 @@ MethodTodo.Views.TodoFilter = Backbone.View.extend({
   {
     this.parent.ActiveTodos.redraw();
     this.parent.CompletedTodos.redraw();
+    this.parent.TicklerTodos.redraw();
     this.parent.filter_header.refresh();
   },
 
