@@ -199,6 +199,8 @@ GEM
       railties (= 3.2.13)
     rails3_acts_as_paranoid (0.2.4)
       activerecord (~> 3.2)
+    rails_config (0.3.3)
+      activesupport (>= 3.0)
     railties (3.2.13)
       actionpack (= 3.2.13)
       activesupport (= 3.2.13)
@@ -302,6 +304,7 @@ DEPENDENCIES
   mysql2
   rails (~> 3.2)
   rails3_acts_as_paranoid
+  rails_config
   raindrops (~> 0.10.0)
   rb-fsevent
   rspec

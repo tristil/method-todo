@@ -1,0 +1,4 @@
+secret_token: PUTYOURS
+password_pepper: PUTYOURS
+geonames:
+  username: PUTYOURS

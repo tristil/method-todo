@@ -28,15 +28,24 @@ task :backup do
 end
 
 task :set_credentials do
-  upload("#{File.expand_path(File.dirname(__FILE__))}/credentials.yml",
-         "#{current_path}/config/credentials.yml")
+  # Taken from https://github.com/digineo/secret_token_replacer
+  release_settings = "#{release_path}/config/settings.yml"
+  shared_settings  = "#{shared_path}/config/settings.yml"
+
+  if capture("[ -f #{shared_settings} ] || echo missing").start_with?('missing')
+    run "mkdir -p #{shared_path}/config"
+    upload("#{File.expand_path(File.dirname(__FILE__))}/settings.yml",
+            shared_settings)
+  end
+
+  run "ln -nfs #{shared_settings} #{release_settings}"
 end
 
 before "deploy:migrate", "backup"
 
 after "deploy:update", "deploy:cleanup"
 after "deploy:update", "deploy:migrate"
-after "deploy:update", "set_credentials"
+before "deploy:finalize_update", "set_credentials"
 
 require 'capistrano-unicorn'
 

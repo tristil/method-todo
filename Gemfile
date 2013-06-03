@@ -13,6 +13,7 @@ gem 'timezone'
 gem 'jquery-rails'
 gem 'backbone-on-rails'
 gem "raindrops", "~> 0.10.0"
+gem "rails_config"
 
 group :guard do
   gem 'rb-fsevent'
