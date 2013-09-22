@@ -28,6 +28,7 @@ set :deploy_to, "/home/#{user}/production-sites/method-todo"
 set :deploy_via, :remote_cache
 
 require 'bundler/capistrano'
+require 'dotenv/capistrano'
 
 # Do backup
 task :backup do
@@ -36,17 +37,8 @@ task :backup do
 end
 
 task :set_credentials do
-  # Taken from https://github.com/digineo/secret_token_replacer
-  release_settings = "#{release_path}/config/settings.yml"
-  shared_settings  = "#{shared_path}/config/settings.yml"
-
-  if capture("[ -f #{shared_settings} ] || echo missing").start_with?('missing')
-    run "mkdir -p #{shared_path}/config"
-    upload("#{File.expand_path(File.dirname(__FILE__))}/settings.yml",
-            shared_settings)
-  end
-
-  run "ln -nfs #{shared_settings} #{release_settings}"
+  upload("#{File.expand_path(File.dirname(__FILE__))}/../.env",
+         "#{shared_path}/.env")
 end
 
 before "deploy:migrate", "backup"
@@ -57,4 +49,28 @@ before "deploy:finalize_update", "set_credentials"
 
 require 'capistrano-unicorn'
 
+after 'deploy:setup', 'unicorn:setup'
 after 'deploy:restart', 'unicorn:restart'
+after 'deploy:start', 'unicorn:start'
+after 'deploy:stop', 'unicorn:stop'
+
+namespace :unicorn do
+  desc 'Release the unicorns!'
+  task :start, roles: :app, except: { no_release: true } do
+    run "sv start #{application}"
+  end
+
+  desc 'Nighty night, unicorns. Time for bed.'
+  task :stop, roles: :app, except: { no_release: true } do
+    run "sv stop #{application}"
+  end
+
+  desc 'Send a USR2 to the unicorn process for deploys.'
+  task :restart, roles: :app, except: { no_release: true } do
+    run "sv 2 #{application}"
+  end
+
+  task :setup, roles: :app do
+    run "mkdir -p #{shared_path}/sockets"
+  end
+end

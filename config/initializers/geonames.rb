@@ -7,7 +7,9 @@ if geonames_username != 'PUTYOURS'
   MethodTodo::Application.config.perform_geoname_lookups = true
 else
   MethodTodo::Application.config.perform_geoname_lookups = false
-  Rails.logger.warn "WARNING  You must change the geonames username value in \
-config/settings.yml if you want to use the automate timezone lookup feature"
+  Rails.logger.warn %s{
+WARNING  You must set a RAILS_GEONAME_USERNAME environment variable if you want
+to use the automatic timezone lookup feature"
+}
 end
 
