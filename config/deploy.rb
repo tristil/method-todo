@@ -19,11 +19,14 @@ ssh_options[:forward_agent] = true
 ssh_options[:keys] = %w('~/.ssh/id_rsa.pub')
 default_run_options[:pty] = true
 
+set :default_environment, {
+  'PATH' => '/usr/local/rbenv/shims:/usr/local/rbenv/bin:$PATH'
+}
+
 set :use_sudo, false
 set :deploy_to, "/home/#{user}/production-sites/method-todo"
 set :deploy_via, :remote_cache
 
-require 'rvm/capistrano'
 require 'bundler/capistrano'
 
 # Do backup

@@ -71,9 +71,7 @@ end
 group :deployment do
   gem 'unicorn'
   gem 'capistrano'
-  gem 'rvm-capistrano'
   gem 'capistrano-unicorn'
-  gem 'capistrano-rvm'
 end
 
 # To use debugger
