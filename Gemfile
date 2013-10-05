@@ -72,6 +72,7 @@ group :deployment do
   gem 'unicorn'
   gem 'capistrano'
   gem 'capistrano-unicorn'
+  gem 'turbo-sprockets-rails3'
 end
 
 # To use debugger
