@@ -279,4 +279,24 @@ describe Todo, "#strip_text" do
     todo.reload.description.should == 'Write first draft @home'
     todo2.reload.description.should == 'Write final draft @work'
   end
+
+  describe "#defer_for_n_days!" do
+    it 'sets the show_at date to n days in the future at midnight' do
+      Timecop.freeze(DateTime.new(2013,10,1,12,30,0,'-4')) do
+        todo = Todo.create(description: 'Does something')
+        todo.defer_for_n_days!(5)
+        todo.show_at.should == DateTime.new(2013,10,6,0,0,0,'-4').utc
+      end
+    end
+
+    it 'sets the show_at date based on the local time' do
+      Timecop.freeze(DateTime.new(2013,10,1,23,0,0,'-4')) do
+        todo = Todo.create(description: 'Does something')
+        todo.defer_for_n_days!(5)
+        todo.show_at.should == DateTime.new(2013,10,6,0,0,0,'-4').utc
+      end
+    end
+
+  end
+
 end

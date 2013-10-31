@@ -51,6 +51,11 @@ class Todo < ActiveRecord::Base
   scope :completed, where(completed: true, tickler: false)
   scope :ticklers, where(tickler: true, completed: false)
 
+  def defer_for_n_days!(days)
+    today = DateTime.now
+    self.show_at = (today + days.days).midnight
+  end
+
   # Scope todos for constrained set of options
   #   @return [Array<Todo>]
   def self.for_options(options = {})

@@ -53,9 +53,6 @@ GEM
       rack-test (>= 0.5.4)
       selenium-webdriver (~> 2.0)
       xpath (~> 0.1.4)
-    capybara-webkit (0.12.1)
-      capybara (>= 1.0.0, < 1.2)
-      json
     childprocess (0.3.9)
       ffi (~> 1.0, >= 1.0.11)
     coderay (1.0.9)
@@ -254,7 +251,7 @@ GEM
       ref
     thor (0.18.1)
     tilt (1.3.7)
-    timecop (0.5.2)
+    timecop (0.6.3)
     timezone (0.1.5)
     treetop (1.4.12)
       polyglot
@@ -284,7 +281,7 @@ DEPENDENCIES
   bootstrap-sass
   capistrano
   capistrano-unicorn
-  capybara-webkit
+  capybara
   coffee-rails
   cucumber
   cucumber-rails
@@ -316,6 +313,7 @@ DEPENDENCIES
   rspec-mocks
   rspec-rails
   sass-rails
+  selenium-webdriver
   spork
   sqlite3
   therubyracer

@@ -34,7 +34,8 @@ group :test do
   gem 'database_cleaner'
   gem 'cucumber'
   gem 'cucumber-rails', require: false
-  gem 'capybara-webkit'
+  gem 'capybara'
+  gem 'selenium-webdriver'
   gem 'headless'
   gem 'timecop'
   gem 'rspec-mocks'
