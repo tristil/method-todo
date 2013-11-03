@@ -45,7 +45,8 @@ group :test do
 end
 
 group :test, :development do
-  gem 'debugger'
+  gem 'pry'
+  gem 'pry-debugger'
 end
 
 # Gems used only for assets and not required
