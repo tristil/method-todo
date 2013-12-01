@@ -3,7 +3,7 @@
 # * Represents the page containing other views
 # * @extends Backbone.View
 #
-MethodTodo.Views.Page = Backbone.View.extend(
+class MethodTodo.Views.Page extends Backbone.View
 
   #
   #   * @cfg {String} DOM id to target
@@ -129,4 +129,3 @@ MethodTodo.Views.Page = Backbone.View.extend(
       ), geoDenied
     else
       geoDenied()
-)

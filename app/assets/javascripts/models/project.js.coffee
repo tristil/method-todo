@@ -3,4 +3,4 @@
 # * Represents a Project model
 # * @extends Backbone.View
 #
-MethodTodo.Models.Project = Backbone.Model.extend({})
+class MethodTodo.Models.Project extends Backbone.Model

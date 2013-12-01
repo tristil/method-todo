@@ -4,7 +4,7 @@
 # * dropdown(Context, Project, Tag)
 # * @extends Backbone.View
 #
-MethodTodo.Views.ManageFilterModal = Backbone.View.extend(
+class MethodTodo.Views.ManageFilterModal extends Backbone.View
 
   #
   #   * @cfg {String} DOM id to target
@@ -116,4 +116,3 @@ MethodTodo.Views.ManageFilterModal = Backbone.View.extend(
     event.preventDefault()
     $("#manage-filters-confirmation").hide()
     $("#main-manage-filters").show()
-)

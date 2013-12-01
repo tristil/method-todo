@@ -3,7 +3,7 @@
 # * Represents a collection of Contexts
 # * @extends Backbone.View
 #
-MethodTodo.Collections.Contexts = Backbone.Collection.extend(
+class MethodTodo.Collections.Contexts extends Backbone.Collection
 
   #
   #   * @cfg
@@ -16,4 +16,3 @@ MethodTodo.Collections.Contexts = Backbone.Collection.extend(
   #   * Resource URL to use
   #
   url: "/contexts"
-)

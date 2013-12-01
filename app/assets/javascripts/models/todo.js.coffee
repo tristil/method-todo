@@ -3,4 +3,4 @@
 # * Represents a Todo model
 # * @extends Backbone.View
 #
-MethodTodo.Models.Todo = Backbone.Model.extend({})
+class MethodTodo.Models.Todo extends Backbone.Model

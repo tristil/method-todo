@@ -3,7 +3,7 @@
 # * Represents a modal dialog that appears when you select to delete a Todo
 # * @extends Backbone.View
 #
-MethodTodo.Views.DeleteTodoModal = Backbone.View.extend(
+class MethodTodo.Views.DeleteTodoModal extends Backbone.View
 
   #
   #   * @cfg {String} DOM id to target
@@ -57,5 +57,3 @@ MethodTodo.Views.DeleteTodoModal = Backbone.View.extend(
 
       complete: (jqXHR, textStatus) ->
         stopSpinner()
-
-)

@@ -3,7 +3,7 @@
 # * Represents the data table containing Todos
 # * @extends Backbone.View
 #
-MethodTodo.Views.TodoTable = Backbone.View.extend(
+class MethodTodo.Views.TodoTable extends Backbone.View
 
   #
   #   * @cfg
@@ -215,5 +215,3 @@ MethodTodo.Views.TodoTable = Backbone.View.extend(
       success: (data) ->
         stopSpinner()
         self.parent.TodoFilter.refresh()
-
-)

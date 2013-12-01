@@ -3,7 +3,7 @@
 # * An area at the top of the page that displays changes in the TodoFilter
 # * @extends Backbone.View
 #
-MethodTodo.Views.FilterHeader = Backbone.View.extend(
+class MethodTodo.Views.FilterHeader extends Backbone.View
 
   #
   #   * @cfg {String} DOM id to target
@@ -76,4 +76,3 @@ MethodTodo.Views.FilterHeader = Backbone.View.extend(
       record.id == parseInt(id)
     )
     getSymbolFromType(type) + record.get("name")
-)

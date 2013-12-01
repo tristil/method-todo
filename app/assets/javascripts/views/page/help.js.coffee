@@ -3,7 +3,7 @@
 # * Represents the available help at the top of the screen
 # * @extends Backbone.View
 #
-MethodTodo.Views.HelpBox = Backbone.View.extend(
+class MethodTodo.Views.HelpBox extends Backbone.View
 
   #
   #   * @cfg {String} DOM id to target
@@ -55,4 +55,3 @@ MethodTodo.Views.HelpBox = Backbone.View.extend(
     @help_box.hide()
     @show_help_link.show()
     @toggleHelp()
-)

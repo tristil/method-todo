@@ -1,1 +1,1 @@
-MethodTodo.Routers.Dropdowns = Backbone.Router.extend({})
+class MethodTodo.Routers.Dropdowns extends Backbone.Router

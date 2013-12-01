@@ -3,7 +3,7 @@
 # * Represents a collection of Tags
 # * @extends Backbone.View
 #
-MethodTodo.Collections.Tags = Backbone.Collection.extend(
+class MethodTodo.Collections.Tags extends Backbone.Collection
 
   #
   #   * @cfg
@@ -16,4 +16,3 @@ MethodTodo.Collections.Tags = Backbone.Collection.extend(
   #   * Resource URL to use
   #
   url: "/tags"
-)

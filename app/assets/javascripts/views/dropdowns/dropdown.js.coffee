@@ -3,7 +3,7 @@
 # * Represents a dropdown for Context, Project, Tag
 # * @extends Backbone.View
 #
-MethodTodo.Views.Dropdown = Backbone.View.extend(
+class MethodTodo.Views.Dropdown extends Backbone.View
 
   #
   #   * @cfg
@@ -132,4 +132,3 @@ MethodTodo.Views.Dropdown = Backbone.View.extend(
   #
   setDropdownTitle: (title) ->
     @$("a.dropdown-toggle").html title + @caret_html
-)

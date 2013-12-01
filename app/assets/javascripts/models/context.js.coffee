@@ -3,4 +3,4 @@
 # * Represents a Context model
 # * @extends Backbone.View
 #
-MethodTodo.Models.Context = Backbone.Model.extend({})
+class MethodTodo.Models.Context extends Backbone.Model

@@ -3,4 +3,4 @@
 # * Represents a Tag model
 # * @extends Backbone.View
 #
-MethodTodo.Models.Tag = Backbone.Model.extend({})
+class MethodTodo.Models.Tag extends Backbone.Model

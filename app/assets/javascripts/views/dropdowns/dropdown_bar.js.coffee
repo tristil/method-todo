@@ -3,7 +3,7 @@
 # * Represents the bar containing Dropdowns
 # * @extends Backbone.View
 #
-MethodTodo.Views.DropdownBar = Backbone.View.extend(
+class MethodTodo.Views.DropdownBar extends Backbone.View
 
   #
   #   * @cfg {String} DOM id to target
@@ -123,4 +123,3 @@ MethodTodo.Views.DropdownBar = Backbone.View.extend(
   clearAllSelections: ->
     @$(".dropdown-menu li").removeClass "active"
     @$(".dropdown").removeClass "active"
-)

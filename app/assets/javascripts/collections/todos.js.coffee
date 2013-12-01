@@ -3,7 +3,7 @@
 # * Represents a collection of Todos
 # * @extends Backbone.View
 #
-MethodTodo.Collections.Todos = Backbone.Collection.extend(
+class MethodTodo.Collections.Todos extends Backbone.Collection
 
   #
   #   * @cfg
@@ -40,4 +40,3 @@ MethodTodo.Collections.Todos = Backbone.Collection.extend(
       query_string += parameters
     url = @url + query_string
     @url + query_string
-)

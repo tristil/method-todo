@@ -3,7 +3,7 @@
 # * Represents the input for adding Todos
 # * @extends Backbone.View
 #
-MethodTodo.Views.TodoInput = Backbone.View.extend(
+class MethodTodo.Views.TodoInput extends Backbone.View
 
   #
   #   * @cfg {String} DOM id to target
@@ -63,4 +63,3 @@ MethodTodo.Views.TodoInput = Backbone.View.extend(
   #
   focus: ->
     $("#todo_description").focus()
-)

@@ -5,7 +5,7 @@
 # * @todo A lot of this would be better done using events
 # * @extends Backbone.View
 #
-MethodTodo.Views.TodoFilter = Backbone.View.extend(
+class MethodTodo.Views.TodoFilter extends Backbone.View
 
   #
   #   * @cfg {String} DOM id to target
@@ -120,4 +120,3 @@ MethodTodo.Views.TodoFilter = Backbone.View.extend(
         @context_id = null
     @parent.dropdowns_bar.setDropdownTitle type, id
     @refresh()
-)

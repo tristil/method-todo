@@ -3,7 +3,7 @@
 # * Represents the tabs at the top of todos table
 # * @extends Backbone.View
 #
-MethodTodo.Views.Tabs = Backbone.View.extend(
+class MethodTodo.Views.Tabs extends Backbone.View
 
   #
   #   * @cfg
@@ -25,4 +25,3 @@ MethodTodo.Views.Tabs = Backbone.View.extend(
     list_type = tab.attr("id").replace("-tab", "")
     @trigger "switch-tab", list_type
     $(tab).tab "show"
-)

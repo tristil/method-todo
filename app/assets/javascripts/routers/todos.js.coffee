@@ -1,1 +1,1 @@
-MethodTodo.Routers.Todos = Backbone.Router.extend({})
+class MethodTodo.Routers.Todos extends Backbone.Router
