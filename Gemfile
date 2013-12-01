@@ -23,7 +23,7 @@ group :guard do
   gem 'guard-bundler'
   gem 'guard-rspec'
   gem 'guard-cucumber'
-  gem 'guard-jasmine-headless-webkit'
+  gem 'guard-konacha'
 end
 
 group :test do
@@ -32,18 +32,16 @@ group :test do
   gem 'database_cleaner'
   gem 'cucumber'
   gem 'cucumber-rails', require: false
-  gem 'capybara-webkit'
+  gem 'selenium-webdriver'
   gem 'headless'
   gem 'timecop'
-  gem 'rspec-mocks'
-  gem 'jasmine'
-  gem 'jasmine-spec-extras'
-  gem 'jasmine-headless-webkit'
 end
 
 group :test, :development do
   gem 'pry'
   gem 'pry-debugger'
+  gem "konacha", "~> 3.0.0"
+  gem 'capybara-webkit'
 end
 
 # Gems used only for assets and not required

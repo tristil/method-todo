@@ -1,3 +1,5 @@
+//= require spec_helper
+
 describe('Todos Collection', function()
     {
 
@@ -25,10 +27,10 @@ describe('Todos Collection', function()
           it("should be empty if no values are set on TodoFilter", function()
             {
               this.todo_collection.url= '/todos/';
-              expect(this.todo_collection.getFilteredUrl()).toEqual('/todos/?');
+              expect(this.todo_collection.getFilteredUrl()).to.equal('/todos/?');
 
               this.todo_collection.url= '/todos/?completed=1';
-              expect(this.todo_collection.getFilteredUrl()).toEqual('/todos/?completed=1&');
+              expect(this.todo_collection.getFilteredUrl()).to.equal('/todos/?completed=1&');
             }
           );
 
@@ -36,15 +38,15 @@ describe('Todos Collection', function()
             {
               this.todo_filter.context_id = 1;
               this.todo_collection.url= '/todos/';
-              expect(this.todo_collection.getFilteredUrl()).toEqual('/todos/?context_id=1');
+              expect(this.todo_collection.getFilteredUrl()).to.equal('/todos/?context_id=1');
 
               this.todo_collection.url= '/todos/?completed=1';
-              expect(this.todo_collection.getFilteredUrl()).toEqual('/todos/?completed=1&context_id=1');
+              expect(this.todo_collection.getFilteredUrl()).to.equal('/todos/?completed=1&context_id=1');
 
               this.todo_filter.project_id = 1;
-              expect(this.todo_collection.getFilteredUrl()).toEqual('/todos/?completed=1&context_id=1&project_id=1');
+              expect(this.todo_collection.getFilteredUrl()).to.equal('/todos/?completed=1&context_id=1&project_id=1');
               this.todo_collection.url= '/todos/';
-              expect(this.todo_collection.getFilteredUrl()).toEqual('/todos/?context_id=1&project_id=1');
+              expect(this.todo_collection.getFilteredUrl()).to.equal('/todos/?context_id=1&project_id=1');
             }
           );
         }

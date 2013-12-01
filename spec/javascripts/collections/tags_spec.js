@@ -1,3 +1,5 @@
+//= require spec_helper
+
 describe('Tags Collection', function()
     {
       it("should instantiate", function()

@@ -1,3 +1,5 @@
+//= require spec_helper
+
 describe('ManageFilterModal object', function()
     {
       beforeEach(function() {
@@ -15,11 +17,11 @@ describe('ManageFilterModal object', function()
       it("should instantiate with required options array", function()
         {
           var self = this;
-          expect(function(){new MethodTodo.Views.ManageFilterModal()}).toThrow();
+          expect(function(){new MethodTodo.Views.ManageFilterModal()}).to.throw();
           expect(
             function(){new MethodTodo.Views.ManageFilterModal(
               {filter_type: 'context', parent : self.dropdown })}
-            ).not.toThrow();
+            ).not.to.throw();
         }
       );
 
@@ -29,7 +31,7 @@ describe('ManageFilterModal object', function()
             {filter_type: 'context', parent : this.dropdown}
           );
           modal.render();
-          expect(modal.$el.find('h3')).toHaveText("Manage Contexts");
+          expect(modal.$el.find('h3').text()).to.equal("Manage Contexts");
         }
       );
 
@@ -40,8 +42,8 @@ describe('ManageFilterModal object', function()
             {filter_type: 'context', parent : this.dropdown}
           );
           modal.render();
-          expect(modal.$el.find("tbody tr td a#filter-item-1")).toExist();
-          expect(modal.$el.find("tbody tr td:contains('work')")).toExist();
+          expect(modal.$el.find("tbody tr td a#filter-item-1")).to.exist;
+          expect(modal.$el.find("tbody tr td:contains('work')")).to.exist;
         }
       );
 
@@ -55,9 +57,7 @@ describe('ManageFilterModal object', function()
 
             $('#filter-item-1').click();
 
-            waitsFor( function() {
-              return $('#manage-filters-confirmation').is(":visible");
-            });
+            $('#manage-filters-confirmation').is(":visible").should.beTrue;
 
           }
       );
@@ -75,19 +75,12 @@ describe('ManageFilterModal object', function()
 
             $('#filter-item-1').click();
 
-            waitsFor( function() {
-              return $('#manage-filters-confirmation').is(":visible");
-            });
+            $('#manage-filters-confirmation').is(":visible").should.beTrue;
 
-            runs(function() {
-              $("#remove-filter-button-final").click();
-            });
+            $("#remove-filter-button-final").click();
 
-            runs( function() {
-              expect(spy).toHaveBeenCalled();
-              expect(spy.getCall(0).args[0].url)
-                  .toEqual("/contexts/1");
-            });
+            expect(spy).to.have.been.called;
+            expect(spy.getCall(0).args[0].url).to.equal("/contexts/1");
 
             // Can't test this atm because I'm blocking the success callback on
             // $.ajax

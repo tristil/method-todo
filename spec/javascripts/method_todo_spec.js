@@ -1,3 +1,5 @@
+//= require spec_helper
+
 describe('MethodTodo object', function()
     {
       beforeEach(function() {
@@ -8,10 +10,10 @@ describe('MethodTodo object', function()
       it("should instantiate", function()
         {
           MethodTodo.init({});
-          expect($.isEmptyObject(MethodTodo.Models)).toBe(false);
-          expect($.isEmptyObject(MethodTodo.Collections)).toBe(false);
-          expect($.isEmptyObject(MethodTodo.Routers)).toBe(false);
-          expect($.isEmptyObject(MethodTodo.Globals)).toBe(false);
+          expect($.isEmptyObject(MethodTodo.Models)).to.equal(false);
+          expect($.isEmptyObject(MethodTodo.Collections)).to.equal(false);
+          expect($.isEmptyObject(MethodTodo.Routers)).to.equal(false);
+          expect($.isEmptyObject(MethodTodo.Globals)).to.equal(false);
         }
       );
 

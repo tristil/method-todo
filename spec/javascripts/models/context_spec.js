@@ -1,3 +1,5 @@
+//= require spec_helper
+
 describe('Context Model', function()
     {
       it("should instantiate", function()
