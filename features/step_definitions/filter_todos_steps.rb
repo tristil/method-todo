@@ -20,7 +20,7 @@ Then /the (Active|Completed) Todos table should only contain "(.*?)"/ do |table_
   end
   page.should_not have_xpath "//div[@id='#{table_type.downcase}-todos-list']/table/tbody//tr/span[@id='todo-#{not_todo.id}']"
   rows = all(:xpath, "//div[@id='#{table_type.downcase}-todos-list']/table/tbody//tr")
-  rows.first.find('span').text.should == description
+  rows.first.find('span.js-description').text.should == description
 end
 
 When /I click the All todos button/ do

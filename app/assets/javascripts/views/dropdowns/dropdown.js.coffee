@@ -31,6 +31,7 @@ class MethodTodo.Views.Dropdown extends Backbone.View
     ) + @caret_html
     @dropdown_menu = @$el.find("ul.dropdown-menu")
     @collection.bind "reset", @render, this
+    @collection.bind "sync", @render, this
     @item_symbol = getSymbolFromType(@dropdown_type)
 
 

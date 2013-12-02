@@ -24,8 +24,8 @@ class MethodTodo.Views.DeleteTodoModal extends Backbone.View
   #   * Create a new DeleteTodoModal instance
   #   * @param {Integer} id Id of the Todo record that is to be deleted
   #
-  initialize: (id) ->
-    @id = id
+  initialize: (options) ->
+    @id = options.id
     @$el.modal "show"
 
 

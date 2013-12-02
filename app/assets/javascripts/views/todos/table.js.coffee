@@ -33,7 +33,7 @@ class MethodTodo.Views.TodoTable extends Backbone.View
     @editor_template = JST["todos/editor"]
     @collection.bind "reset", @render, this
     @collection.bind "add", @addTodo, this
-    @collection.bind "sync", @updateTodoDescription, this
+    @collection.bind "sync", @render, this
 
 
   #
@@ -44,7 +44,7 @@ class MethodTodo.Views.TodoTable extends Backbone.View
     event.preventDefault()
     delete_link = $(event.currentTarget)
     id = parseInt(delete_link.attr("id").replace("todo-delete-", ""))
-    modal = new MethodTodo.Views.DeleteTodoModal(id)
+    modal = new MethodTodo.Views.DeleteTodoModal(id: id)
 
 
   #

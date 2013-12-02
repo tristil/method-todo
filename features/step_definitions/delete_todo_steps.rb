@@ -7,10 +7,10 @@ Then /I should receive a popup alert/ do
 end
 
 And /when I agree to delete the todo/ do
-  click_link('delete-todo-button');
+  click_link('delete-todo-button')
   page.driver.browser.switch_to.alert.accept
 end
 
 Then /it should disappear from the todo list/ do
-  find(:xpath, '//tr[@id="todo-row-1"][@class="hidden"]');
+  find(:xpath, '//tr[@id="todo-row-1"][@class="hidden"]', visible: false)
 end

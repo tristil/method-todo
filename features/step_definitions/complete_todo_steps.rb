@@ -48,5 +48,5 @@ Then /the (Active|Completed|Tickler) table should be visible/ do |list|
 end
 
 Then /the (Active|Completed|Tickler) table should not be visible/ do |list|
-  find(:css, "##{list.downcase}-todos-list").should_not be_visible
+  page.should_not have_selector(:css, "##{list.downcase}-todos-list")
 end

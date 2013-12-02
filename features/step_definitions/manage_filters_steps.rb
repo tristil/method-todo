@@ -8,7 +8,7 @@ Then /the filter management menu for (Context|Project|Tag)s should appear/ do |f
 end
 
 When /I click the Delete Filter button for "(.*)"/ do |value|
-  find(:css, "#main-manage-filters td:contains('#{value}')").parent.find('.remove-filter-button').click
+  find(:css, "#main-manage-filters td", text: value).find(:xpath, "..").find('.remove-filter-button').click
 end
 
 And /I click the Delete All confirmation button/ do
