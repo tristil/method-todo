@@ -55,8 +55,8 @@ before "deploy:migrate", "backup"
 after "deploy:update", "deploy:cleanup"
 after "deploy:update", "deploy:migrate"
 before "deploy:finalize_update", "set_credentials"
+after "deploy:finalize_update", 'unicorn:make_sockets_dir'
 
-before 'deploy:start', 'unicorn:make_sockets_dir'
 after 'deploy:start', 'unicorn:start'
 after 'deploy:restart', 'unicorn:restart'
 after 'deploy:reload', 'unicorn:reload'
