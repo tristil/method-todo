@@ -32,7 +32,6 @@ class MethodTodo.Views.TodoTable extends Backbone.View
     @row_template = JST["todos/table_row"]
     @editor_template = JST["todos/editor"]
     @collection.bind "reset", @render, this
-    @collection.bind "add", @addTodo, this
     @collection.bind "sync", @render, this
 
 
@@ -102,12 +101,9 @@ class MethodTodo.Views.TodoTable extends Backbone.View
   #
   render: ->
     @table_body.html ""
-    self = this
-    @collection.each (todo) ->
-      self.table_body.append self.row_template(todo: todo.toJSON())
-
-    this
-
+    @collection.each (todo) =>
+      @table_body.append @row_template(todo: todo.toJSON())
+    @
 
   #
   #   * Respond to click event to set filter based on clicked badge

@@ -5,6 +5,8 @@
 #
 class MethodTodo.Collections.Todos extends Backbone.Collection
 
+  comparator: (first, second) -> if first.id > second.id then -1 else 1
+
   #
   #   * @cfg
   #   * Associated model
