@@ -7,7 +7,7 @@ gem 'rails', '~> 3.2'
 
 gem 'sqlite3'
 gem 'devise'
-gem 'rails3_acts_as_paranoid'
+gem 'acts_as_paranoid'
 gem 'mysql2'
 gem 'timezone'
 gem 'jquery-rails'
