@@ -66,8 +66,10 @@ end
 # Use unicorn as the app server
 group :deployment do
   gem 'unicorn'
-  gem 'capistrano'
-  gem 'capistrano-unicorn'
+  gem 'capistrano', '~> 3.0'
+  gem 'capistrano3-unicorn'
+  gem 'capistrano-rbenv'
+  gem 'capistrano-rails'
   gem 'turbo-sprockets-rails3'
 end
 

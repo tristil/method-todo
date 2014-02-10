@@ -1,6 +1,6 @@
 app_path = File.expand_path(File.dirname(__FILE__) + "/../../")
 
-worker_processes 1
+worker_processes 3
 preload_app true
 timeout 180
 
