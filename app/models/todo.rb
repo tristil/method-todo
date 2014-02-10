@@ -131,7 +131,7 @@ class Todo < ActiveRecord::Base
       else
         project = Project.new({:name => name})
         project.user = user
-        project.save
+        project.save!
       end
       self.project = project
     else
@@ -148,7 +148,7 @@ class Todo < ActiveRecord::Base
         else
           context = TodoContext.new({:name => name})
           context.user = user
-          context.save
+          context.save!
         end
         self.todo_contexts << context
       end
@@ -164,49 +164,53 @@ class Todo < ActiveRecord::Base
         else
           tag = Tag.new({:name => name})
           tag.user = user
-          tag.save
+          tag.save!
         end
         self.tags << tag
       end
     end
 
-    self.save
+    self.save!
+  end
+
+  def parse_description!
+    new_description = description.dup
+
+    Todo::project_regexp.match(self.description) do |match|
+      new_description.gsub! ' +' + match[1], ''
+      new_description += " <a href='#' class='project-badge-#{self.project.id} todo-badge'><span class='label'>+#{match[1]}</span></a>"
+    end
+
+    self.description.scan(Todo::context_regexp) do |match|
+      name = match[0].strip
+      new_description.gsub! ' @' + name, ''
+      context_id = self.todo_contexts.select {|todo_context| todo_context.name == name }.first.id
+      new_description += " <a href='#' class='context-badge-#{context_id} todo-badge'><span class='label'>@#{name}</span></a>"
+    end
+
+    self.description.scan(Todo::tag_regexp) do |match|
+      name = match[0].strip
+      new_description.gsub! ' #' + name, ''
+      tag_id = self.tags.select {|tag| tag.name == name }.first.id
+      new_description += " <a href='#' class='tag-badge-#{tag_id} todo-badge'><span class='label'>##{name}</span></a>"
+    end
+
+    if self.completed
+      new_description += " <span class='completed-badge label label-inverse'>#{self.local_completed_time.to_formatted_s(:american)}</span>"
+    end
+
+    new_description
   end
 
   # Get formatted line (with Bootstrap 'badges') to display in data-table
   # @return [String]
   def parsed_description
     begin
-      new_description = description.dup
-
-      Todo::project_regexp.match(self.description) do |match|
-        new_description.gsub! ' +' + match[1], ''
-        new_description += " <a href='#' class='project-badge-#{self.project.id} todo-badge'><span class='label'>+#{match[1]}</span></a>"
-      end
-
-      self.description.scan(Todo::context_regexp) do |match|
-        name = match[0].strip
-        new_description.gsub! ' @' + name, ''
-        context_id = self.todo_contexts.select {|todo_context| todo_context.name == name }.first.id
-        new_description += " <a href='#' class='context-badge-#{context_id} todo-badge'><span class='label'>@#{name}</span></a>"
-      end
-
-      self.description.scan(Todo::tag_regexp) do |match|
-        name = match[0].strip
-        new_description.gsub! ' #' + name, ''
-        tag_id = self.tags.select {|tag| tag.name == name }.first.id
-        new_description += " <a href='#' class='tag-badge-#{tag_id} todo-badge'><span class='label'>##{name}</span></a>"
-      end
-
-      if self.completed
-        new_description += " <span class='completed-badge label label-inverse'>#{self.local_completed_time.to_formatted_s(:american)}</span>"
-      end
-
-      new_description
+      parse_description!
     rescue
       self.parse
-      # What could possibly go wrong?
-      parsed_description
+      # Try one more time
+      parse_description!
     end
   end
 
