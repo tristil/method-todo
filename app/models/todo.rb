@@ -4,7 +4,6 @@
 
 class Todo < ActiveRecord::Base
 
-  attr_accessible :description
   # @!attribute description
   #   @return [String] text of the +Todo+
 
@@ -15,6 +14,8 @@ class Todo < ActiveRecord::Base
   #   @return [Datetime] Time of completion
 
   acts_as_paranoid
+
+  attr_accessible :description
 
   validates :description, :presence => true
 
