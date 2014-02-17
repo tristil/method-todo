@@ -17,7 +17,7 @@ class MethodTodo.Collections.Todos extends Backbone.Collection
   #   * Get back records from the server based on filter status
   #
   redraw: ->
-    @fetch url: @getFilteredUrl()
+    @fetch url: @getFilteredUrl(), reset: true
 
   #
   #   * Construct a url based on the current filter settings
