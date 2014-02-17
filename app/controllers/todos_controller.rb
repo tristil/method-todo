@@ -114,7 +114,7 @@ class TodosController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to '/' }
+      format.html { render :json => json_response, status: status }
       format.json { render :json => json_response, status: status }
     end
   end
@@ -133,7 +133,7 @@ class TodosController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to '/' }
+      format.html { render :json => json_response }
       format.json { render :json => json_response }
     end
   end

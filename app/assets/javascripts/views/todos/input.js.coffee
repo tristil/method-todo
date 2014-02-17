@@ -18,7 +18,6 @@ class MethodTodo.Views.TodoInput extends Backbone.View
     "submit #new_todo": "createTodo"
     "click #add-todo-button": "createTodo"
 
-
   #
   #   * @constructor
   #   * Create a new TodoInput instance
@@ -28,13 +27,11 @@ class MethodTodo.Views.TodoInput extends Backbone.View
   initialize: (options) ->
     @parent = options.parent
 
-
   #
   #   * Respond to submit event to create a Todo
   #   * @param {jQuery.Event}
   #
   createTodo: (event) ->
-    self = this
     event.preventDefault()
     attributes = todo:
       description: $("#todo_description").val()
@@ -42,21 +39,19 @@ class MethodTodo.Views.TodoInput extends Backbone.View
     $("#spinner").spin()
     @collection.create attributes,
       wait: true
-      success: ->
+      success: =>
         $("#todo_description").val ""
         focusTodoInput()
         stopSpinner()
-        self.parent.Contexts.fetch()
-        self.parent.Projects.fetch()
-        self.parent.Tags.fetch()
+        @parent.Contexts.fetch()
+        @parent.Projects.fetch()
+        @parent.Tags.fetch()
 
       error: ->
         $("#todo_description").val ""
         focusTodoInput()
         stopSpinner()
         alert "Can't create todo!"
-
-
 
   #
   #   * Return focus to the input

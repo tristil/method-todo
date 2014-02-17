@@ -19,7 +19,6 @@ class MethodTodo.Views.TodoTable extends Backbone.View
     "click .toggle-tickler-status-link": "toggleTicklerStatus"
     "submit .todo-editor-form": "saveTodoEditorForm"
 
-
   #
   #   * @constructor
   #   * Create a new TodoTable instance
@@ -33,7 +32,7 @@ class MethodTodo.Views.TodoTable extends Backbone.View
     @editor_template = JST["todos/editor"]
     @collection.bind "reset", @render, this
     @collection.bind "sync", @render, this
-
+    @collection.bind "remove", @render, this
 
   #
   #   * Respond to click event to launch DeleteTodoModal
@@ -43,8 +42,7 @@ class MethodTodo.Views.TodoTable extends Backbone.View
     event.preventDefault()
     delete_link = $(event.currentTarget)
     id = parseInt(delete_link.attr("id").replace("todo-delete-", ""))
-    modal = new MethodTodo.Views.DeleteTodoModal(id: id)
-
+    modal = new MethodTodo.Views.DeleteTodoModal(id: id, collection: @collection)
 
   #
   #   * Respond to click event to move Todo to Completed or Active status
@@ -83,9 +81,7 @@ class MethodTodo.Views.TodoTable extends Backbone.View
         success: (todo) ->
           to_collection.add todo
 
-
-    $.ajax ajaxOptions
-
+    $.ajax(ajaxOptions)
 
   #
   #   * Add a Todo to the associated Collection
@@ -94,7 +90,6 @@ class MethodTodo.Views.TodoTable extends Backbone.View
   #
   addTodo: (todo, collection) ->
     @table_body.prepend @row_template(todo: todo.attributes)
-
 
   #
   #   * How to show this TodoTable
@@ -119,7 +114,6 @@ class MethodTodo.Views.TodoTable extends Backbone.View
     id = parseInt(badge_id.replace(badge_type + "-badge-", ""))
     @parent.TodoFilter.applyFilter badge_type, id, true
 
-
   #
   #   * Respond to click event to open line editor for a Todo
   #   * @param {jQuery.Event}
@@ -136,7 +130,6 @@ class MethodTodo.Views.TodoTable extends Backbone.View
     $("#todo-" + id + "-editor").show()
     $("#todo-" + id + "-editor").focus()
 
-
   #
   #   * Respond to click event to open line editor for a Todo
   #   * @param {jQuery.Event}
@@ -148,7 +141,6 @@ class MethodTodo.Views.TodoTable extends Backbone.View
     $("#todo-" + id + "-editor").hide()
     $("#todo-" + id).show()
 
-
   #
   #   * Respond to click event to close line editor and save changes to Todo
   #   * @param {jQuery.Event}
@@ -159,7 +151,6 @@ class MethodTodo.Views.TodoTable extends Backbone.View
     id = parseInt(link.attr("id").replace("todo-save-editor-", ""))
     @saveTodoEditor id
 
-
   #
   #   * Respond to submit event to close line editor and save changes to Todo
   #   * @param {jQuery.Event}
@@ -169,7 +160,6 @@ class MethodTodo.Views.TodoTable extends Backbone.View
     form = $(event.currentTarget)
     id = parseInt(form.attr("id").replace("todo-edit-form-", ""))
     @saveTodoEditor id
-
 
   #
   #   * Update todo on backend
@@ -191,8 +181,6 @@ class MethodTodo.Views.TodoTable extends Backbone.View
         self.parent.Contexts.fetch()
         self.parent.Projects.fetch()
         self.parent.Tags.fetch()
-
-
 
   #
   #   * Toggle tickler status of todo

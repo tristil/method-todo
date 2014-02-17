@@ -15,9 +15,8 @@ class MethodTodo.Views.DeleteTodoModal extends Backbone.View
   #   * Event hookups
   #
   events:
-    "click #close-delete-todo-modal": "closeModal"
+    "click #close-delete-todo-modal": "_onClickCloseModal"
     "click #delete-todo-button": "deleteTodo"
-
 
   #
   #   * @constructor
@@ -28,15 +27,13 @@ class MethodTodo.Views.DeleteTodoModal extends Backbone.View
     @id = options.id
     @$el.modal "show"
 
-
   #
   #   * Respond to click event to close dialog without deleting anything
   #   * @param {jQuery.Event}
   #
-  closeModal: (event) ->
-    event.preventDefault()
+  closeModal: ->
     @$el.modal "hide"
-
+    @undelegateEvents()
 
   #
   #   * Respond to click event to delete Todo and close dialog
@@ -45,15 +42,17 @@ class MethodTodo.Views.DeleteTodoModal extends Backbone.View
   deleteTodo: (event) ->
     event.preventDefault()
     $("#spinner").spin()
-    self = this
     $.ajax
       type: "DELETE"
-      url: "/todos/" + @id
-      success: (data) ->
-        $("#delete-todo-modal").modal "hide"
-        $("#todo-row-" + self.id).fadeOut "slow"
-        $("#todo-row-" + self.id).addClass "hidden"
+      url: "/todos/#{@id}.json"
+      success: (data) =>
+        @collection.remove(@id)
+        @closeModal()
         focusTodoInput()
 
       complete: (jqXHR, textStatus) ->
         stopSpinner()
+
+  _onClickCloseButton: (event) ->
+    event.preventDefault()
+    @closeModal()

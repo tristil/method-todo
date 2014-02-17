@@ -2,13 +2,26 @@ require 'acceptance/spec_helper'
 
 feature'deleting todos', js: true do
 
-  scenario 'It removes the todo' do
+  scenario 'It removes the todo and adds another' do
     user = create_user
-    create_todo(user: user, description: 'Existing todo')
     log_in_as_user(user)
-    should_see_todos(rows: [
-      ['', 'A new todo', ''],
-    ])
+    todo = create_todo(description: 'Existing todo')
+    should_see_todos('Existing todo')
+    delete_todo(id: todo.id)
+    todos_table_should_be_empty
+    create_todo(description: 'A new todo')
+    should_see_todos('A new todo')
+  end
+
+  def delete_todo(id: nil)
+    click_link "todo-delete-#{id}"
+    click_delete_on_modal
+  end
+
+  def click_delete_on_modal
+    within '#delete-todo-modal' do
+      click_link 'Delete'
+    end
   end
 
   def log_in_as_user(user, password: 'Password1')
@@ -26,25 +39,31 @@ feature'deleting todos', js: true do
                  password: 'Password1')
   end
 
-  def create_todo(description: 'A new todo', user: nil)
-    todo = Todo.new(description: description)
-    todo.user = user
-    todo.save!
-    todo
+  def create_todo(description: 'A new todo')
+    fill_in 'todo_description', with: description
+    last_todo = Todo.last
+    last_id = last_todo ? last_todo.id : 0
+    click_button 'add-todo-button'
+    expect do
+      new_todo = Todo.last
+      new_todo.id > last_id if new_todo
+    end.to become_true
+    Todo.last
   end
 
-  def should_see_todos(rows: rows)
+  def todos_table_should_be_empty
+    should_see_todos(*[])
+  end
+
+  def should_see_todos(*todos)
     should_see_todos_table
     trs_css = 'table.todo-list-table tbody tr'
-    page.should have_css(trs_css, count: rows.length)
+    page.should have_css(trs_css, count: todos.length)
     trs = page.all(trs_css)
     trs.each_with_index do |tr, index|
-      row = rows[index]
-      tr.should have_css('td', count: row.length)
+      todo = todos[index]
       tds = tr.all('td')
-      tds.each do |td, td_index|
-        td.text.should == row[td_index]
-      end
+      tds[1].text.should == todo
     end
   end
 
