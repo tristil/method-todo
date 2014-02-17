@@ -50,7 +50,7 @@ describe Todo do
     it "returns active todos if completed is not passed in" do
       todo2.complete
       todo2.save!
-      Todo.for_options.should == [todo3, todo1]
+      Todo.for_options.should == [todo1, todo3]
     end
 
     it "returns 'tickler' todos if tickler is passed in" do
@@ -58,7 +58,7 @@ describe Todo do
       todo1.save!
       todo3.tickler = true
       todo3.save!
-      Todo.for_options(tickler: true).should == [todo3, todo1]
+      Todo.for_options(tickler: true).should == [todo1, todo3]
     end
 
     it "returns completed todos if completed is passed in" do
@@ -66,21 +66,21 @@ describe Todo do
       todo1.save!
       todo3.complete
       todo3.save!
-      Todo.for_options(completed: 1).should == [todo3, todo1]
+      Todo.for_options(completed: 1).should == [todo1, todo3]
     end
 
     it "returns todos for a context if context_id is passed in" do
       todo1.todo_contexts << context1
       todo2.todo_contexts << context2
       todo3.todo_contexts << context1
-      Todo.for_options(context_id: context1.id).should == [todo3, todo1]
+      Todo.for_options(context_id: context1.id).should == [todo1, todo3]
     end
 
     it "returns todos for a tag if tag_id is passed in" do
       todo1.tags << tag
       todo2.tags << tag2
       todo3.tags << tag
-      Todo.for_options(tag_id: tag.id).should == [todo3, todo1]
+      Todo.for_options(tag_id: tag.id).should == [todo1, todo3]
     end
 
     it "returns todos for a project if project_id is passed in" do
@@ -90,7 +90,7 @@ describe Todo do
       todo2.save!
       todo3.project = project
       todo3.save!
-      Todo.for_options(project_id: project.id).should == [todo3, todo1]
+      Todo.for_options(project_id: project.id).should == [todo1, todo3]
     end
   end
 
