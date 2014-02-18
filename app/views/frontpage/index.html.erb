@@ -15,8 +15,11 @@
   });
 </script>
 
-<div class='row hidden-phone'>
-  <div id='help-container' class='col-md-10'>
+<div class='row'>
+  <div class='col-md-2'>
+    <strong><span id='filter'>Showing: All Todos</span></strong>
+  </div>
+  <div id='help-container' class='col-md-8'>
     <%= render :partial => 'frontpage/help_box', :locals => {:show_help => @show_help } %>
   </div>
   <div class='col-md-2'>
@@ -25,7 +28,6 @@
 </div>
 
 <div class='row todos-filter-message'>
-  <strong><span id='filter'>Showing: All Todos</span></strong>
 </div>
 
 <div class='row todos-filter-dropdowns'>
