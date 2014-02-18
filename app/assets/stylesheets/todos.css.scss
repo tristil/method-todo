@@ -1,0 +1,38 @@
+.add-todo-input {
+  width: 65%;
+
+  .form-group {
+    width: 80%;
+  }
+
+  input {
+    width: 100% !important;
+  }
+}
+
+a.action{
+  color: black;
+  &:hover {
+    color: lighten(black, 25%);
+    text-decoration: none;
+  }
+}
+
+
+.todo-tabs {
+  margin-top: 8px;
+}
+
+.struck-through
+{
+  text-decoration: line-through;
+}
+
+.todo-badge:hover
+{
+  text-decoration: none;
+}
+
+.todos-filter-dropdowns {
+  margin-top: 8px;
+}

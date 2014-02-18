@@ -12,8 +12,15 @@ gem 'mysql2'
 gem 'timezone'
 gem 'jquery-rails'
 gem 'backbone-on-rails'
-gem "raindrops", "~> 0.10.0"
+gem "raindrops"
 gem 'dotenv-rails'
+
+gem 'sass-rails'
+gem 'bootstrap-sass', '~> 3.1'
+gem 'coffee-rails'
+# See https://github.com/sstephenson/execjs#readme for more supported runtimes
+gem 'therubyracer', :platform => :ruby
+gem 'uglifier'
 
 group :guard do
   gem 'rb-fsevent'
@@ -40,21 +47,8 @@ end
 group :test, :development do
   gem 'pry'
   gem 'pry-debugger'
-  gem "konacha", "~> 3.0.0"
+  gem "konacha"
   gem 'capybara-webkit'
-end
-
-# Gems used only for assets and not required
-# in production environments by default.
-group :assets do
-  gem 'sass-rails'
-  gem 'bootstrap-sass', '~> 2.3.2.2'
-  gem 'coffee-rails'
-
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  gem 'therubyracer', :platform => :ruby
-
-  gem 'uglifier', '>= 1.0'
 end
 
 # To use ActiveModel has_secure_password

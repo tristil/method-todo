@@ -1,15 +1,17 @@
-<div class='modal' id='delete-todo-modal' style='display:none'>
-  <div class="modal-header">
-    <button class="close" data-dismiss="modal">×</button>
-    <h3>Delete Todo?</h3>
-  </div>
-  <div class="modal-body">
-    <p>Are you sure you want to delete this todo?</p>
-  </div>
-
-  <div class="modal-footer">
-    <a id='close-delete-todo-modal' href="#" class="btn">Close</a>
-    <a id='delete-todo-button' href="#" class="btn btn-primary">Delete</a>
+<div class='modal fade' id='delete-todo-modal' role='dialog'>
+  <div class='modal-dialog'>
+    <div class='modal-content'>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Delete todo?</h4>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete this todo?</p>
+      </div>
+      <div class="modal-footer">
+        <a id='close-delete-todo-modal' href="#" class="btn btn-default" data-dismiss='modal'>Close</a>
+        <a id='delete-todo-button' href="#" class="btn btn-primary">Delete</a>
+      </div>
+    </div>
   </div>
 </div>
-<!-- delete-todo-modal -->

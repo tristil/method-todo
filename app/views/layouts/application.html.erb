@@ -5,80 +5,72 @@
     <%= stylesheet_link_tag    "application", :media => "all" %>
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
-    <meta name='viewport' content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   </head>
   <body>
 
-    <div class='navbar navbar-fixed-top'>
-      <div class='navbar-inner'>
-        <div class='container'>
-          <span id='add-todo-area'>
-          <% if current_user %>
-            <ul class='nav'>
-              <li id='add-todo-button-navitem'>
-              <button id='add-todo-button' class='btn'>
-                <span class='icon-plus'></span>
-                Todo
-              </button>
-              </li>
-            </ul>
+    <nav class='navbar navbar-default navbar-fixed-top' role='navigation'>
+      <div class='container' id='add-todo-area'>
+        <% if current_user %>
+          <%= form_for Todo.new,
+            controller: 'todo', action: 'create',
+            html: {class: 'navbar-left navbar-form add-todo-input', role: 'search'} do |f| %>
+            <button id='add-todo-button' class='btn btn-default'>
+              <span class='glyphicon glyphicon-plus'></span>
+              Todo
+            </button>
 
-            <%= form_for Todo.new, {:controller => 'todo', :action => 'create', :html => {:class=> 'navbar-search horizontal-mobile'} } do |f| %>
-              <div style="margin-bottom:0">
-                <%= f.text_field :description, :div => false, :class => 'horizontal-mobile' %>
-              </div>
-            <% end %>
-          </span> <!-- add-todo-area -->
-
-            <ul class='nav'>
-            <li>
-              <div id='spinner' style='width: 50px; margin-top: 25px; float:left; margin-right: 10px'></div>
-            </li>
-            </ul>
-
-          <% else %>
-            <span class='brand'>Welcome!</span>
-          <% end %>
-        </div>
-      </div>
-    </div>
-
-    <div id='main-content'>
-      <div class='container'>
-        <% unless flash.empty? %>
-          <div class='row'>
-            <div class='span4 offset4'>
-              <% if notice %>
-                <p class="alert alert-info"><%= notice %></p>
-              <% end %>
-              <% if alert %>
-                <p class="alert alert-error"><%= alert %></p>
-              <% end %>
+            <div class='form-group'>
+              <%= f.text_field :description, :div => false, class: 'form-control' %>
             </div>
-          </div>
+          <% end %>
         <% end %>
+
+        <ul class='nav navbar-nav navbar-right'>
+          <li>
+            <div id='spinner' style='width: 50px; margin-top: 25px; float:left; margin-right: 10px'></div>
+          </li>
+          <% unless current_user %>
+            <li><span class='brand'>Welcome!</li>
+          <% end %>
+        </ul>
+      </div>
+    </nav>
+
+    <div class='container main-content'>
+      <% unless flash.empty? %>
         <div class='row'>
-          <%= yield %>
-        </div>
-      </div> <!-- .container -->
-    </div> <!-- #main-content -->
-
-    <div class='navbar navbar-fixed-bottom'>
-      <div class='navbar-inner'>
-        <div class='container'>
-          <a class='brand' href='/'>Method Todo</a>
-
-          <ul class='nav pull-right'>
-            <% if user_signed_in? %>
-              <li><a href='/account'>Account</a></li>
-              <li><%= link_to('Logout', destroy_user_session_path, {:method => :delete}) %></li>
-            <% else %>
-              <li><%= link_to('Login', new_user_session_path, {:id => 'login-link'})  %></li>
-              <li><%= link_to('Signup', new_user_registration_path, {:id => 'signup-link'})  %></li>
+          <div class='span4 offset4'>
+            <% if notice %>
+              <p class="alert alert-info"><%= notice %></p>
             <% end %>
-          </ul>
+            <% if alert %>
+              <p class="alert alert-error"><%= alert %></p>
+            <% end %>
+          </div>
         </div>
-      </div> <!-- .navbar-inner -->
+      <% end %>
+      <div class='row'>
+        <%= yield %>
+      </div>
+    </div> <!-- .container -->
+
+    <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+      <div class='container'>
+        <div class='navbar-header'>
+          <a class='navbar-brand' href='/'>Method Todo</a>
+        </div>
+
+        <ul class='nav navbar-nav navbar-right'>
+          <% if user_signed_in? %>
+            <li><a href='/account'>Account</a></li>
+            <li><%= link_to('Logout', destroy_user_session_path, {:method => :delete}) %></li>
+          <% else %>
+            <li><%= link_to('Login', new_user_session_path, {:id => 'login-link'})  %></li>
+            <li><%= link_to('Signup', new_user_registration_path, {:id => 'signup-link'})  %></li>
+          <% end %>
+        </ul>
+      </div>
     </div> <!-- .navbar-fixed-bottom -->
 
   </body>

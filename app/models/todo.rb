@@ -179,25 +179,25 @@ class Todo < ActiveRecord::Base
 
     Todo::project_regexp.match(self.description) do |match|
       new_description.gsub! ' +' + match[1], ''
-      new_description += " <a href='#' class='project-badge-#{self.project.id} todo-badge'><span class='label'>+#{match[1]}</span></a>"
+      new_description += " <a href='#' class='project-badge-#{self.project.id} todo-badge'><span class='label label-default'>+#{match[1]}</span></a>"
     end
 
     self.description.scan(Todo::context_regexp) do |match|
       name = match[0].strip
       new_description.gsub! ' @' + name, ''
       context_id = self.todo_contexts.select {|todo_context| todo_context.name == name }.first.id
-      new_description += " <a href='#' class='context-badge-#{context_id} todo-badge'><span class='label'>@#{name}</span></a>"
+      new_description += " <a href='#' class='context-badge-#{context_id} todo-badge'><span class='label label-default'>@#{name}</span></a>"
     end
 
     self.description.scan(Todo::tag_regexp) do |match|
       name = match[0].strip
       new_description.gsub! ' #' + name, ''
       tag_id = self.tags.select {|tag| tag.name == name }.first.id
-      new_description += " <a href='#' class='tag-badge-#{tag_id} todo-badge'><span class='label'>##{name}</span></a>"
+      new_description += " <a href='#' class='tag-badge-#{tag_id} todo-badge'><span class='label label-default'>##{name}</span></a>"
     end
 
     if self.completed
-      new_description += " <span class='completed-badge label label-inverse'>#{self.local_completed_time.to_formatted_s(:american)}</span>"
+      new_description += " <span class='completed-badge label label-default label-inverse'>#{self.local_completed_time.to_formatted_s(:american)}</span>"
     end
 
     new_description

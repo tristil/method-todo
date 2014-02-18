@@ -6,15 +6,19 @@
   </td>
   <td>
     <% if(todo.tickler == true) { %>
-      <a id='todo-tickler-<%= todo.id %>' class='toggle-tickler-status-link' href='#' title='Remove from tickler'>
-        <span class='icon-arrow-left'></span>
+      <a id='todo-tickler-<%= todo.id %>' class='toggle-tickler-status-link action' href='#' title='Remove from tickler'>
+        <span class='glyphicon glyphicon-arrow-left'></span>
       </a>
     <% } else { %>
-      <a id='todo-tickler-<%= todo.id %>' class='toggle-tickler-status-link' href='#' title='Move to tickler'>
-        <span class='icon-arrow-right'></span>
+      <a id='todo-tickler-<%= todo.id %>' class='toggle-tickler-status-link action' href='#' title='Move to tickler'>
+        <span class='glyphicon glyphicon-arrow-right'></span>
       </a>
     <% } %>
-    <a id='todo-edit-<%= todo.id %>' class='edit-todo-link' href='#' title='Edit todo'><span class='icon-pencil'></span></a>
-    <a id='todo-delete-<%= todo.id %>' class='delete-todo-link' href='#' title='Delete todo'><span class='icon-remove'></span></a>
+    <a id='todo-edit-<%= todo.id %>' class='edit-todo-link action' href='#' title='Edit todo'>
+      <span class='glyphicon glyphicon-pencil'></span>
+    </a>
+    <a id='todo-delete-<%= todo.id %>' class='delete-todo-link action' href='#' title='Delete todo'>
+      <span class='glyphicon glyphicon-remove'></span>
+    </a>
   </td>
 </tr>

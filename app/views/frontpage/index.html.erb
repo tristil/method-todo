@@ -16,22 +16,19 @@
 </script>
 
 <div class='row hidden-phone'>
-  <div id='help-container' class='span10'>
+  <div id='help-container' class='col-md-10'>
     <%= render :partial => 'frontpage/help_box', :locals => {:show_help => @show_help } %>
   </div>
-  <div class='span2'>
+  <div class='col-md-2'>
     <strong>Welcome, <%= current_user.username %></strong>
   </div>
 </div>
 
-<div class='row'>
-  <div class='span12'>
-    <strong><span id='filter'>Showing: All Todos</span></strong>
-  </div>
+<div class='row todos-filter-message'>
+  <strong><span id='filter'>Showing: All Todos</span></strong>
 </div>
 
-<div class='tabbable'>
-
+<div class='row todos-filter-dropdowns'>
   <ul class='nav nav-pills' id='dropdowns-bar'>
     <li id='all-todos-button-navitem'  class='active'>
       <a id='all-todos-button' href='#todos-list' data-toggle='tab'>All</a>
@@ -60,10 +57,10 @@
       <ul class='dropdown-menu'>
       </ul>
     </li> <!-- dropdown #tag-dropdown-navitem -->
-
-
   </ul> <!-- nav-tabs #contexts-projects -->
+</div>
 
+<div class='row todo-tabs'>
   <ul class='nav nav-tabs'>
     <li class='active'>
       <a href='#active-todos-list' id='active-tab'>Active</a>
@@ -75,25 +72,23 @@
       <a href='#tickler-todos-list' id='tickler-tab'>Tickler</a>
     </li>
   </ul> <!-- nav-tabs #active-completed -->
+</div>
 
-  <div class='tab-content'>
+<div class='row tab-content'>
+  <div id='active-todos-list' class='tab-pane active'>
+    <%= render :partial => 'todos/todolist', :locals => {:todos => @active_todos } %>
+  </div> <!-- todos-list -->
 
-    <div id='active-todos-list' class='tab-pane active'>
-      <%= render :partial => 'todos/todolist', :locals => {:todos => @active_todos } %>
-    </div> <!-- todos-list -->
+  <div id='completed-todos-list' class='tab-pane'>
+    <%= render :partial => 'todos/todolist', :locals => {:todos => @completed_todos } %>
+  </div> <!-- completed-todos -->
 
-    <div id='completed-todos-list' class='tab-pane'>
-      <%= render :partial => 'todos/todolist', :locals => {:todos => @completed_todos } %>
-    </div> <!-- completed-todos -->
+  <div id='tickler-todos-list' class='tab-pane'>
+    <%= render :partial => 'todos/todolist', :locals => {:todos => @tickler_todos } %>
+  </div> <!-- tickler-todos -->
 
-    <div id='tickler-todos-list' class='tab-pane'>
-      <%= render :partial => 'todos/todolist', :locals => {:todos => @tickler_todos } %>
-    </div> <!-- tickler-todos -->
-
-  </div> <!-- tab-content -->
-
-</div> <!-- tabbable -->
+</div> <!-- tab-content -->
 
 <%= render :partial => 'delete_todo_modal' %>
 
-<div class='modal' id='manage-filters-modal' style='display:none'></div>
+<div class='modal fade' id='manage-filters-modal'></div>

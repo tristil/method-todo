@@ -1,9 +1,9 @@
 <form class='todo-editor-form' id='todo-edit-form-<%= todo.id  %>' action='/todos/' method='PUT' style='display:inline'>
   <input id='todo-description-<%= todo.id  %>' name='todo[<%= todo.id  %>][description]' style='width: 75%' value='<%= todo.text_description %>' />
-  <a href='#' id='todo-save-editor-<%= todo.id  %>' class='todo-editor-save'>
-    <span class='icon-ok'></span>
+  <a href='#' id='todo-save-editor-<%= todo.id  %>' class='todo-editor-save action'>
+    <span class='glyphicon glyphicon-ok'></span>
   </a>
-  <a href='#' id='todo-close-editor-<%= todo.id  %>' class='todo-editor-close '>
-    <span class='icon-remove'></span>
+  <a href='#' id='todo-close-editor-<%= todo.id  %>' class='todo-editor-close action'>
+    <span class='glyphicon glyphicon-remove'></span>
   </a>
 </form>
