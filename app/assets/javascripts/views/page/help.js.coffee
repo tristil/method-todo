@@ -8,7 +8,7 @@ class MethodTodo.Views.HelpBox extends Backbone.View
   #
   #   * @cfg {String} DOM id to target
   #
-  el: "#help-container"
+  el: 'body'
 
   #
   #   * @cfg
@@ -18,22 +18,23 @@ class MethodTodo.Views.HelpBox extends Backbone.View
     "click #show-help-box": "showHelp"
     "click #dismiss-help": "dismissHelp"
 
-
   #
   #   * @constructor
   #   * Create a new HelpBox instance
   #
-  initialize: ->
+  initialize: (options) ->
     @help_box = @$("#help-box")
     @show_help_link = @$("#show-help-box")
-
+    @visible = options.visible
+    if @visible
+      @help_box.show()
+      @show_help_link.css('visibility', 'hidden')
 
   #
   #   * Toggle the backend preference for showing help to the user
   #
   toggleHelp: ->
     $.ajax url: "/toggle_help"
-
 
   #
   #   * Respond to click event to show the help box
@@ -42,9 +43,8 @@ class MethodTodo.Views.HelpBox extends Backbone.View
   showHelp: (event) ->
     event.preventDefault()
     @help_box.show()
-    @show_help_link.hide()
+    @show_help_link.css('visibility', 'hidden')
     @toggleHelp()
-
 
   #
   #   * Respond to click event to hide the help box
@@ -53,5 +53,5 @@ class MethodTodo.Views.HelpBox extends Backbone.View
   dismissHelp: (event) ->
     event.preventDefault()
     @help_box.hide()
-    @show_help_link.show()
+    @show_help_link.css('visibility', 'visible')
     @toggleHelp()

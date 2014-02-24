@@ -8,30 +8,16 @@
       tickler_todos   : <%= @tickler_todos.to_json.html_safe %>,
       contexts        : <%= @contexts.to_json.html_safe %>,
       projects        : <%= @projects.to_json.html_safe %>,
-      tags            : <%= @tags.to_json.html_safe %>
+      tags            : <%= @tags.to_json.html_safe %>,
+      show_help       : <%= @show_help.to_json %>
     };
 
     MethodTodo.init(initial_data);
   });
 </script>
 
-<div class='row'>
-  <div class='col-md-2'>
-    <strong><span id='filter'>Showing: All Todos</span></strong>
-  </div>
-  <div id='help-container' class='col-md-8'>
-    <%= render :partial => 'frontpage/help_box', :locals => {:show_help => @show_help } %>
-  </div>
-  <div class='col-md-2'>
-    <strong>Welcome, <%= current_user.username %></strong>
-  </div>
-</div>
-
-<div class='row todos-filter-message'>
-</div>
-
 <div class='row todos-filter-dropdowns'>
-  <ul class='nav nav-pills' id='dropdowns-bar'>
+  <ul class='pull-left nav nav-pills' id='dropdowns-bar'>
     <li id='all-todos-button-navitem'  class='active'>
       <a id='all-todos-button' href='#todos-list' data-toggle='tab'>All</a>
     </li>
@@ -60,6 +46,25 @@
       </ul>
     </li> <!-- dropdown #tag-dropdown-navitem -->
   </ul> <!-- nav-tabs #contexts-projects -->
+  <div class='pull-left'>
+    <span id='filter'>Showing: All Todos</span>
+  </div>
+</div>
+
+<div class='row'>
+  <div id='help-container' class='col-md-8'>
+    <div id='help-box' class='well' style='display:none'>
+      <h3>How do it work?</h3>
+      <div>Use symbols in the description of your todo to organize them for later sorting:</div>
+      <ul style='list-style:none'>
+        <li><strong>@</strong> &mdash; Assign the todo to a Context, e.g., <strong>@home</strong> or <strong>@work</strong></li>
+        <li><strong>+</strong> &mdash; Assign the todo to a Project, e.g., <strong>+research-paper</strong></li>
+        <li><strong>#</strong> &mdash; Assign the todo to a Tag, e.g., <strong>#purchases</strong></li>
+        <li>Click a <a class='label label-default' href='javascript:void(0)'>badge</a> to filter the list or use the dropdowns below</li>
+      </ul>
+      <a id='dismiss-help' href='#'>Dismiss this</a>
+    </div>
+  </div>
 </div>
 
 <div class='row todo-tabs'>

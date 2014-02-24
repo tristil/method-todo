@@ -24,14 +24,13 @@ class MethodTodo.Views.Page extends Backbone.View
   initialize: (initial_data) ->
     @initial_data = initial_data
     focusTodoInput()
-    @help_box = new MethodTodo.Views.HelpBox()
+    @help_box = new MethodTodo.Views.HelpBox(visible: initial_data.show_help)
     $(".alert").delay(1200).fadeOut "slow"
     @TodoFilter = new MethodTodo.Views.TodoFilter(parent: this)
     MethodTodo.Globals.TodoFilter = @TodoFilter
     @setupCollections()
     @setupViews()
     @getGeoPosition()
-
 
   #
   #   * Set up the collections
@@ -52,7 +51,6 @@ class MethodTodo.Views.Page extends Backbone.View
     @TicklerTodos = new MethodTodo.Collections.Todos()
     @TicklerTodos.url = "/todos/?tickler=1"
     @TicklerTodos.reset @initial_data.tickler_todos
-
 
   #
   #   * Set up the views
@@ -95,8 +93,6 @@ class MethodTodo.Views.Page extends Backbone.View
       self.TodoFilter.status = list_type
       self.filter_header.refresh()
 
-
-
   #
   #   * Try to get the geo position of the user and send to server, by hook or by
   #   * crook
@@ -111,7 +107,6 @@ class MethodTodo.Views.Page extends Backbone.View
           self.CompletedTodos.fetch()
           self.ActiveTodos.fetch()
           self.TicklerTodos.fetch()
-
 
     geoDenied = ->
       payload = offset: new Date().getTimezoneOffset() / 60

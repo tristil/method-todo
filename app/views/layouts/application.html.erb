@@ -30,9 +30,16 @@
           <li>
             <div id='spinner' style='width: 50px; margin-top: 25px; float:left; margin-right: 10px'></div>
           </li>
-          <% unless current_user %>
-            <li><span class='brand'>Welcome!</li>
-          <% end %>
+          <li>
+            <span class='welcome'>
+              <% if current_user %>
+                Welcome, <%= current_user.username %>
+              <% else %>
+                Welcome!
+              <% end %>
+            </span>
+          </li>
+          <li><a id='show-help-box' href='#'>Show help</a></li>
         </ul>
       </div>
     </nav>
