@@ -15,6 +15,7 @@ gem 'backbone-on-rails'
 gem "raindrops"
 gem 'dotenv-rails'
 
+gem 'ejs'
 gem 'sass-rails'
 gem 'bootstrap-sass', '~> 3.1'
 gem 'coffee-rails'
@@ -47,6 +48,7 @@ end
 group :test, :development do
   gem 'pry'
   gem 'pry-debugger'
+  gem 'pry-remote'
   gem "konacha"
   gem 'capybara-webkit'
 end
