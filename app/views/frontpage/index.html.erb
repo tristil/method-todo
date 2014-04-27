@@ -99,3 +99,12 @@
 <%= render :partial => 'delete_todo_modal' %>
 
 <div class='modal fade' id='manage-filters-modal'></div>
+
+<script>
+$('.todo-list-table').sortable(
+    { axis: 'y', items: 'tr', placeholder: 'todo-row-placeholder', handle: '[todo-gripper]' })
+  .on('sort', function(event, ui) {
+    ui.helper.find('.main').width(
+      ui.placeholder.width() - ui.helper.find('.actions').width() - 10);
+  });
+</script>

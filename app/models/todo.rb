@@ -15,9 +15,13 @@ class Todo < ActiveRecord::Base
 
   acts_as_paranoid
 
-  attr_accessible :description
+  attr_accessible :description, :ranking
+
+  before_create :set_ranking
 
   validates :description, :presence => true
+
+  validates_uniqueness_of :ranking, scope: :user_id
 
   # @!attribute user
   #   @return [User]
@@ -56,11 +60,11 @@ class Todo < ActiveRecord::Base
   #   @return [Array<Todo>]
   def self.for_options(options = {})
     if options[:tickler]
-      todos = ticklers.order('todos.created_at DESC')
+      todos = ticklers.order('todos.ranking ASC')
     elsif options[:completed]
       todos = completed.order('todos.completed_time DESC')
     else
-      todos = active.order('todos.created_at DESC')
+      todos = active.order('todos.ranking ASC')
     end
 
     if options[:context_id]
@@ -233,7 +237,14 @@ class Todo < ActiveRecord::Base
       :id => self.id,
       :description => self.parsed_description,
       :completed => self.completed,
-      :tickler => self.tickler
+      :tickler => self.tickler,
+      :ranking => self.ranking
     }
+  end
+
+  private
+
+  def set_ranking
+    self.ranking = Todo.where(user_id: user).pluck('MAX(ranking)')[0].to_i + 1
   end
 end

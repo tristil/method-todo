@@ -5,7 +5,9 @@
 #
 class MethodTodo.Collections.Todos extends Backbone.Collection
 
-  comparator: (first, second) -> if first.id > second.id then -1 else 1
+  comparator: (first, second) ->
+    debugger
+    if first.get('ranking') > second.get('ranking') then 1 else -1
 
   #
   #   * @cfg

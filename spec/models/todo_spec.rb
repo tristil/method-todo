@@ -26,6 +26,30 @@ describe Todo do
     Todo.new.should have(1).error_on(:description)
   end
 
+  it 'increments ranking for each new todo per user' do
+    user = User.create!(username: "Example",
+                       email: "example@example.com",
+                       password: "Password1")
+    user2 = User.create!(username: "Example2",
+                         email: "example2@example.com",
+                         password: "Password1")
+
+    todo = Todo.new(description: 'Do something')
+    todo.user = user
+    todo.save!
+    todo.ranking.should == 1
+
+    todo2 = Todo.new(description: 'Do something else')
+    todo2.user = user
+    todo2.save!
+    todo2.ranking.should == 2
+
+    todo3 = Todo.new(description: 'Do yet another thing')
+    todo3.user = user2
+    todo3.save!
+    todo3.ranking.should == 1
+  end
+
   specify "#user return user" do
     user = User.create(:username => "Example", :email => "example@example.com", :password => "Password1")
     user.should have(0).errors

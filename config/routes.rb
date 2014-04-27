@@ -8,6 +8,7 @@ MethodTodo::Application.routes.draw do
     member do
       put "toggle_tickler_status"
       put 'complete'
+      put 'reorder'
     end
   end
 

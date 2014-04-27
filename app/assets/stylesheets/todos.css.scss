@@ -51,3 +51,26 @@ a.action{
   font-weight: bold;
   vertical-align: -10px;
 }
+
+.nav-tabs {
+  border-bottom: none;
+}
+
+.todo-list-table td {
+  input { 
+    display: inline;
+  }
+
+  .gripper {
+    display: inline-block;
+    vertical-align: -4px;
+    cursor: move;
+  }
+
+  &.actions {
+    width: 64px;
+  }
+
+  &.main {
+  }
+}

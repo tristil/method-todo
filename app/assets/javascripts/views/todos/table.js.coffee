@@ -18,6 +18,7 @@ class MethodTodo.Views.TodoTable extends Backbone.View
     "click .delete-todo-link": "openDeleteModal"
     "click .toggle-tickler-status-link": "toggleTicklerStatus"
     "submit .todo-editor-form": "saveTodoEditorForm"
+    "sortbeforestop": "reorderTodo"
 
   #
   #   * @constructor
@@ -81,6 +82,25 @@ class MethodTodo.Views.TodoTable extends Backbone.View
         success: (todo) ->
           to_collection.add todo
 
+    $.ajax(ajaxOptions)
+
+  #
+  #   * Respond to sortbeforestop to change ranking of todo
+  #   * @param {jQuery.Event}
+  #
+  reorderTodo: (event, ui) ->
+    id = ui.item.data('todo_id')
+    prior_todo_id = ui.item.prev().data('todo_id')
+    ajaxOptions =
+      type: "PUT"
+      data: { prior_todo_id: prior_todo_id }
+      url: "/todos/" + id + "/reorder"
+      complete: (jqXHR, textStatus) ->
+        stopSpinner()
+      success: () ->
+        return
+
+    $("#spinner").spin()
     $.ajax(ajaxOptions)
 
   #

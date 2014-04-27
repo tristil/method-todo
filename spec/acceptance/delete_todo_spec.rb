@@ -63,7 +63,7 @@ feature'deleting todos', js: true do
     trs.each_with_index do |tr, index|
       todo = todos[index]
       tds = tr.all('td')
-      tds[1].text.should == todo
+      tds[0].text.should == todo
     end
   end
 
