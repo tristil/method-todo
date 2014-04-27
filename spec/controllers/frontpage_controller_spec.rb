@@ -37,7 +37,7 @@ describe FrontpageController do
     user.save
     get :index
     response.body.should =~ /<div id='help-box' class='well' style='display:none'>/
-    response.body.should =~ /<a id='show-help-box' href='#' style='float: right;'>/
+    response.body.should =~ /<a id='show-help-box' href='#'>/
   end
 end
 

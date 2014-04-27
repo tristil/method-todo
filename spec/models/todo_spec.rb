@@ -217,28 +217,28 @@ describe Todo, "#parse" do
     todo.description = "Write first draft +report"
     todo.save
     todo.parse
-    todo.parsed_description.should == "Write first draft <a href='#' class='project-badge-1 todo-badge'><span class='label'>+report</span></a>"
+    todo.parsed_description.should == "Write first draft <a href='#' class='project-badge-1 todo-badge'><span class='label label-default'>+report</span></a>"
 
     todo.description = "Write report @home"
     todo.save
     todo.parse
-    todo.parsed_description.should == "Write report <a href='#' class='context-badge-1 todo-badge'><span class='label'>@home</span></a>"
+    todo.parsed_description.should == "Write report <a href='#' class='context-badge-1 todo-badge'><span class='label label-default'>@home</span></a>"
 
     todo.description = "Write report #homework"
     todo.save
     todo.parse
-    todo.parsed_description.should == "Write report <a href='#' class='tag-badge-1 todo-badge'><span class='label'>#homework</span></a>"
+    todo.parsed_description.should == "Write report <a href='#' class='tag-badge-1 todo-badge'><span class='label label-default'>#homework</span></a>"
 
     todo.description = "Write first draft +report @home #homework"
     todo.save
     todo.parse
-    todo.parsed_description.should == "Write first draft <a href='#' class='project-badge-1 todo-badge'><span class='label'>+report</span></a> <a href='#' class='context-badge-1 todo-badge'><span class='label'>@home</span></a> <a href='#' class='tag-badge-1 todo-badge'><span class='label'>#homework</span></a>"
+    todo.parsed_description.should == "Write first draft <a href='#' class='project-badge-1 todo-badge'><span class='label label-default'>+report</span></a> <a href='#' class='context-badge-1 todo-badge'><span class='label label-default'>@home</span></a> <a href='#' class='tag-badge-1 todo-badge'><span class='label label-default'>#homework</span></a>"
 
     Timecop.freeze(Date.new(2012, 5, 1)) do
       todo.description = "Write first draft #homework"
       todo.complete
       todo.save
-      todo.parsed_description.should == "Write first draft <a href='#' class='tag-badge-1 todo-badge'><span class='label'>#homework</span></a> <span class='completed-badge label label-inverse'>5/01/2012</span>"
+      todo.parsed_description.should == "Write first draft <a href='#' class='tag-badge-1 todo-badge'><span class='label label-default'>#homework</span></a> <span class='completed-badge label label-default label-inverse'>5/01/2012</span>"
     end
   end
 

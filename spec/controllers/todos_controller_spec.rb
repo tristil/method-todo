@@ -70,9 +70,9 @@ describe TodosController do
 
     xhr :get, :index, :completed => 1
     ActiveSupport::JSON.decode(response.body).should == [
-      {"id"=>3, "description"=>"A Third Todo <span class='completed-badge label label-inverse'>5/01/2012</span>", "completed"=>true, "tickler" => false},
-      {"id"=>1, "description"=>"A New Todo <span class='completed-badge label label-inverse'>5/01/2012</span>", "completed"=>true, "tickler" => false},
-      {"id"=>2, "description"=>"Another Todo <span class='completed-badge label label-inverse'>5/01/2012</span>", "completed"=>true, "tickler" => false}
+      {"id"=>3, "description"=>"A Third Todo <span class='completed-badge label label-default label-inverse'>5/01/2012</span>", "completed"=>true, "tickler" => false},
+      {"id"=>1, "description"=>"A New Todo <span class='completed-badge label label-default label-inverse'>5/01/2012</span>", "completed"=>true, "tickler" => false},
+      {"id"=>2, "description"=>"Another Todo <span class='completed-badge label label-default label-inverse'>5/01/2012</span>", "completed"=>true, "tickler" => false}
     ]
   end
 
