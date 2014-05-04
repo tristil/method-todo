@@ -47,7 +47,7 @@ end
 
 group :test, :development do
   gem 'pry'
-  gem 'pry-debugger'
+  gem 'pry-byebug'
   gem 'pry-remote'
   gem "konacha"
   gem 'capybara-webkit'
@@ -68,6 +68,3 @@ group :deployment do
   gem 'capistrano-rails'
   gem 'turbo-sprockets-rails3'
 end
-
-# To use debugger
-# gem 'ruby-debug19', :require => 'ruby-debug'
