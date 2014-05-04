@@ -100,15 +100,13 @@ class TodosController < ApplicationController
   # POST /todos
   # @return [void]
   def create
-    @todo = Todo.new params[:todo]
-    @todo.user = current_user
+    @todo = CreateTodo.new(todo_params: params[:todo],
+                           user: current_user).call
 
     json_response = {}
     status = 200
-    if @todo.save
-      @todo.parse
-      json_response[:id] = @todo.id
-      json_response[:description] = @todo.parsed_description
+    if @todo.persisted?
+      json_response = @todo.as_json
       json_response[:saved] = true
     else
       status = 500

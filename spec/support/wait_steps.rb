@@ -6,10 +6,13 @@ module WaitSteps
   matcher :become_true do
     match do |block|
       begin
-        Timeout.timeout(Capybara.default_wait_time) do
-          sleep(0.1) until value = block.call
-          value
+        Timeout.timeout(10) do
+          loop do
+            value = block.call
+            break if value == true
+          end
         end
+        true
       rescue TimeoutError
         false
       end

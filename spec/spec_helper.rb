@@ -13,6 +13,7 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
 RSpec.configure do |config|
   config.include Devise::TestHelpers, :type => :controller
+  config.include UsersHelper
   config.include WaitSteps
   # ## Mock Framework
   #
@@ -43,15 +44,4 @@ RSpec.configure do |config|
   config.after(:each) do
     DatabaseCleaner.clean
   end
-end
-
-def create_and_login_user
-  user = User.create(
-    :username => 'Example',
-    :email => 'example@example.com',
-    :password => 'Password1',
-    :password_confirmation => 'Password1'
-  )
-  sign_in user
-  user
 end

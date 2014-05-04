@@ -1,4 +1,4 @@
-<tr id='todo-row-<%= todo.id %>' data-todo_id='<%= todo.id %>'>
+<tr class='todo-row' id='todo-row-<%= todo.id %>' data-todo_id='<%= todo.id %>'>
   <td class='main'>
     <span class='ui-icon ui-icon-grip-dotted-vertical gripper' todo-gripper></span>
     <input id='todo-complete-<%= todo.id %>' <%= todo.completed ? "checked" : "" %> class='complete-checkbox' type='checkbox' name='todos[<%= todo.id %>][complete]'/>

@@ -18,7 +18,15 @@ module MethodTodo
     # -- all .rb files in that directory are automatically loaded.
 
     # Custom directories with classes and modules you want to be autoloadable.
-    config.autoload_paths += %W(#{config.root}/lib)
+    config.autoload_paths += %W(
+      #{config.root}/lib
+      #{config.root}/app/interactions
+    #)
+
+    # If we are in an environment where we precompile assets, make sure we
+    # precompile all relevant css and js files, since by default only
+    # application.css and application.js will be precompiled
+    config.assets.precompile += ['test.js']
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.

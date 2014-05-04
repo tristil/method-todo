@@ -1,0 +1,44 @@
+
+#describe FrontpageController, "#timezone" do
+  #before(:each) do
+    #@user = create_and_login_user
+    #@latitude, @longitude = "30.2450952", "-100.9347053"
+
+    #require 'ostruct'
+    #timezone = OpenStruct.new
+    #timezone.utc_offset = -18000;
+    ## Don't make a call against the geoname service
+    #Timezone::Zone.stub(:new) { timezone }
+
+    ## This is diabled if the user hasn't changed the default value
+    #MethodTodo::Application.config.perform_geoname_lookups = true
+  #end
+
+  #it "should set timezone preference when lat and lon are passed" do
+    #post :set_timezone, :latitude => @latitude, :longitude => @longitude
+    #data = ActiveSupport::JSON.decode(response.body)
+    #data["offset"].should == -5
+    #@user.reload
+    #@user.preferences[:timezone_offset].should == -5
+  #end
+
+  #it "should set timezone preference when offset is passed" do
+    #post :set_timezone, :offset => "5"
+    #data = ActiveSupport::JSON.decode(response.body)
+    #data["offset"].should == -5
+    #@user.reload
+    #@user.preferences[:timezone_offset].should == -5
+  #end
+
+  #it "should use offset value when geoname is disabled" do
+    ## If the geoname username hasn't been set it should use the offset value
+    ## and not call geoname
+    #Timezone::Zone.should_not_receive :new
+    #MethodTodo::Application.config.perform_geoname_lookups = false
+    #post :set_timezone, :latitude => @latitude, :longitude => @longitude, :offset => "5"
+    #data = ActiveSupport::JSON.decode(response.body)
+    #data["offset"].should == -5
+    #@user.reload
+    #@user.preferences[:timezone_offset].should == -5
+  #end
+#end

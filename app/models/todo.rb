@@ -17,11 +17,13 @@ class Todo < ActiveRecord::Base
 
   attr_accessible :description, :ranking
 
-  before_create :set_ranking
+  before_save :set_and_update_rankings, unless: :ranking
 
   validates :description, :presence => true
 
-  validates_uniqueness_of :ranking, scope: :user_id
+  validates_uniqueness_of :ranking,
+                          scope: [:user_id, :deleted_at],
+                          if: :ranking
 
   # @!attribute user
   #   @return [User]
@@ -112,21 +114,16 @@ class Todo < ActiveRecord::Base
   # Get the completed time in the user's most recent timezone
   # @return [Datetime]
   def local_completed_time
-    timezone_offset = self.user.preferences[:timezone_offset] || 0
-    self.completed_time.in_time_zone(timezone_offset)
+    timezone_offset = user.preferences[:timezone_offset] || 0
+    completed_time.in_time_zone(timezone_offset)
   end
 
   # Parse description line to create +TodoContext+, +Project+ and +Tag+
   # associations. Must be run after the record is saved.
   # @return [void]
   def parse
-    unless user
-      raise "Todo not assigned to a user, can't parse"
-    end
-
-    if new_record?
-      raise "#parse meant to be run after save"
-    end
+    raise "Todo not assigned to a user, can't parse" unless user
+    raise "#parse meant to be run after save" if new_record?
 
     if match_data = self::project_regexp.match(description)
       name = match_data[1]
@@ -155,7 +152,7 @@ class Todo < ActiveRecord::Base
           context.user = user
           context.save!
         end
-        self.todo_contexts << context
+        todo_contexts << context
       end
     end
 
@@ -171,37 +168,37 @@ class Todo < ActiveRecord::Base
           tag.user = user
           tag.save!
         end
-        self.tags << tag
+        tags << tag
       end
     end
 
-    self.save!
+    save
   end
 
   def parse_description!
     new_description = description.dup
 
-    Todo::project_regexp.match(self.description) do |match|
+    Todo::project_regexp.match(description) do |match|
       new_description.gsub! ' +' + match[1], ''
-      new_description += " <a href='#' class='project-badge-#{self.project.id} todo-badge'><span class='label label-default'>+#{match[1]}</span></a>"
+      new_description += " <a href='#' class='project-badge-#{project.id} todo-badge'><span class='label label-default'>+#{match[1]}</span></a>"
     end
 
-    self.description.scan(Todo::context_regexp) do |match|
+    description.scan(Todo::context_regexp) do |match|
       name = match[0].strip
       new_description.gsub! ' @' + name, ''
-      context_id = self.todo_contexts.select {|todo_context| todo_context.name == name }.first.id
+      context_id = todo_contexts.select {|todo_context| todo_context.name == name }.first.id
       new_description += " <a href='#' class='context-badge-#{context_id} todo-badge'><span class='label label-default'>@#{name}</span></a>"
     end
 
-    self.description.scan(Todo::tag_regexp) do |match|
+    description.scan(Todo::tag_regexp) do |match|
       name = match[0].strip
       new_description.gsub! ' #' + name, ''
-      tag_id = self.tags.select {|tag| tag.name == name }.first.id
+      tag_id = tags.select {|tag| tag.name == name }.first.id
       new_description += " <a href='#' class='tag-badge-#{tag_id} todo-badge'><span class='label label-default'>##{name}</span></a>"
     end
 
-    if self.completed
-      new_description += " <span class='completed-badge label label-default label-inverse'>#{self.local_completed_time.to_formatted_s(:american)}</span>"
+    if completed
+      new_description += " <span class='completed-badge label label-default label-inverse'>#{local_completed_time.to_formatted_s(:american)}</span>"
     end
 
     new_description
@@ -213,7 +210,7 @@ class Todo < ActiveRecord::Base
     begin
       parse_description!
     rescue
-      self.parse
+      parse
       # Try one more time
       parse_description!
     end
@@ -234,17 +231,24 @@ class Todo < ActiveRecord::Base
   # @return [Hash]
   def as_json options = nil
     {
-      :id => self.id,
-      :description => self.parsed_description,
-      :completed => self.completed,
-      :tickler => self.tickler,
-      :ranking => self.ranking
+      :id => id,
+      :description => parsed_description,
+      :completed => completed,
+      :tickler => tickler,
+      :ranking => ranking
     }
   end
 
   private
 
-  def set_ranking
-    self.ranking = Todo.where(user_id: user).pluck('MAX(ranking)')[0].to_i + 1
+  def set_and_update_rankings
+    return unless user
+
+    self.ranking = 0
+
+    if Todo.where(ranking: 0, user_id: user.id).exists?
+      Todo.where(user_id: user.id).update_all('ranking = ranking + 1')
+    end
   end
+
 end

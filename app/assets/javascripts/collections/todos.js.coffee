@@ -5,8 +5,10 @@
 #
 class MethodTodo.Collections.Todos extends Backbone.Collection
 
+  initialize: ->
+    @on 'add', @updateRankings
+
   comparator: (first, second) ->
-    debugger
     if first.get('ranking') > second.get('ranking') then 1 else -1
 
   #
@@ -44,3 +46,9 @@ class MethodTodo.Collections.Todos extends Backbone.Collection
       query_string += parameters
     url = @url + query_string
     @url + query_string
+
+  updateRankings: (event) ->
+    @each (todo) ->
+      return if todo.id == event.changed.id
+      todo.set('ranking', todo.get('ranking') + 1)
+    @sort()

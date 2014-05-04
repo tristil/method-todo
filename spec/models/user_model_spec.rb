@@ -36,28 +36,34 @@ describe User do
 
   it ".active_todos should return non-completed todos" do
     user = User.create(:username => "Example", :email => "example@example.com", :password => "Password1")
-    todo = Todo.create(:description => "A New Todo")
-    user.todos << todo
-    todo2 = Todo.create(:description => "A New Todo 2")
+
+    todo = Todo.new(:description => "A New Todo")
+    todo.user = user
+    todo.save!
+
+    todo2 = Todo.new(:description => "A New Todo 2")
+    todo2.user = user
     todo2.complete
-    todo2.save
-    user.todos << todo2
-    user.save
-    user = User.find_by_id user.id
+    todo2.save!
+
+    user.reload
     user.todos.should == [todo, todo2]
     user.active_todos.should == [todo]
   end
 
   it ".completed_todos should return completed todos" do
     user = User.create(:username => "Example", :email => "example@example.com", :password => "Password1")
-    todo = Todo.create(:description => "A New Todo")
-    user.todos << todo
-    todo2 = Todo.create(:description => "A New Todo 2")
+
+    todo = Todo.new(:description => "A New Todo")
+    todo.user = user
+    todo.save!
+
+    todo2 = Todo.new(:description => "A New Todo 2")
+    todo2.user = user
     todo2.complete
-    todo2.save
-    user.todos << todo2
-    user.save
-    user = User.find_by_id user.id
+    todo2.save!
+
+    user.reload
     user.todos.should == [todo, todo2]
     user.completed_todos.should == [todo2]
   end
