@@ -66,7 +66,7 @@ ActiveRecord::Schema.define(:version => 20140504220425) do
     t.integer  "ranking"
   end
 
-  add_index "todos", ["ranking", "deleted_at"], :name => "index_todos_on_ranking_and_deleted_at", :unique => true
+  add_index "todos", ["ranking", "deleted_at", "user_id"], :name => "index_todos_on_ranking_and_deleted_at_and_user_id", :unique => true
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
