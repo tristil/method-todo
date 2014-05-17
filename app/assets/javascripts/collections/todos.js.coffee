@@ -9,7 +9,12 @@ class MethodTodo.Collections.Todos extends Backbone.Collection
     @on 'add', @updateRankings
 
   comparator: (first, second) ->
-    if first.get('ranking') > second.get('ranking') then 1 else -1
+    if first.get('starred') && second.get('starred')
+      if first.get('ranking') > second.get('ranking') then 1 else -1
+    else if first.get('starred') || second.get('starred')
+      if first.get('starred') then -1 else 1
+    else
+      if first.get('ranking') > second.get('ranking') then 1 else -1
 
   #
   #   * @cfg

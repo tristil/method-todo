@@ -51,5 +51,17 @@ module Acceptance
     def todo_should_not_be_sortable(id)
       todo_row(id).should_not have_css('span[todo-gripper]')
     end
+
+    def drag_todo(target_id: nil, steps: nil)
+      page.execute_script(<<-JS
+        var head = document.getElementsByTagName('head')[0];
+        var script = document.createElement('script');
+        script.src = '/assets/test.js';
+        head.appendChild(script);
+        $("tr[data-todo_id='#{target_id}']")
+          .simulateDragSortable({ move: #{steps}, handle: 'span[todo-gripper]' });
+      JS
+      )
+    end
   end
 end

@@ -67,6 +67,18 @@ a.action{
     cursor: move;
   }
 
+  .star {
+    display: inline-block;
+    vertical-align: -2px;
+  }
+
+  .icon-placeholder {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    vertical-align: -4px
+  }
+
   &.actions {
     width: 64px;
   }

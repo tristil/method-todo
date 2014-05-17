@@ -104,6 +104,12 @@ class Todo < ActiveRecord::Base
     write_attribute(:tickler, !tickler)
   end
 
+  # Mark the +Todo+ as 'starred' or not
+  # @return [void]
+  def toggle_starred_status
+    write_attribute(:starred, !starred)
+  end
+
   # Get the first associated +TodoContext+
   # @return [TodoContext]
   # @return [nil]
@@ -235,7 +241,8 @@ class Todo < ActiveRecord::Base
       :description => parsed_description,
       :completed => completed,
       :tickler => tickler,
-      :ranking => ranking
+      :ranking => ranking,
+      :starred => starred
     }
   end
 

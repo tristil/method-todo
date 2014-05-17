@@ -1,7 +1,6 @@
 require 'acceptance/spec_helper'
 
 feature 'Sorting todos', js: true do
-
   it 'allows changing the order of todos' do
     user = create_user
     visit root_path
@@ -48,17 +47,5 @@ feature 'Sorting todos', js: true do
     should_see_todos('Todo 1', 'Todo 2')
     visit current_path
     should_see_todos('Todo 1', 'Todo 2')
-  end
-
-  def drag_todo(target_id: nil, steps: nil)
-    page.execute_script(<<-JS
-      var head = document.getElementsByTagName('head')[0];
-      var script = document.createElement('script');
-      script.src = '/assets/test.js';
-      head.appendChild(script);
-      $("tr[data-todo_id='#{target_id}']")
-        .simulateDragSortable({ move: #{steps}, handle: 'span[todo-gripper]' });
-    JS
-    )
   end
 end

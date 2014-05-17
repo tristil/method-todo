@@ -17,6 +17,9 @@ class MethodTodo.Views.TodoTable extends Backbone.View
     "click .todo-editor-save": "clickSaveTodoEditor"
     "click .delete-todo-link": "openDeleteModal"
     "click .toggle-tickler-status-link": "toggleTicklerStatus"
+    "click span[data-todo_star]": "toggleStarredStatus"
+    "mouseenter span[data-todo_star]": "fillInStar"
+    "mouseleave span[data-todo_star]": "unFillStar"
     "submit .todo-editor-form": "saveTodoEditorForm"
     "sortbeforestop": "reorderTodo"
 
@@ -208,14 +211,41 @@ class MethodTodo.Views.TodoTable extends Backbone.View
   #
   toggleTicklerStatus: (event) ->
     event.preventDefault()
-    self = this
-    id = parseInt($(event.currentTarget).attr("id").replace("todo-tickler-", ""))
-    todo = @collection.find((todo) ->
-      todo.id == id
-    )
+    todo = @getTodoFromElement(event.currentTarget)
     $("#spinner").spin()
     todo.save {},
       url: "/todos/" + todo.id + "/toggle_tickler_status"
-      success: (data) ->
+      success: (data) =>
         stopSpinner()
-        self.parent.TodoFilter.refresh()
+        @parent.TodoFilter.refresh()
+
+  #
+  #   * Toggle starred status of todo
+  #   * @param {jQuery.Event}
+  #
+  toggleStarredStatus: (event) ->
+    event.preventDefault()
+    todo = @getTodoFromElement(event.currentTarget)
+    todo.starred = !todo.starred
+    $("#spinner").spin()
+    todo.save {},
+      url: "/todos/" + todo.id + "/toggle_starred_status"
+      success: (data) =>
+        stopSpinner()
+        @parent.TodoFilter.refresh()
+
+  fillInStar: (event) ->
+    todo = @getTodoFromElement(event.currentTarget)
+    return if todo.get('starred')
+    $(event.currentTarget).removeClass('glyphicon-star-empty')
+    $(event.currentTarget).addClass('glyphicon-star')
+
+  unFillStar: (event) ->
+    todo = @getTodoFromElement(event.currentTarget)
+    return if todo.get('starred')
+    $(event.currentTarget).removeClass('glyphicon-star')
+    $(event.currentTarget).addClass('glyphicon-star-empty')
+
+  getTodoFromElement: (element) ->
+    id = $(element).parentsUntil('[data-todo_id]').parent().data('todo_id')
+    @collection.get(id)
