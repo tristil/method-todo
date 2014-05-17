@@ -61,6 +61,20 @@ class TodosController < ApplicationController
     end
   end
 
+  # PUT /todos/1/toggle_starred_status
+  # @return [void]
+  def toggle_starred_status
+    @todo.toggle_starred_status
+    @todo.save!
+
+    json_response = {'starred' => @todo.starred}
+
+    respond_to do |format|
+      format.html { render :json => json_response}
+      format.json { render :json => json_response }
+    end
+  end
+
   # PUT /todos/1
   # @return [void]
   def update

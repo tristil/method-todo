@@ -7,6 +7,7 @@ MethodTodo::Application.routes.draw do
   resources :todos do
     member do
       put "toggle_tickler_status"
+      put "toggle_starred_status"
       put 'complete'
       put 'reorder'
     end

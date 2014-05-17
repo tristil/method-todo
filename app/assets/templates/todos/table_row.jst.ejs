@@ -2,7 +2,12 @@
   <td class='main'>
     <% if (!todo.completed) { %>
       <span class='ui-icon ui-icon-grip-dotted-vertical gripper' todo-gripper></span>
+      <% if (todo.starred) { %>
+        <span class='glyphicon glyphicon-star star' data-todo_star></span>
+      <% } else { %>
+        <span class='glyphicon glyphicon-star-empty star' data-todo_star></span>
       <% } %>
+    <% } %>
     <input id='todo-complete-<%= todo.id %>' <%= todo.completed ? "checked" : "" %> class='complete-checkbox' type='checkbox' name='todos[<%= todo.id %>][complete]'/>
     <span id='todo-<%= todo.id %>' class='js-description'><%= todo.description%></span>
     <span id='todo-<%= todo.id %>-editor' style='display:none'></span>

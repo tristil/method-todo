@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140504220425) do
+ActiveRecord::Schema.define(:version => 20140517171645) do
 
   create_table "projects", :force => true do |t|
     t.string   "name"
@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(:version => 20140504220425) do
     t.integer  "project_id"
     t.boolean  "tickler",        :default => false
     t.integer  "ranking"
+    t.boolean  "starred",        :default => false, :null => false
   end
 
   add_index "todos", ["ranking", "deleted_at", "user_id"], :name => "index_todos_on_ranking_and_deleted_at_and_user_id", :unique => true
