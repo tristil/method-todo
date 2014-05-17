@@ -21,6 +21,33 @@ feature 'Sorting todos', js: true do
     # Ensure things look okay after reload
     visit current_path
     should_see_todos('Todo 3', 'Todo 2', 'Todo 1')
+
+    # Completed todos should not be sortable
+    mark_todo_as_completed(todo3.id)
+    should_see_todos('Todo 2', 'Todo 1')
+    switch_to_tab('completed')
+    should_see_todos('Todo 3')
+    todo_should_not_be_sortable(todo3.id)
+
+    # Ticklers can be sorted
+    switch_to_tab('active')
+    mark_todo_as_tickler(todo1.id)
+    mark_todo_as_tickler(todo2.id)
+    switch_to_tab('tickler')
+    should_see_todos('Todo 2', 'Todo 1')
+    drag_todo(target_id: todo2.id, steps: 1)
+    should_see_todos('Todo 1', 'Todo 2')
+    visit current_path
+    switch_to_tab('tickler')
+    should_see_todos('Todo 1', 'Todo 2')
+
+    # They should preserve order when moved from tickler
+    unmark_todo_as_tickler(todo1.id)
+    unmark_todo_as_tickler(todo2.id)
+    switch_to_tab('active')
+    should_see_todos('Todo 1', 'Todo 2')
+    visit current_path
+    should_see_todos('Todo 1', 'Todo 2')
   end
 
   def drag_todo(target_id: nil, steps: nil)

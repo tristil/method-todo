@@ -27,5 +27,29 @@ module Acceptance
     def should_see_todos_table
       page.should have_css('table.todo-list-table')
     end
+
+    def mark_todo_as_completed(id)
+      check "todos[#{id}][complete]"
+    end
+
+    def mark_todo_as_tickler(id)
+      click_link "todo-tickler-#{id}"
+    end
+
+    def unmark_todo_as_tickler(id)
+      click_link "todo-tickler-#{id}"
+    end
+
+    def switch_to_tab(type)
+      click_link "#{type}-tab"
+    end
+
+    def todo_row(id)
+      find("#todo-row-#{id}")
+    end
+
+    def todo_should_not_be_sortable(id)
+      todo_row(id).should_not have_css('span[todo-gripper]')
+    end
   end
 end
