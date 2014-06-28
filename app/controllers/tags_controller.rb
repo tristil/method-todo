@@ -10,8 +10,8 @@ class TagsController < ApplicationController
     @tags = current_user.tags
 
     respond_to do |format|
-      format.html{ render :json => @tags }
-      format.json { render :json => @tags }
+      format.html { render json: @tags }
+      format.json { render json: @tags }
     end
   end
 
@@ -19,20 +19,19 @@ class TagsController < ApplicationController
   # @return [void]
   def destroy
     id = params[:id]
-    json_response = {'deleted' => false}
+    json_response = { 'deleted' => false }
 
     tag = Tag.find_by_id id
 
-    if tag and tag.user_id == current_user.id
-      current_user.todos.strip_text! '#'+tag.name
+    if tag && tag.user_id == current_user.id
+      current_user.todos.strip_text! '#' + tag.name
       tag.destroy
       json_response['deleted'] = true
     end
 
     respond_to do |format|
-      format.html { render :json => json_response }
-      format.json { render :json => json_response }
+      format.html { render json: json_response }
+      format.json { render json: json_response }
     end
   end
-
 end

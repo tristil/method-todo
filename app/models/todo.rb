@@ -3,7 +3,6 @@
 # - acts_as_paranoid
 
 class Todo < ActiveRecord::Base
-
   # @!attribute description
   #   @return [String] text of the +Todo+
 
@@ -17,7 +16,7 @@ class Todo < ActiveRecord::Base
 
   before_save :set_and_update_rankings, unless: :ranking
 
-  validates :description, :presence => true
+  validates :description, presence: true
 
   validates_uniqueness_of :ranking,
                           scope: [:user_id, :deleted_at],
@@ -40,21 +39,17 @@ class Todo < ActiveRecord::Base
   belongs_to :project
 
   # Regexp for pulling +Project+ out of description
-  @@project_regexp = /\+(.+?)( |$)/
+  PROJECT_REGEXP = /\+(.+?)( |$)/
 
   # Regexp for pulling +TodoContext+ out of description
-  @@context_regexp = /\@(.+?)( |$)/
+  CONTEXT_REGEXP = /\@(.+?)( |$)/
 
   # Regexp for pulling +Tag+ out of description
-  @@tag_regexp = /\#(.+?)( |$)/
+  TAG_REGEXP = /\#(.+?)( |$)/
 
-  cattr_accessor :project_regexp
-  cattr_accessor :context_regexp
-  cattr_accessor :tag_regexp
-
-  scope :active, ->{ where(completed: false, tickler: false) }
-  scope :completed, ->{ where(completed: true, tickler: false) }
-  scope :ticklers, ->{ where(tickler: true, completed: false) }
+  scope :active, -> { where(completed: false, tickler: false) }
+  scope :completed, -> { where(completed: true, tickler: false) }
+  scope :ticklers, -> { where(tickler: true, completed: false) }
 
   # Scope todos for constrained set of options
   #   @return [Array<Todo>]
@@ -68,12 +63,12 @@ class Todo < ActiveRecord::Base
     end
 
     if options[:context_id]
-      todos = todos.includes(:todo_contexts).
-        where(todo_contexts: {id: options[:context_id]})
+      todos = todos.includes(:todo_contexts)
+        .where(todo_contexts: { id: options[:context_id] })
     end
 
     if options[:tag_id]
-      todos = todos.includes(:tags).where(tags: {id: options[:tag_id]})
+      todos = todos.includes(:tags).where(tags: { id: options[:tag_id] })
     end
 
     if options[:project_id]
@@ -126,18 +121,19 @@ class Todo < ActiveRecord::Base
   # associations. Must be run after the record is saved.
   # @return [void]
   def parse
-    raise "Todo not assigned to a user, can't parse" unless user
-    raise "#parse meant to be run after save" if new_record?
+    fail "Todo not assigned to a user, can't parse" unless user
+    fail '#parse meant to be run after save' if new_record?
 
-    if match_data = self::project_regexp.match(description)
+    match_data = PROJECT_REGEXP.match(description)
+    if match_data
       name = match_data[1]
-      project_exists = Project.where({:name => name, :user_id => user.id})
-      unless project_exists.empty?
-        project = project_exists.first
-      else
-        project = Project.new({:name => name})
+      project_exists = Project.where(name: name, user_id: user.id)
+      if project_exists.blank?
+        project = Project.new(name: name)
         project.user = user
         project.save!
+      else
+        project = project_exists.first
       end
       self.project = project
     else
@@ -145,59 +141,61 @@ class Todo < ActiveRecord::Base
     end
 
     self.todo_contexts = []
-    if match_data = description.scan(self::context_regexp)
+    match_data = description.scan(CONTEXT_REGEXP)
+    if match_data
       match_data.each do |match|
         name = match[0]
-        context_exists = TodoContext.where({:name => name, :user_id => user.id})
-        unless context_exists.empty?
-          context = context_exists.first
-        else
-          context = TodoContext.new({:name => name})
+        context_exists = TodoContext.where(name: name, user_id: user.id)
+        if context_exists.blank?
+          context = TodoContext.new(name: name)
           context.user = user
           context.save!
+        else
+          context = context_exists.first
         end
         todo_contexts << context
       end
     end
 
     self.tags = []
-    if match_data = description.scan(self::tag_regexp)
+    match_data = description.scan(TAG_REGEXP)
+    if match_data
       match_data.each do |match|
         name = match[0]
-        tag_exists = Tag.where({:name => name, :user_id => user.id})
-        unless tag_exists.empty?
-          tag = tag_exists.first
-        else
-          tag = Tag.new({:name => name})
+        tag_exists = Tag.where(name: name, user_id: user.id)
+        if tag_exists.blank?
+          tag = Tag.new(name: name)
           tag.user = user
           tag.save!
+        else
+          tag = tag_exists.first
         end
         tags << tag
       end
     end
 
-    save
+    save!
   end
 
   def parse_description!
     new_description = description.dup
 
-    Todo::project_regexp.match(description) do |match|
+    PROJECT_REGEXP.match(description) do |match|
       new_description.gsub! ' +' + match[1], ''
       new_description += " <a href='#' class='project-badge-#{project.id} todo-badge'><span class='label label-default'>+#{match[1]}</span></a>"
     end
 
-    description.scan(Todo::context_regexp) do |match|
+    description.scan(CONTEXT_REGEXP) do |match|
       name = match[0].strip
       new_description.gsub! ' @' + name, ''
-      context_id = todo_contexts.select {|todo_context| todo_context.name == name }.first.id
+      context_id = todo_contexts.select { |todo_context| todo_context.name == name }.first.id
       new_description += " <a href='#' class='context-badge-#{context_id} todo-badge'><span class='label label-default'>@#{name}</span></a>"
     end
 
-    description.scan(Todo::tag_regexp) do |match|
+    description.scan(TAG_REGEXP) do |match|
       name = match[0].strip
       new_description.gsub! ' #' + name, ''
-      tag_id = tags.select {|tag| tag.name == name }.first.id
+      tag_id = tags.select { |tag| tag.name == name }.first.id
       new_description += " <a href='#' class='tag-badge-#{tag_id} todo-badge'><span class='label label-default'>##{name}</span></a>"
     end
 
@@ -211,19 +209,17 @@ class Todo < ActiveRecord::Base
   # Get formatted line (with Bootstrap 'badges') to display in data-table
   # @return [String]
   def parsed_description
-    begin
-      parse_description!
-    rescue
-      parse
-      # Try one more time
-      parse_description!
-    end
+    parse_description!
+  rescue
+    parse
+    # Try one more time
+    parse_description!
   end
 
   # Remove a string from locally scoped Todos' descriptions
   # @param text [String]
   # @return [void]
-  def self.strip_text! text
+  def self.strip_text!(text)
     all.each do |todo|
       todo.description = todo.description.gsub(text, '').gsub(/ +/, ' ').strip
       todo.save
@@ -233,14 +229,14 @@ class Todo < ActiveRecord::Base
   # Render the record as json
   # @param options [Hash]
   # @return [Hash]
-  def as_json options = nil
+  def as_json(_options = nil)
     {
-      :id => id,
-      :description => parsed_description,
-      :completed => completed,
-      :tickler => tickler,
-      :ranking => ranking,
-      :starred => starred
+      id: id,
+      description: parsed_description,
+      completed: completed,
+      tickler: tickler,
+      ranking: ranking,
+      starred: starred
     }
   end
 
@@ -248,12 +244,9 @@ class Todo < ActiveRecord::Base
 
   def set_and_update_rankings
     return unless user
-
     self.ranking = 0
+    return unless Todo.where(ranking: 0, user_id: user.id).exists?
 
-    if Todo.where(ranking: 0, user_id: user.id).exists?
-      Todo.where(user_id: user.id).update_all('ranking = ranking + 1')
-    end
+    Todo.where(user_id: user.id).update_all('ranking = ranking + 1')
   end
-
 end

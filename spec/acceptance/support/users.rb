@@ -2,7 +2,7 @@ module Acceptance
   module Users
     def log_in_as_user(user, password: 'Password1')
       should_be_on_login_page
-      click_link("login-link")
+      click_link('login-link')
       fill_in('user[email]', with: user.email)
       fill_in('user[password]', with: password)
       click_button 'Sign in'

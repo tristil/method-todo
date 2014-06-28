@@ -29,9 +29,7 @@ group :guard do
   gem 'guard'
   gem 'guard-rails'
   gem 'guard-bundler'
-  gem 'guard-rspec'
-  gem 'guard-cucumber'
-  gem 'guard-konacha'
+  gem 'guard-rubocop'
 end
 
 group :test do
@@ -66,6 +64,7 @@ end
 
 # Use unicorn as the app server
 group :deployment do
+  gem 'rubocop'
   gem 'unicorn'
   gem 'capistrano'
   gem 'capistrano3-unicorn'

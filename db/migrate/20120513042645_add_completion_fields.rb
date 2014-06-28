@@ -1,10 +1,9 @@
 class AddCompletionFields < ActiveRecord::Migration
   def up
     change_table(:todos) do |t|
-      t.boolean :completed, :default => false
+      t.boolean :completed, default: false
       t.datetime :completed_time
     end
-
   end
 
   def down

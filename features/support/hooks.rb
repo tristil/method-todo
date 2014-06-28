@@ -2,6 +2,6 @@ Before do
   DatabaseCleaner.start
 end
 
-After do |scenario|
+After do |_scenario|
   DatabaseCleaner.clean
 end

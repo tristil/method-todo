@@ -23,7 +23,7 @@ class FrontpageController < ApplicationController
     current_user.save
 
     respond_to do |format|
-      format.html { render :json => current_user.preferences[:show_help] }
+      format.html { render json: current_user.preferences[:show_help] }
     end
   end
 
@@ -34,7 +34,7 @@ class FrontpageController < ApplicationController
     if geonames_available?
       lookup_type = 'geoname'
       latlon = [params[:latitude].to_f, params[:longitude].to_f]
-      timezone = Timezone::Zone.new :latlon => latlon
+      timezone = Timezone::Zone.new latlon: latlon
       offset = timezone.utc_offset / (60 * 60)
     end
 
@@ -55,11 +55,10 @@ class FrontpageController < ApplicationController
     current_user.save
 
     respond_to do |format|
-      format.html { render :json => { :offset => offset, :lookup => lookup_type} }
+      format.html { render json: { offset: offset, lookup: lookup_type } }
     end
   end
 
-  #############################################################################
   private
 
   def geonames_available?
@@ -70,9 +69,9 @@ class FrontpageController < ApplicationController
   def bootstrap_page
     @todo = Todo.new
 
-    @active_todos = current_user.active_todos.collect {|todo| todo.as_json }
-    @completed_todos = current_user.completed_todos.collect {|todo| todo.as_json }
-    @tickler_todos = current_user.tickler_todos.collect {|todo| todo.as_json }
+    @active_todos = current_user.active_todos.map { |todo| todo.as_json }
+    @completed_todos = current_user.completed_todos.map { |todo| todo.as_json }
+    @tickler_todos = current_user.tickler_todos.map { |todo| todo.as_json }
 
     @contexts = current_user.todo_contexts.map(&:as_json)
     @projects = current_user.projects.map(&:as_json)

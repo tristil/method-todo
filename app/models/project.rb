@@ -14,16 +14,15 @@ class Project < ActiveRecord::Base
   #   @return [User]
   belongs_to :user
 
-  validates :name, :presence => true
+  validates :name, presence: true
 
   # Render the record as json
   # @param options [Hash]
   # @return [Hash]
-  def as_json options = nil
+  def as_json(_options = nil)
     {
-      :id => self.id,
-      :name => self.name
+      id: id,
+      name: name
     }
   end
-
 end

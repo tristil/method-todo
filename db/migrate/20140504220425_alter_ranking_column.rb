@@ -6,6 +6,5 @@ class AlterRankingColumn < ActiveRecord::Migration
   end
 
   def down
-
   end
 end

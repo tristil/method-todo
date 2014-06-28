@@ -23,7 +23,7 @@ feature 'Starring todos', js: true do
     should_see_todos('Todo 2', 'Todo 3', 'Todo 1')
 
     # Should add new todos after starred todos
-    todo4 = create_todo(description: 'Todo 4')
+    create_todo(description: 'Todo 4')
 
     # Should preserve order among starred todos
     star_todo(todo1.id)

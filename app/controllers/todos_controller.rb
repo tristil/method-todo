@@ -11,9 +11,9 @@ class TodosController < ApplicationController
     todos = current_user.todos_for_options(todo_search_params)
 
     respond_to do |format|
-      format.html {
-          render :json => todos
-      }
+      format.html do
+        render json: todos
+      end
     end
   end
 
@@ -21,17 +21,17 @@ class TodosController < ApplicationController
   # @return [void]
   def show
     respond_to do |format|
-      format.html { render :json => @todo}
-      format.json { render :json => @todo }
+      format.html { render json: @todo }
+      format.json { render json: @todo }
     end
   end
 
   # GET /todos/1/complete
   # @return [void]
   def complete
-    json_response = {'completed' => false}
+    json_response = { 'completed' => false }
 
-    if params.include? :complete and ["0", "false"].include? params[:complete]
+    if params.include?(:complete) && %w(0 false).include?(params[:complete])
       json_response['completed'] = false
       @todo.uncomplete
     else
@@ -42,8 +42,8 @@ class TodosController < ApplicationController
     @todo.parse
 
     respond_to do |format|
-      format.html { render :json => json_response }
-      format.json { render :json => json_response }
+      format.html { render json: json_response }
+      format.json { render json: json_response }
     end
   end
 
@@ -56,8 +56,8 @@ class TodosController < ApplicationController
     json_response = { 'tickler' => @todo.tickler }
 
     respond_to do |format|
-      format.html { render :json => json_response }
-      format.json { render :json => json_response }
+      format.html { render json: json_response }
+      format.json { render json: json_response }
     end
   end
 
@@ -67,23 +67,23 @@ class TodosController < ApplicationController
     @todo.toggle_starred_status
     @todo.save!
 
-    json_response = {'starred' => @todo.starred}
+    json_response = { 'starred' => @todo.starred }
 
     respond_to do |format|
-      format.html { render :json => json_response}
-      format.json { render :json => json_response }
+      format.html { render json: json_response }
+      format.json { render json: json_response }
     end
   end
 
   # PUT /todos/1
   # @return [void]
   def update
-    @todo.update!(:description => params[:description])
+    @todo.update!(description: params[:description])
     @todo.parse
 
     respond_to do |format|
-      format.html { render :json => @todo }
-      format.json { render :json => @todo }
+      format.html { render json: @todo }
+      format.json { render json: @todo }
     end
   end
 
@@ -106,8 +106,8 @@ class TodosController < ApplicationController
     @todo.update_attributes!(ranking: new_ranking)
 
     respond_to do |format|
-      format.html { render :json => @todo }
-      format.json { render :json => @todo }
+      format.html { render json: @todo }
+      format.json { render json: @todo }
     end
   end
 
@@ -128,8 +128,8 @@ class TodosController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { render :json => json_response, status: status }
-      format.json { render :json => json_response, status: status }
+      format.html { render json: json_response, status: status }
+      format.json { render json: json_response, status: status }
     end
   end
 
@@ -141,8 +141,8 @@ class TodosController < ApplicationController
     json_response['deleted'] = true
 
     respond_to do |format|
-      format.html { render :json => json_response }
-      format.json { render :json => json_response }
+      format.html { render json: json_response }
+      format.json { render json: json_response }
     end
   end
 

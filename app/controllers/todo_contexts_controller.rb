@@ -10,8 +10,8 @@ class TodoContextsController < ApplicationController
     @contexts = current_user.todo_contexts
 
     respond_to do |format|
-      format.html{ render :json => @contexts }
-      format.json { render :json => @contexts }
+      format.html { render json: @contexts }
+      format.json { render json: @contexts }
     end
   end
 
@@ -19,20 +19,19 @@ class TodoContextsController < ApplicationController
   # @return [void]
   def destroy
     id = params[:id]
-    json_response = {'deleted' => false}
+    json_response = { 'deleted' => false }
 
     context = TodoContext.find_by_id id
 
-    if context and context.user_id == current_user.id
-      current_user.todos.strip_text! '@'+context.name
+    if context && context.user_id == current_user.id
+      current_user.todos.strip_text! '@' + context.name
       context.destroy
       json_response['deleted'] = true
     end
 
     respond_to do |format|
-      format.html { render :json => json_response }
-      format.json { render :json => json_response }
+      format.html { render json: json_response }
+      format.json { render json: json_response }
     end
   end
-
 end

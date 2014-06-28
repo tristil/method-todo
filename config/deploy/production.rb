@@ -1,1 +1,1 @@
-server "#{ENV["DEPLOY_USER"]}@#{ENV["DEPLOY_SERVER"]}", roles: [:app, :web, :db]
+server "#{ENV['DEPLOY_USER']}@#{ENV['DEPLOY_SERVER']}", roles: [:app, :web, :db]

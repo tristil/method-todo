@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :recoverable, :rememberable,
          :trackable, :validatable
 
-  validates :username, :presence => true, :uniqueness => true
+  validates :username, presence: true, uniqueness: true
 
   # @!attribute todos
   #   @return [Array<Todo>]
@@ -37,19 +37,19 @@ class User < ActiveRecord::Base
   #  Get only active todos
   #   @return [Array<Todo>]
   def active_todos
-    todos.active.order("created_at DESC")
+    todos.active.order('created_at DESC')
   end
 
   # Get only completed todos
   #   @return [Array<Todo>]
   def completed_todos
-    todos.completed.order("completed_time DESC")
+    todos.completed.order('completed_time DESC')
   end
 
   # Get only tickler todos
   #   @return [Array<Todo>]
   def tickler_todos
-    todos.ticklers.order("completed_time DESC")
+    todos.ticklers.order('completed_time DESC')
   end
 
   # Get todos for user based on options

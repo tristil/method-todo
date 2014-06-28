@@ -2,8 +2,6 @@ module Acceptance
   module Todos
     def create_todo(description: 'A new todo')
       fill_in 'todo_description', with: description
-      last_todo = Todo.last
-      last_id = last_todo ? last_todo.id : 0
       click_button 'add-todo-button'
       page.should have_css('tr.todo-row', text: description)
       Todo.last
@@ -63,7 +61,9 @@ module Acceptance
         script.src = '/assets/test.js';
         head.appendChild(script);
         $("tr[data-todo_id='#{target_id}']")
-          .simulateDragSortable({ move: #{steps}, handle: 'span[todo-gripper]' });
+          .simulateDragSortable(
+            { move: #{steps},
+              handle: 'span[todo-gripper]' });
       JS
       )
     end

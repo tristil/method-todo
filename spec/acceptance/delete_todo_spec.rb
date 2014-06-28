@@ -1,6 +1,6 @@
 require 'acceptance/spec_helper'
 
-feature'deleting todos', js: true do
+feature 'deleting todos', js: true do
   scenario 'It removes the todo and adds another' do
     user = create_user
     visit root_path

@@ -1,10 +1,9 @@
 class CreateTodo
-
   attr_accessor :description,
                 :user
 
   def initialize(description: nil, user: nil)
-    raise ArgumentError unless user
+    fail ArgumentError unless user
     self.description = description
     self.user = user
   end
@@ -16,5 +15,4 @@ class CreateTodo
     todo.parse
     todo
   end
-
 end

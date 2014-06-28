@@ -1,0 +1,17 @@
+# Offense count: 2
+# Configuration parameters: CountComments.
+Style/ClassLength:
+  Max: 166
+
+# Offense count: 1
+Style/CyclomaticComplexity:
+  Max: 9
+
+# Offense count: 38
+Style/Documentation:
+  Enabled: false
+
+# Offense count: 11
+# Configuration parameters: CountComments.
+Style/MethodLength:
+  Max: 50

@@ -1,4 +1,4 @@
-require "timeout"
+require 'timeout'
 
 module WaitSteps
   extend RSpec::Matchers::DSL
