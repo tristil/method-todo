@@ -14,30 +14,6 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :recoverable, :rememberable,
          :trackable, :validatable
 
-  # @!attribute email
-  #   @return [String]
-  attr_accessible :email
-
-  # @!attribute password
-  #   @return [String]
-  attr_accessible :password
-
-  # @!attribute password_confirmation
-  #   @return [String]
-  attr_accessible :password_confirmation
-
-  # @!attribute remember_me
-  #   @return [Boolean]
-  attr_accessible :remember_me
-
-  # @!attribute username
-  #   @return [String]
-  attr_accessible :username
-
-  # @!attribute preferences
-  #   @return [Hash] Stores +User+ preferences
-  attr_accessible :preferences
-
   validates :username, :presence => true, :uniqueness => true
 
   # @!attribute todos
@@ -46,15 +22,15 @@ class User < ActiveRecord::Base
 
   # @!attribute todo_contexts
   #   @return [Array<TodoContext>]
-  has_many :todo_contexts, :order => 'name'
+  has_many :todo_contexts
 
   # @!attribute projects
   #   @return [Array<Project>]
-  has_many :projects, :order => 'name'
+  has_many :projects
 
   # @!attribute tags
   #   @return [Array<Tag>]
-  has_many :tags, :order => 'name'
+  has_many :tags
 
   serialize :preferences, Hash
 

@@ -1,8 +1,8 @@
 MethodTodo::Application.routes.draw do
   devise_for :users
 
-  match 'toggle_help' => 'frontpage#toggle_help'
-  match 'timezone' => 'frontpage#set_timezone', via: :post
+  get 'toggle_help' => 'frontpage#toggle_help'
+  post'timezone' => 'frontpage#set_timezone'
 
   resources :todos do
     member do

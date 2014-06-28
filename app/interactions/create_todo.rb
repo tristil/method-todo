@@ -1,16 +1,16 @@
 class CreateTodo
 
-  attr_accessor :todo_params,
+  attr_accessor :description,
                 :user
 
-  def initialize(todo_params: {}, user: nil)
+  def initialize(description: nil, user: nil)
     raise ArgumentError unless user
-    self.todo_params = todo_params
+    self.description = description
     self.user = user
   end
 
   def call
-    todo = Todo.new(todo_params)
+    todo = Todo.new(description: description)
     todo.user = user
     todo.save!
     todo.parse

@@ -14,12 +14,7 @@ class TodoContext < ActiveRecord::Base
   #   @return [User]
   belongs_to :user
 
-  # @!attribute name
-  #   @return [String] name of +TodoContext+
-  attr_accessible :name
-
   validates :name, :presence => true
-
 
   # Render the record as json
   # @param options [Hash]

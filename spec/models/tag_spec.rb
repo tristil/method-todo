@@ -2,9 +2,7 @@ require 'spec_helper'
 
 describe Project do
   it "should raise an error over mass-assignment" do
-    expect do
-      Tag.new(:user_id => 2)
-    end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
+    Tag.new(:user_id => 2)
   end
 
   it "should require name" do

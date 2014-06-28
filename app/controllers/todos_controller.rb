@@ -42,7 +42,7 @@ class TodosController < ApplicationController
     @todo.parse
 
     respond_to do |format|
-      format.html { render :json => json_response}
+      format.html { render :json => json_response }
       format.json { render :json => json_response }
     end
   end
@@ -53,10 +53,10 @@ class TodosController < ApplicationController
     @todo.toggle_tickler_status
     @todo.save!
 
-    json_response = {'tickler' => @todo.tickler}
+    json_response = { 'tickler' => @todo.tickler }
 
     respond_to do |format|
-      format.html { render :json => json_response}
+      format.html { render :json => json_response }
       format.json { render :json => json_response }
     end
   end
@@ -78,7 +78,7 @@ class TodosController < ApplicationController
   # PUT /todos/1
   # @return [void]
   def update
-    @todo.update_attributes :description => params[:description]
+    @todo.update!(:description => params[:description])
     @todo.parse
 
     respond_to do |format|
@@ -114,7 +114,7 @@ class TodosController < ApplicationController
   # POST /todos
   # @return [void]
   def create
-    @todo = CreateTodo.new(todo_params: params[:todo],
+    @todo = CreateTodo.new(description: todo_params[:description],
                            user: current_user).call
 
     json_response = {}
@@ -147,6 +147,10 @@ class TodosController < ApplicationController
   end
 
   private
+
+  def todo_params
+    params[:todo].permit(:description)
+  end
 
   def todo_search_params
     params.slice(:completed, :context_id, :tag_id, :project_id, :tickler)

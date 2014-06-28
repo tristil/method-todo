@@ -14,10 +14,6 @@ class Project < ActiveRecord::Base
   #   @return [User]
   belongs_to :user
 
-  # @!attribute name
-  #   @return [String] The name of the +Project+
-  attr_accessible :name
-
   validates :name, :presence => true
 
   # Render the record as json

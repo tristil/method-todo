@@ -1,13 +1,13 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 3.2'
+gem 'rails', '~> 4.1'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
 gem 'devise'
-gem 'acts_as_paranoid'
+gem 'paranoia'
 gem 'mysql2'
 gem 'timezone'
 gem 'jquery-rails'
@@ -17,7 +17,7 @@ gem 'dotenv-rails'
 
 gem 'ejs'
 gem 'sass-rails'
-gem 'bootstrap-sass', '~> 3.1'
+gem 'bootstrap-sass'
 gem 'coffee-rails'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 gem 'therubyracer', :platform => :ruby
@@ -67,9 +67,8 @@ end
 # Use unicorn as the app server
 group :deployment do
   gem 'unicorn'
-  gem 'capistrano', '~> 3.0'
+  gem 'capistrano'
   gem 'capistrano3-unicorn'
   gem 'capistrano-rbenv'
   gem 'capistrano-rails'
-  gem 'turbo-sprockets-rails3'
 end

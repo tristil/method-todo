@@ -15,8 +15,6 @@ class Todo < ActiveRecord::Base
 
   acts_as_paranoid
 
-  attr_accessible :description, :ranking
-
   before_save :set_and_update_rankings, unless: :ranking
 
   validates :description, :presence => true
@@ -54,9 +52,9 @@ class Todo < ActiveRecord::Base
   cattr_accessor :context_regexp
   cattr_accessor :tag_regexp
 
-  scope :active, where(completed: false, tickler: false)
-  scope :completed, where(completed: true, tickler: false)
-  scope :ticklers, where(tickler: true, completed: false)
+  scope :active, ->{ where(completed: false, tickler: false) }
+  scope :completed, ->{ where(completed: true, tickler: false) }
+  scope :ticklers, ->{ where(tickler: true, completed: false) }
 
   # Scope todos for constrained set of options
   #   @return [Array<Todo>]
