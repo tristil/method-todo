@@ -17,7 +17,7 @@
           </thead>
           <tbody>
           <% filters.forEach(function(item) { %>
-          <tr>
+          <tr data-filter_name='<%= item.get('name') %>'>
             <td>
               <a id='filter-item-<%= item.id %>' href="#" class="remove-filter-button action">
                 <span class='glyphicon glyphicon-remove' />

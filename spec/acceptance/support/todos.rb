@@ -1,14 +1,47 @@
 module Acceptance
   module Todos
+    def enter_todo(description:)
+      fill_in 'todo_description', with: description
+      click_button 'add-todo-button'
+    end
+
     def create_todo(description: 'A new todo')
       fill_in 'todo_description', with: description
       click_button 'add-todo-button'
       page.should have_css('tr.todo-row', text: description)
+      todo_input_should_be_focused
+      todo_input_should_be_cleared
       Todo.last
+    end
+
+    def click_edit_button(id)
+      find("a#todo-edit-#{id}").click
+    end
+
+    def click_save_edit_button(id)
+      find("a#todo-save-editor-#{id}").click
+    end
+
+    def edit_todo(id, text)
+      click_edit_button(id)
+      fill_in "todo-description-#{id}", with: text
+      click_save_edit_button(id)
     end
 
     def todos_table_should_be_empty
       should_see_todos(*[])
+    end
+
+    def accept_dialog
+      page.driver.browser.switch_to.alert.accept
+    end
+
+    def todo_input_should_be_focused
+      page.evaluate_script('document.activeElement.id') == 'todo_description'
+    end
+
+    def todo_input_should_be_cleared
+      find('#todo_description').value.should == ''
     end
 
     def should_see_todos(*todos)
@@ -28,6 +61,10 @@ module Acceptance
 
     def mark_todo_as_completed(id)
       check "todos[#{id}][complete]"
+    end
+
+    def unmark_todo_as_completed(id)
+      uncheck "todos[#{id}][complete]"
     end
 
     def mark_todo_as_tickler(id)

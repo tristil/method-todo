@@ -1,7 +1,7 @@
 # Offense count: 2
 # Configuration parameters: CountComments.
 Style/ClassLength:
-  Max: 166
+  Max: 173
 
 # Offense count: 1
 Style/CyclomaticComplexity:
@@ -15,3 +15,11 @@ Style/Documentation:
 # Configuration parameters: CountComments.
 Style/MethodLength:
   Max: 50
+
+AllCops:
+  Include:
+    - lib/tasks/*.rake
+  Exclude:
+    - bin/*
+    - db/schema.rb
+    - config/initializers/devise.rb

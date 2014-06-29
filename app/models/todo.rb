@@ -39,13 +39,13 @@ class Todo < ActiveRecord::Base
   belongs_to :project
 
   # Regexp for pulling +Project+ out of description
-  PROJECT_REGEXP = /\+(.+?)( |$)/
+  PROJECT_REGEXP = /\+(.+?)(?: |$)/
 
   # Regexp for pulling +TodoContext+ out of description
-  CONTEXT_REGEXP = /\@(.+?)( |$)/
+  CONTEXT_REGEXP = /\@(.+?)(?: |$)/
 
   # Regexp for pulling +Tag+ out of description
-  TAG_REGEXP = /\#(.+?)( |$)/
+  TAG_REGEXP = /\#(.+?)(?: |$)/
 
   scope :active, -> { where(completed: false, tickler: false) }
   scope :completed, -> { where(completed: true, tickler: false) }
@@ -182,25 +182,35 @@ class Todo < ActiveRecord::Base
 
     PROJECT_REGEXP.match(description) do |match|
       new_description.gsub! ' +' + match[1], ''
-      new_description += " <a href='#' class='project-badge-#{project.id} todo-badge'><span class='label label-default'>+#{match[1]}</span></a>"
+      new_description +=
+        " <a href='#' class='project-badge-#{project.id} todo-badge'>" \
+        "<span class='label label-default'>+#{match[1]}</span></a>"
     end
 
     description.scan(CONTEXT_REGEXP) do |match|
       name = match[0].strip
       new_description.gsub! ' @' + name, ''
-      context_id = todo_contexts.select { |todo_context| todo_context.name == name }.first.id
-      new_description += " <a href='#' class='context-badge-#{context_id} todo-badge'><span class='label label-default'>@#{name}</span></a>"
+      context_id = todo_contexts.select do |todo_context|
+        todo_context.name == name
+      end.first.id
+      new_description +=
+        " <a href='#' class='context-badge-#{context_id} todo-badge'>" \
+        "<span class='label label-default'>@#{name}</span></a>"
     end
 
     description.scan(TAG_REGEXP) do |match|
       name = match[0].strip
       new_description.gsub! ' #' + name, ''
       tag_id = tags.select { |tag| tag.name == name }.first.id
-      new_description += " <a href='#' class='tag-badge-#{tag_id} todo-badge'><span class='label label-default'>##{name}</span></a>"
+      new_description +=
+        " <a href='#' class='tag-badge-#{tag_id} todo-badge'>" \
+        "<span class='label label-default'>##{name}</span></a>"
     end
 
     if completed
-      new_description += " <span class='completed-badge label label-default label-inverse'>#{local_completed_time.to_formatted_s(:american)}</span>"
+      new_description +=
+        " <span class='completed-badge label label-default label-inverse'>" \
+        "#{local_completed_time.to_formatted_s(:american)}</span>"
     end
 
     new_description

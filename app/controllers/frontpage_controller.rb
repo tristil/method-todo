@@ -17,10 +17,11 @@ class FrontpageController < ApplicationController
     if current_user.preferences[:show_help].nil?
       current_user.preferences[:show_help] = false
     else
-      current_user.preferences[:show_help] = current_user.preferences[:show_help] ? false : true
+      current_user.preferences[:show_help] =
+        !current_user.preferences[:show_help]
     end
 
-    current_user.save
+    current_user.save!
 
     respond_to do |format|
       format.html { render json: current_user.preferences[:show_help] }
@@ -79,6 +80,10 @@ class FrontpageController < ApplicationController
   end
 
   def set_preferences
-    @show_help = current_user.preferences[:show_help].nil? ? true : current_user.preferences[:show_help]
+    @show_help = if current_user.preferences[:show_help].nil?
+                   true
+                 else
+                   current_user.preferences[:show_help]
+                 end
   end
 end

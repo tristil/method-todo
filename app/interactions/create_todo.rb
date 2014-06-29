@@ -11,7 +11,7 @@ class CreateTodo
   def call
     todo = Todo.new(description: description)
     todo.user = user
-    todo.save!
+    return todo unless todo.save
     todo.parse
     todo
   end

@@ -11,6 +11,10 @@ feature 'deleting todos', js: true do
     todos_table_should_be_empty
     create_todo(description: 'A new todo')
     should_see_todos('A new todo')
+
+    # Make sure effects took place on server
+    visit root_path
+    should_see_todos('A new todo')
   end
 
   def delete_todo(id: nil)

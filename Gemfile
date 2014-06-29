@@ -36,8 +36,6 @@ group :test do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'database_cleaner'
-  gem 'cucumber'
-  gem 'cucumber-rails', require: false
   gem 'selenium-webdriver'
   gem 'headless'
   gem 'timecop'

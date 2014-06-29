@@ -86,12 +86,15 @@ class MethodTodo.Views.ManageFilterModal extends Backbone.View
       data:
         id: id
 
-      success: (data) ->
+      success: (data) =>
+        @collection.remove(id)
+        MethodTodo.Globals.TodoFilter.refresh()
         $("#manage-filters-confirmation").hide()
         $("#main-manage-filters").show()
         self.parent.parent.parent.Tags.fetch()
         self.parent.parent.parent.Projects.fetch()
         self.parent.parent.parent.Contexts.fetch()
+        @render()
 
       error: (request, status, error) ->
         $("#manage-filters-confirmation").hide()

@@ -1,7 +1,6 @@
 require 'acceptance/spec_helper'
 
 feature 'Logging in', js: true do
-
   it 'allows for logging in with valid credentials' do
     user = create_user(username: 'Example', password: 'Password1')
     visit root_path
